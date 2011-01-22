@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  name: MyString
+  password_hashed: MyString
+
+two:
+  name: MyString
+  password_hashed: MyString
