@@ -13,13 +13,13 @@ class User < ActiveRecord::Base
 
   before_save :hash_new_password
 
-  def self.authenticate(email, password)
+  def self.authenticate(email, pass)
       user = find_by_email(email)
-      return user if user && user.authenticated?(password)
+      return user if user && user.authenticated?(pass)
   end
 
-  def sauthenticated?(password)
-    self.password_hashed = hash(password)
+  def authenticated?(pass)
+    self.password_hashed == hash(pass)
   end
 
    def password_required?
