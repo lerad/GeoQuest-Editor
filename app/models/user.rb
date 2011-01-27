@@ -11,6 +11,8 @@ class User < ActiveRecord::Base
     :presence => true,
     :if => :password_required?
 
+  has_many :projects
+
   before_save :hash_new_password
 
   def self.authenticate(email, pass)

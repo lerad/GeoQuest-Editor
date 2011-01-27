@@ -1,0 +1,14 @@
+<%= notice %>
+
+<%= link_to "Logout", logout_path  %> <br />
+<%= link_to "Create new Project", :controller => :projects, :action => :new  %> <br />
+
+<b> Your Projects: </b>
+
+<ul>
+
+<% @projects.each do |project| %>
+  <li> <%= project.name %> </li>
+<% end  %>
+
+</ul>
