@@ -8,10 +8,15 @@ include REXML
 # URL sollte konfigurierbar sein
 
  class ExistAdapter
+
+   def initialize(collection)
+    @collection = collection.to_s
+   end
+
     RESTURL = "http://localhost:8090/exist/rest/db/geoquest/"
 
-   def upload_data(filename, data, collection)
-    url = URI.parse(RESTURL + collection + '/' + filename)
+   def upload_data_as_filename(data, filename)
+    url = URI.parse(RESTURL + @collection + '/' + filename)
     request = Net::HTTP::Put.new(url.path)
     request.content_type = "text/xml"
     request.body = data
@@ -28,17 +33,20 @@ include REXML
  end
 
 
-   def upload_file(file, filename, collection)
+   def upload_file_as_filename(file, filename)
      data = get_file_as_string(file)
-     upload_data(filename, data, collection)
+     upload_data_as_filename(data, filename)
    end
 
+# TODO: Das Query Max Problem lösen. Eventuell mehrere Aufrufe.
+# Dann aber auch konkret sagen, wofür die Funktion gut ist
+# 
 # Returns array of Elements
 def do_request(xquery)
 
-  url = URI.parse('http://localhost:8090/exist/rest/db/geoquest/32')
+  url = URI.parse(RESTURL + @collection)
   request = Net::HTTP::Post.new(url.path)
- request.body = "<query xmlns=\"http://exist.sourceforge.net/NS/exist\"><text><![CDATA[\n" + xquery + "]]>\n</text></query>"
+ request.body = "<query xmlns=\"http://exist.sourceforge.net/NS/exist\" max=\"40\"><text><![CDATA[\n" + xquery + "]]>\n</text></query>"
  request.content_type = "text/xml"
 
  response = Net::HTTP.start(url.host, url.port) {|http| http.request(request)}

@@ -10,7 +10,7 @@ class ProjectsController < ApplicationController
     @project = Project.find(:first, :conditions => {:id => params[:id], :user_id => @current_user.id})
 
     hotspots_query = 'doc("game.xml")/game/mission[@id = "1"]/hotspots/hotspot'
-    adapter = ExistAdapter.new
+    adapter = ExistAdapter.new(@project.id)
     @hotspots = adapter.do_request(hotspots_query)
 
 
@@ -28,8 +28,8 @@ class ProjectsController < ApplicationController
     @project = Project.new (params[:project])
     @project.user = @current_user
     if @project.save
-      adapter = ExistAdapter.new
-      adapter.upload_file("data/game.xml", "game.xml", @project.id.to_s)
+      adapter = ExistAdapter.new(@project.id)
+      adapter.upload_file_as_filename("data/game.xml", "game.xml")
       redirect_to projects_path, :notice => 'Project successfully added.'
     end
   end
