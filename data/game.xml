@@ -875,7 +875,7 @@ Jetzt schlägt die Stunde der Justitz.
 </visible>
 </hotspot>
 −
-<hotspot id="spatenstich" latlong="50.71739,7.123265" radius="30">
+<hotspot id="spatenstich" latitude="50.71739"  longitude="7.123265" radius="30">
 <img src="drawable/logoicon.png"/>
 −
 <visible>

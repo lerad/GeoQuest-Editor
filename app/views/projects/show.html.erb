@@ -9,4 +9,15 @@ Project name: <%= @project.name %> <br />
 <%= javascript_include_tag "map"  %>
 
 
-<div id="map_canvas" style="width:200pt; height:300pt"></div>
+<div id="map_canvas" style="width:400pt; height:300pt"></div>
+
+<script language="javascript">
+function addHotspotMarker() {
+
+  <% @hotspots.each do |hotspot| %>
+  addMarker(<%= hotspot.attributes["latitude"] %>, <%= hotspot.attributes["longitude"] %> , "<%= hotspot.attributes["id"] %>");
+  <% end  %>
+}
+
+
+</script>

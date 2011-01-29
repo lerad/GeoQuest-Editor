@@ -8,21 +8,32 @@ function createMarker(point,html) {
 
         // this is called when the page loads.
         // it initializes the map, and creates each marker
+
+        var map;
+
         function initialize() {
     var latlng = new google.maps.LatLng(-34.397, 150.644);
     var myOptions = {
       zoom: 8,
       center: latlng,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
+      mapTypeId: google.maps.MapTypeId.SATELLITE
     };
-    var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+    map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 
-            /*<%@places.each do |place|%>
-            var point = new GPoint(<%=place[:longitude]%>,<%=place[:latitude]%>);
-            var marker = createMarker(point,'<div><%=h place[:description]%></div>')
-            map.addOverlay(marker);
-            <%end%>*/
+        addHotspotMarker();
+
         }
+
+function addMarker(lat, lng, text) {
+ var myLatlng = new google.maps.LatLng(lat,lng);
+
+  var marker = new google.maps.Marker({
+      position: myLatlng,
+      map: map,
+      title: text
+  });
+    
+}
 
 $(document).ready(initialize);
 

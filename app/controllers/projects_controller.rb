@@ -9,6 +9,11 @@ class ProjectsController < ApplicationController
   def show
     @project = Project.find(:first, :conditions => {:id => params[:id], :user_id => @current_user.id})
 
+    hotspots_query = 'doc("game.xml")/game/mission[@id = "1"]/hotspots/hotspot'
+    adapter = ExistAdapter.new
+    @hotspots = adapter.do_request(hotspots_query)
+
+
     if @project.nil?
       redirect_to projects_path, :notice => "A project with this id does not exist or it is not yours"
     end
