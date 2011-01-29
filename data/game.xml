@@ -1,0 +1,939 @@
+<game name="Dr. Kim auf der Flucht" xmlformat="5">
+−
+<mission type="StartAndExitScreen" id="0" image="drawable/startscreenkim.png" cancel="no">
+−
+<onEnd>
+<comStartMission id="startdialog"/>
+</onEnd>
+</mission>
+−
+<mission type="NPCTalk" id="startdialog" charimage="drawable/kiosk.png" name="Bundesbüdchen" cancel="success">
+−
+<dialogitem speaker="Erzähler">
+Für die Aufarbeitung des Skandals rund
+			um das WCCB müssen alle Fakten auf den Tisch.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Zunächst muss eine Abwägung
+			durchgeführt werden, ob der Abriss wichtiger historischer Gebäude
+			gerechtfertigt ist.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Finden Sie den ehemaligen Standort des
+			für den Bau abgerissenen "Bundesbüdchens" im Umkreis von 200 Metern.
+		
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Sie werden gleich eine Karte ihrer
+			Umgebung sehen.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Warten Sie ein dann paar Sekunden, bis
+			das Gerät ihre GPS-Position empfangen hat.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Der Blaue Punkt ist ihre aktuelle
+			Position. Suchen Sie das Bundesbüdchen auf der Karte.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Es wird durch den Schriftzug "Kiosk"
+			angezeigt. Gehen Sie dann dorthin.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Tipp: Versuchen Sie sich zunächst
+			Orientierung zu verschaffen, und drehen sie das Gerät so, dass
+			Straßen auf der Karte parallel zu den echten Straßen verlaufen.
+		
+</dialogitem>
+−
+<onEnd>
+<comStartMission id="1"/>
+</onEnd>
+</mission>
+−
+<mission type="MapOverview" id="1" cancel="no" mapkind="satellite">
+<!-- Kiosk -->
+−
+<mission type="NPCTalk" id="kiosk text" charimage="drawable/kiosk.png" name="Bundesbüdchen" cancel="success">
+−
+<dialogitem speaker="Erzähler">
+Sie haben den Original-Standort des
+				Bundesbüdchens gefunden.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Die Straßenecke trug bis vor kurzem
+				die Bezeichnung Görresstr./Ecke Dahlmannstraße.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Der Kiosk begleitete viele Jahrzehnte
+				die "Bonner Republik" und war damit auch ein Stück der
+				bundesdeutschen Geschichte.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+An diesem Kiosk kauften verschiedene
+				Politiker, Minister und Abgeordnete ihre Zeitungen.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Dieser Bau mit seinen 20 qm Nutzfläche
+				war damit auch ein Ort für viele inoffizielle Gespräche und manche
+				Kungelei.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Der gezeigte Kiosk wurde 1957 von der
+				Familie Rausch errichtet.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+1984 übernahm Jürgen Rausch ihn von
+				seiner Mutter.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Zu seiner Kundschaft zählte viel
+				Politprominenz, Abgeordnete, Minister, auch Kanzler.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Helmut Kohl schickte meist seinen
+				Fahrer; Joschka Fischer kam, bevor er Außenminister wurde, fast
+				täglich nach dem Joggen vorbei und kaufte einen Stapel Zeitungen.
+			
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Der frühere WDR-Intendant und
+				Journalist Friedrich Nowottny verkaufte nach einer verlorenen Wette
+				bei "Wetten, daß" an dem Kiosk heiße Würstchen.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Wegen seiner historischen Bedeutung
+				wurde der Kiosk im Jahr 2000 unter Denkmalschutz gestellt.
+			
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Im Zuge der geplanten Baumaßnahmen
+				wurde er 2006 auf einen Schwertransporter verladen und
+				abtransportiert.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Derzeit wird er bei der Firma Baumann
+				in Hersel gelagert.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Der Bauherr und die Stadt Bonn hatten
+				beim Abriss versprochen, den Kiosk später wieder in der Nähe des
+				früheren Standortes aufzustellen.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Mehr als ein Jahr konnte der Betreiber
+				gar keinen Kiosk an der Baustelle betreiben.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Frühere Zusagen wurden immer wieder
+				geändert oder verschoben.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Mal wurden dem Betreiber andere
+				Standorte (z.B. am Haus der Geschichte) angeboten, mal erklärte sich
+				die Stadtverwaltung für nicht zuständig.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Inzwischen entbrannte sogar ein Streit
+				darüber, wem der Kiosk eigendlich gehört.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Nachdem sich der Inhaber mit dem
+				Beginn der Rohbauten vorübergehend in einem Ersatz-Kiosk
+				("Blockhaus-Kiosk") auf der anderen Straßenseite provisorisch wieder
+				betätigen konnte,
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+sind die Umsätze seit der Stilllegung
+				der Baustelle um 80% bis 90% eingebrochen.
+</dialogitem>
+−
+<onEnd>
+<comStartMission id="kiosk fragen"/>
+</onEnd>
+</mission>
+−
+<mission type="QuestionAndAnswer" name="Bundesbüdchen" id="kiosk fragen" questions="3" correctAnswersNeeded="0" shuffle="true" cancel="success">
+<intro>Bitte beantworten Sie folgende Fragen.</intro>
+−
+<question>
+−
+<questiontext>
+Wie bewerten Sie in Ihrer Gruppe den Abriss des
+					"Bundesbüdchens"?
+</questiontext>
+<answer correct="1" onChoose="Danke für ihre Abstimmung.">Angemessen</answer>
+<answer correct="1" onChoose="Danke für ihre Abstimmung.">Notwendig</answer>
+<answer correct="1" onChoose="Danke für ihre Abstimmung.">Übereilt</answer>
+<answer correct="1" onChoose="Danke für ihre Abstimmung.">Ahistorisch</answer>
+</question>
+−
+<question>
+<questiontext>Welchen Ersatz halten Sie für angemessen?
+				</questiontext>
+<answer correct="1" onChoose="Danke für ihre Abstimmung.">Wiederaufstellung</answer>
+<answer correct="1" onChoose="Danke für ihre Abstimmung.">Ins Museum</answer>
+<answer correct="1" onChoose="Danke für ihre Abstimmung.">Erinnerungstafel</answer>
+<answer correct="1" onChoose="Danke für ihre Abstimmung.">Vernichten und Entsorgen
+				</answer>
+</question>
+−
+<question>
+−
+<questiontext>
+Soll man der Stadt oder dem Bauherrn ein Ultimatum
+					setzen?
+</questiontext>
+<answer correct="1" onChoose="Danke für ihre Abstimmung.">Ja, sofortiger Wiederaufbau
+				</answer>
+<answer correct="1" onChoose="Danke für ihre Abstimmung.">Ja, innerhalb von 6 Monaten
+				</answer>
+<answer correct="1" onChoose="Danke für ihre Abstimmung.">Wir sind unentschlossen</answer>
+<answer correct="1" onChoose="Danke für ihre Abstimmung.">Nein, das wird sich erledigen
+				</answer>
+</question>
+<outroSuccess>Danke für Ihre Angaben.</outroSuccess>
+−
+<outroFail>
+FEHLER dies sollte nicht passieren. id="kiosk fragen"
+			
+</outroFail>
+−
+<onEnd>
+<comStartMission id="kiosk text ende"/>
+</onEnd>
+</mission>
+−
+<mission type="NPCTalk" id="kiosk text ende" charimage="drawable/kiosk.png" name="Bundesbüdchen" cancel="success">
+−
+<dialogitem speaker="Erzähler">
+Wenn Sie die erste Aufgabe erledigt
+				haben, geht es weiter. 
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Der vorschnelle Abbruch des
+				Bundesbüdchens ist nicht das einzige, was rund um das WCCB geschehen
+				ist.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Zeitgleich mit dem Bau sollten die
+				Zufahrtsstraßen neu strukturiert werden. 
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Dutzende von hochwertigen Bäumen
+				wurden dafür gefällt. Es sollte eine breite Zufahrt entstehen.
+			
+</dialogitem>
+<dialogitem speaker="Erzähler">Allerdings ging das schief.
+			</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Suchen Sie den nächsten
+				Untersuchungspunkt auf und untersuchen Sie den Fall. Folgen sie dazu
+				dem StattReisen-Logo auf der Karte. 
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Achten Sie dabei darauf, ob Sie schon
+				Spuren von Dr. Kim finden können.
+</dialogitem>
+</mission>
+<!-- weg -->
+−
+<mission type="NPCTalk" id="ersatzkiosk" charimage="drawable/kiosk.png" name="Ersatzkiosk" cancel="success">
+<dialogitem speaker="Erzähler">Hier sehen Sie das besagte
+				Ersatzkiosk.</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Biegen Sie vor dem Kiosk rechts ab und
+				folgen Sie dem Fußweg zum zweiten Stattreisen-Logo.
+</dialogitem>
+</mission>
+−
+<mission type="NPCTalk" id="bundeskanzleramt" charimage="drawable/drkimicon.png" name="Bundeskanzleramt" cancel="success">
+−
+<dialogitem speaker="Erzähler">
+Nebenbei: Gerade kommen sie am
+				Bundeskanzleramt vorbei (rechts von Ihnen), das inzwischen das
+				Bundesentwicklungsministerium (BMZ) beherbergt.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Und ein Paar Schritte weiter liegt
+				links das Bundespresseamt, eines der frühen Gebäude der Bonner
+				Republik.
+</dialogitem>
+<dialogitem speaker="Erzähler">Nun aber weiter, dem Logo nach.
+			</dialogitem>
+</mission>
+−
+<mission type="NPCTalk" id="weg3" charimage="drawable/drkimicon.png" name="Weg" cancel="success">
+<dialogitem speaker="Erzähler">Gehen sie weiter, immer dem Logo nach.
+			</dialogitem>
+</mission>
+−
+<mission type="NPCTalk" id="weg4" charimage="drawable/drkimicon.png" name="Weg" cancel="success">
+−
+<dialogitem speaker="Erzähler">
+Nur noch ein paar Schritte. Folgen sie
+				dem Logo.
+</dialogitem>
+</mission>
+<!-- Welkerstraße -->
+−
+<mission type="NPCTalk" id="welckerstr text" charimage="drawable/kassiber.png" name="Welckerstraße" cancel="success">
+−
+<dialogitem speaker="Erzähler">
+Sie haben die Welkerstaße 15 erreicht.
+				Hier werden Sieeinen Hinweis finden.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Suchen Sie den Kassiber, der mit Ihrer
+				Gruppenfarbe gekennzeichten ist.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Suchen Sie an der Außenmauer des
+				Grundstücks. Bitte öffnen Sie nur den Kassiber Ihrer Farbe.
+			
+</dialogitem>
+−
+<onEnd>
+<comStartMission id="welckerstr fragen"/>
+</onEnd>
+</mission>
+−
+<mission type="QuestionAndAnswer" name="Welckerstraße" id="welckerstr fragen" questions="1" correctAnswersNeeded="1" cancel="success">
+−
+<intro>
+Wenn Sie den Hinweis gefunden haben, lesen Sie den Zettel,
+				stecken den Kassiber ein und beantworten folgende Frage.
+</intro>
+−
+<question>
+<questiontext>Was ist hier geschehen?</questiontext>
+−
+<answer>
+Im Vorgarten sind unwiederbringliche römische Funde zu
+					erwarten, daher wurde der Fußweg um den Vorgarten herum gelegt.
+				
+</answer>
+−
+<answer correct="1">
+Vorgarten und Haus gehören nicht der Stadt
+					Bonn. Daher konnte der geplante Fußweg nicht ausgeführt werden.
+				
+</answer>
+−
+<answer>
+Die gelieferten Bänke sind nicht aus nachhaltiger
+					Forstwirtschaft. Daher wurden die Arbeiten unterbrochen.
+</answer>
+−
+<answer>
+In der früheren Bankfiliale befindet sich ein Tresor, in dem
+					die fehlenden Millionen aus der Baukasse des WCCB vermutet werden.
+					Daher kann das Gelände nicht angerührt werden.
+</answer>
+</question>
+−
+<outroSuccess>
+Richtig! Bitte nehmen Sie den Kassiber und den
+				enthaltenen Hinweis mit.
+</outroSuccess>
+−
+<outroFail>
+Naja... versuchen Sie es doch einfach nochmal...
+			
+</outroFail>
+−
+<onSuccess>
+<comStartMission id="welckerstr text ende"/>
+</onSuccess>
+−
+<onFail>
+<comStartMission id="welckerstr fragen"/>
+</onFail>
+</mission>
+−
+<mission type="NPCTalk" id="welckerstr text ende" charimage="drawable/drkimicon.png" name="Konferenz" cancel="success">
+−
+<dialogitem speaker="Erzähler">
+Inzwischen sind auch Informationen
+				eingegangen, dass Dr. Kim sich in Bonn aufhält. 
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Es wird Zeit, weitere Informationen zu
+				sammeln.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Außerdem sollten Sie gute Argumente
+				für den Fall eines Zugriffs sammeln.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Neben den skandalösen Ereignissen rund
+				um das WCCB-Gelände muß nun aber geklärt werden, 
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+wo die Millionen geblieben sind, die
+				einstmal für den Bau zur Verfügung gestellt wurden.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Wer hat sich bereichert, wer hat Geld
+				unterschlagen? 
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Dazu müssen wir zurück in die Zeit und
+				zum Ort des ersten Spatenstichs.
+</dialogitem>
+<dialogitem speaker="Erzähler">Folgen Sie wieder dem
+				StattReisen-Logo.</dialogitem>
+</mission>
+<!-- Spatenstich -->
+−
+<mission type="NPCTalk" id="spatenstich text" charimage="drawable/spatenstich.png" name="Spatenstich" cancel="success">
+−
+<dialogitem speaker="Erzähler">
+Sie haben den Ort des ersten
+				Spatenstichs erreicht.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Zu dieser Zeit waren fast alle
+				Politiker in Bonn von den Planungen des Kongreßzentrums verzaubert,
+			
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+nur wenige rieten zur Besonnenheit und
+				zur genauen Kontrolle.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Man sah sich schon als stolze
+				Bauherren und als besitzer einer schicken Immobilie.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+139 Millionen Euro wollte der Investor
+				verbauen, dafür hatte man ihm das Grundstück kostenlos zur Verfügung
+				gestellt.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Er selbst sollte 40 Millionen Euro
+				Eigenkapital einsetzen.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Aber schon zum Zeitpunkt des ersten
+				Spatenstichs war klar:
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Der Investor war seinen
+				Verpflichtungen nicht nachgekommen, er hatte nicht mal seinen
+				Eigenanteil eingezahlt.
+</dialogitem>
+−
+<onEnd>
+<comStartMission id="spatenstich fragen"/>
+</onEnd>
+</mission>
+−
+<mission type="QuestionAndAnswer" name="Spatenstich" id="spatenstich fragen" questions="1" correctAnswersNeeded="1" cancel="success">
+−
+<question>
+−
+<questiontext>
+Die Stadtspitze wußte das und hätte zu diesem
+					Zeitpunkt den späteren Skandal noch verhindern können. Aber was
+					hätte sie tun müssen:
+</questiontext>
+−
+<answer onChoose="Wissen Sie eigentlich, wie die Oberbürgermeisterin da dagestanden hätte? Das wäre doch zu peinlich gewesen und das Dauerlächeln einfrieren lassen. Nein, nein, das hätte am Ende die Kritiker gestärkt. Versuchen Sie es besser nochmal! ">
+Den Bau sofort stoppen, bis die versprochenen Gelder da
+					sind?
+</answer>
+−
+<answer onChoose="Nun ja, was nun wirklich die beste Maßnahme war, kann man nicht sagen." correct="1">
+So tun, als sei nichts geschehen und heimlich 40 Millionen
+					besorgen, die dann unauffällig in die Baukasse eingeschleust
+					werden?
+</answer>
+−
+<answer onChoose="Würden Sie sich selbst anzeigen, wenn Sie einen solchen Fehler gemacht hätten? Und was wolen Sie denn erzwingen? Einem nackten Mann indie Tasche greifen? Nein, nein, so geht das nicht. Gehen Sie nochmal zurück.">
+Anzeige erstatten gegen den Investor und eine
+					Erzwingungshaft erwirken?
+</answer>
+−
+<answer onChoose="Eine schöne Idee, aber eine Spendenaktion für einen privaten Investor? Oder gar eine Lotterie? Was soll denn da als Preis ausgelobt werden? Ein Schwimmbad-Besuch? Eine Festspielhalle? Oder gleich der OB-Posten? Nicht wirklich gut für Bonn. Versuchen Sie es nochmal.">
+Eine öffentliche Spendenaktion (vielleicht eine Lotterie)
+					starten, um das Millionenloch zu stopfen.
+</answer>
+</question>
+−
+<outroSuccess>
+Aber die Antwort ist am nächsten dran an dem, was dann
+				geschah: Die Stadt verhalf dem Investor zu 30 Millionen. So konnte
+				er sein Gesicht wahren und bekam weitere Kredite von mehr als 100
+				Millionen Euro.
+</outroSuccess>
+−
+<onSuccess>
+<comStartMission id="spatenstich text ende"/>
+</onSuccess>
+−
+<onFail>
+<comStartMission id="spatenstich fragen"/>
+</onFail>
+</mission>
+−
+<mission type="NPCTalk" id="spatenstich text ende" charimage="drawable/spatenstich.png" name="Spatenstich" cancel="success">
+−
+<dialogitem speaker="Erzähler">
+Woher die anderen 10 Millionen kamen,
+				müssen Sie später noch erkunden.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Nehmen Sie jetzt zunächst etwas Erde
+				mit von dem Ort des ersten Spatenstichs und füllen es in den zuvor
+				gefundenen Kassiber.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Dann erleben Sie nochmal das erhabene
+				Gefühl, beim Baubeginn dabei gewesen zu sein.
+</dialogitem>
+−
+<onEnd>
+<comStartMission id="bauleitung anruf"/>
+<!-- TODO klingelton -->
+</onEnd>
+</mission>
+−
+<mission type="NPCTalk" id="bauleitung anruf" charimage="drawable/handy.png" name="Anruf" cancel="success">
+−
+<dialogitem speaker="Erzähler">
+Jetzt wird's spannend. Sie haben
+				gerade einen merkwürdigen Anruf erhalten.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Ihnen sollen streng vertrauliche
+				Unterlagen zugespielt werden.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Um den Ort der Übergabe zu finden und
+				die Dokumente zu prüfen, müssen Sie wieder dem Zeichen auf Ihrem
+				Plan folgen.
+</dialogitem>
+</mission>
+<!-- Bauleitung -->
+−
+<mission type="NPCTalk" id="bauleitung text" charimage="drawable/kongressforum.png" name="Bauleitung" cancel="success">
+−
+<dialogitem speaker="Erzähler">
+Prima! Aber Sie sind ein paar Minuten
+				zu spät, der Informant ist schon weg und niemand weiß, wer es war.
+			
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Aber die Dokumente hat der Informant
+				zurückgelassen.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Finden Sie zwei Umschläge im
+				Hauseingang und lesen sie die Dokumente.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Vielleicht kommen Sie jetzt einen
+				guten Schritt weiter.
+</dialogitem>
+−
+<onEnd>
+<comStartMission id="bauleitung fragen"/>
+</onEnd>
+</mission>
+−
+<mission type="QuestionAndAnswer" name="Bauleitung" id="bauleitung fragen" questions="2" correctAnswersNeeded="2" shuffle="false" cancel="success">
+−
+<question>
+−
+<questiontext>
+Die Frage ist immernoch: Woher kamen die 10 Millionen
+					Euro, die der Investor dann als sein Eigenkapital präsentieren
+					konnte?
+</questiontext>
+<answer correct="1" onChoose="Leider Falsch. Lesen Sie noch einmal genau nach! Arazim währe richtig gewesen.">Honua</answer>
+<answer correct="1" onChoose="Sehr Gut! Das ist Richtig.">Arazim</answer>
+</question>
+−
+<question>
+−
+<questiontext>
+Ach, übrigens, Sie befinden sich an dem Haus, in dem
+					Der Investor "SMI Hyundai" sein Baubüro hatte. Leider weiß bis
+					heute niemand, ws SMI eigentlich heißt. Machen Sie doch einen
+					Vorschlag:
+</questiontext>
+<answer correct="1" onChoose="Vielleicht haben sie recht, aber ehrlich gesagt: Wir wissen es auch nicht.">SMI: Save Money International</answer>
+<answer correct="1" onChoose="Vielleicht haben sie recht, aber ehrlich gesagt: Wir wissen es auch nicht.">SMI: Schöne Millionen Investiert</answer>
+</question>
+−
+<outroSuccess>
+Aber jetzt Spaß beiseite. Da ist noch ein anderes
+				Problem...
+</outroSuccess>
+−
+<outroFail>
+FEHLER das soltle nicht passieren. id="bauleitung fragen"
+			
+</outroFail>
+−
+<onEnd>
+<comStartMission id="bauleitung text ende"/>
+</onEnd>
+</mission>
+−
+<mission type="NPCTalk" id="bauleitung text ende" charimage="drawable/baustelle.png" name="Bauleitung" cancel="success">
+−
+<dialogitem speaker="Erzähler">
+Dutzende von Handwerksfirmen haben auf
+				dem Bau gearbeitet und warten seit der Insolvenz auf ihr Geld.
+			
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+In letzter Sekunde haben Sie noch alle
+				verfügbaren Materialien von der Baustelle geholt.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Insgesamt stehen noch ca. 7 Millionen
+				€ an offenen Rechnungen aus.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Um das Ausmaß der unbezahlten
+				Rechnungen zu ermessen, müssen Sie sich an einen Platz begeben, an
+				dem Sie die Baustelle wieder besser überschauen können.
+</dialogitem>
+<dialogitem speaker="Erzähler">Folgen Sie also dem Logo.</dialogitem>
+</mission>
+<!-- Baustelle -->
+−
+<mission type="QuestionAndAnswer" name="Baustelle" id="baustelle fragen" questions="1" correctAnswersNeeded="1" shuffle="false" cancel="success">
+−
+<question>
+−
+<questiontext>
+Angekommen! Den Anblick kennen Sie schon, meinen Sie?
+					Gut, aber dann überlegen Sie jetzt, was die Handwerker hätten tun
+					können, um ihr Geld zu bekommen?
+</questiontext>
+−
+<answer onChoose="Na, Sie wollen wohl die Handwerkerehre angreifen. Das geht doch nicht, erst recht  nicht an einem weltweiten Renomierobjekt. Überlegen Sie doch nochmal.">
+Billige Materialien einbauen und teure abrechnen, der
+					Überschuß dient dann als Rücklage.
+</answer>
+−
+<answer onChoose="Was denn, wollen Sie jetzt den Auftrag oder nicht? Also erst Leistung, dann Geld. Sonst können wir auch einen anderen nehmen. Also nochmal zurück.">
+Traue keinem Polier! Keine Leistung ohne Vorauszahlung!
+				
+</answer>
+−
+<answer onChoose="Ja, schön. Sie träumen wohl. So was gibt es doch gar nicht. Kommen Sie zurück auf den Boden der Tatsachen und geben Sie eine andere Antwort. ">
+Die Handwerker hätten sich eine Ausfallbürgschaft geben
+					lassen sollen, so wie die großen Firmen, die ins Ausland
+					exportieren und dafür eine Sicherheitvom Staat bekommen.
+</answer>
+−
+<answer correct="1" onChoose="So, so, meinen Sie? Wie haben Sie denn ihr Haus gebaut? Und was meint der Handwerksmeister unter Ihnen dazu?...">
+Eigentlich gar nichts. Handwerksbetriebe sind immer die
+					Letzten und die beißen bekanntlich die Hunde.
+</answer>
+</question>
+−
+<outroSuccess>
+Oh, jetzt dürfen Sie aber Ihre wichtigste Aufgabe nicht
+				vergessen.
+</outroSuccess>
+−
+<onSuccess>
+<comStartMission id="baustelle text ende"/>
+</onSuccess>
+−
+<onFail>
+<comStartMission id="baustelle fragen"/>
+</onFail>
+</mission>
+−
+<mission type="NPCTalk" id="baustelle text ende" charimage="drawable/durchbruch.png" name="Baustelle" cancel="success">
+−
+<dialogitem speaker="Erzähler">
+Erneut ist ein Hinweis auf Dr. Kim
+				eingegangen.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Er will sich angeblich am Kunstwerk
+				"Durchbruch" zu einem konspirativen Treffen mit ehemaligen
+				Vertrauten treffen.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Lassen Sie die Chance nicht
+				verstreichen, gehen Sie zum "Durchbruch". Vielleicht wird es ja auch
+				ihr Durchbruch und Sie erleben das Ende des makabren Spiels.
+			
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Sie finden das Kunstwerk in der nähe
+				des Bundeshauses. Suche Sie oder fragen Sie sich durch!
+</dialogitem>
+</mission>
+<!-- Durchbruch -->
+−
+<mission type="NPCTalk" id="durchbruch" charimage="drawable/drkimicon.png" name="Durchbruch" cancel="success">
+−
+<dialogitem speaker="Erzähler">
+Prima, Sie haben sich ein umfassendes
+				Bild gemacht.
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Danke für die Teilnahme an der Jagt
+				auf Dr. Kim!
+</dialogitem>
+−
+<dialogitem speaker="Erzähler">
+Jetzt schlägt die Stunde der Justitz.
+				Passen sie auf was geschieht.
+</dialogitem>
+</mission>
+
+
+		+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		++++++++++++++++++++++++++++ Hotspots +++++++++++++++++++++++++++++
+		+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+		
+−
+<hotspots>
+−
+<hotspot id="Bundesbüdchen" latitude="50.7196132" longitude="7.122177" radius="30">
+<img src="drawable/kioskicon.png"/>
+−
+<onEnter>
+<reqMissionStatus id="kiosk text" new="1" success="0" fail="0" running="0"/>
+<comStartMission id="kiosk text"/>
+<comPlaySound file="sound/beep.mp3"/>
+</onEnter>
+−
+<visible>
+<!-- always visible -->
+</visible>
+</hotspot>
+−
+<hotspot id="wegWelckerstr1" latitude="50.719477" longitude="7.121452" radius="30">
+<img src="drawable/logoicon.png"/>
+−
+<onTap>
+<comMessage text="Gehen Sie hier hin."/>
+</onTap>
+−
+<onEnter>
+<reqMissionStatus id="kiosk text ende" new="0" success="1" fail="0" running="0"/>
+<comAttribute name="wegWelckerstr" value="1"/>
+<comPlaySound file="sound/beep.mp3"/>
+<comStartMission id="ersatzkiosk"/>
+</onEnter>
+−
+<visible>
+<reqMissionStatus id="kiosk text ende" new="0" success="1" fail="1" running="0"/>
+<reqAttribute name="wegWelckerstr" value="NOT_SET"/>
+<reqMissionStatus id="welckerstr text" new="1" success="0" fail="0" running="0"/>
+</visible>
+</hotspot>
+−
+<hotspot id="wegWelckerstr2" latitude="50.719095" longitude="8" radius="30">
+<img src="drawable/logoicon.png"/>
+−
+<onTap>
+<comMessage text="Gehen Sie hier hin."/>
+</onTap>
+−
+<onEnter>
+<reqAttribute name="wegWelckerstr" value="1"/>
+<comAttribute name="wegWelckerstr" value="2"/>
+<comPlaySound file="sound/beep.mp3"/>
+<comStartMission id="bundeskanzleramt"/>
+</onEnter>
+−
+<visible>
+<reqAttribute name="wegWelckerstr" value="1"/>
+<reqMissionStatus id="welckerstr text" new="1" success="0" fail="0" running="0"/>
+</visible>
+</hotspot>
+−
+<hotspot id="wegWelckerstr3" latitude="50.718437" longitude="7.118864" radius="30">
+<img src="drawable/logoicon.png"/>
+−
+<onTap>
+<comMessage text="Gehen Sie hier hin."/>
+</onTap>
+−
+<onEnter>
+<reqAttribute name="wegWelckerstr" value="2"/>
+<comAttribute name="wegWelckerstr" value="3"/>
+<comPlaySound file="sound/beep.mp3"/>
+<comStartMission id="weg3"/>
+</onEnter>
+−
+<visible>
+<reqAttribute name="wegWelckerstr" value="2"/>
+<reqMissionStatus id="welckerstr text" new="1" success="0" fail="0" running="0"/>
+</visible>
+</hotspot>
+−
+<hotspot id="wegWelckerstr4" latitude="50.717473" longitude="7.120041" radius="30">
+<img src="drawable/logoicon.png"/>
+−
+<onTap>
+<comMessage text="Gehen Sie hier hin."/>
+</onTap>
+−
+<onEnter>
+<reqAttribute name="wegWelckerstr" value="3"/>
+<comAttribute name="wegWelckerstr" value="4"/>
+<comPlaySound file="sound/beep.mp3"/>
+<comStartMission id="weg4"/>
+</onEnter>
+−
+<visible>
+<reqAttribute name="wegWelckerstr" value="3"/>
+<reqMissionStatus id="welckerstr text" new="1" success="0" fail="0" running="0"/>
+</visible>
+</hotspot>
+−
+<hotspot id="Welckerstr15" latitude="50.718123" longitude="7.121417" radius="30">
+<img src="drawable/logoicon.png"/>
+−
+<onEnter>
+<reqMissionStatus id="welckerstr text" new="1" success="0" fail="0" running="0"/>
+<reqAttribute name="wegWelckerstr" value="4"/>
+<comStartMission id="welckerstr text"/>
+<comPlaySound file="sound/beep.mp3"/>
+</onEnter>
+−
+<visible>
+<reqAttribute name="wegWelckerstr" value="4"/>
+<reqMissionStatus id="welckerstr text" new="1" success="0" fail="0" running="0"/>
+</visible>
+</hotspot>
+−
+<hotspot id="spatenstich" latlong="50.71739,7.123265" radius="30">
+<img src="drawable/logoicon.png"/>
+−
+<visible>
+<reqMissionStatus id="welckerstr text ende" new="0" success="1" fail="0" running="0"/>
+<reqMissionStatus id="spatenstich text" new="1" success="0" fail="0" running="0"/>
+</visible>
+−
+<onEnter>
+<reqMissionStatus id="welckerstr text ende" new="0" success="1" fail="0" running="0"/>
+<reqMissionStatus id="spatenstich text" new="1" success="0" fail="0" running="0"/>
+<comStartMission id="spatenstich text"/>
+<comPlaySound file="sound/beep.mp3"/>
+</onEnter>
+</hotspot>
+−
+<hotspot id="bauleitung" latitude="50.717939" longitude="7.124843" radius="30">
+<img src="drawable/logoicon.png"/>
+−
+<visible>
+<reqMissionStatus id="bauleitung anruf" new="0" success="1" fail="0" running="0"/>
+<reqMissionStatus id="bauleitung text" new="1" success="0" fail="0" running="0"/>
+</visible>
+−
+<onEnter>
+<reqMissionStatus id="bauleitung anruf" new="0" success="1" fail="0" running="0"/>
+<comStartMission id="bauleitung text"/>
+<comPlaySound file="sound/beep.mp3"/>
+</onEnter>
+</hotspot>
+−
+<hotspot id="baustelle" latitude="50.718751" longitude="7.124103" radius="30">
+<img src="drawable/logoicon.png"/>
+−
+<visible>
+<reqMissionStatus id="bauleitung text ende" new="0" success="1" fail="0" running="0"/>
+<reqMissionStatus id="baustelle text ende" new="1" success="0" fail="0" running="0"/>
+</visible>
+−
+<onEnter>
+<reqMissionStatus id="bauleitung text ende" new="0" success="1" fail="0" running="0"/>
+<comStartMission id="baustelle fragen"/>
+<comPlaySound file="sound/beep.mp3"/>
+</onEnter>
+</hotspot>
+−
+<hotspot id="durchbruch" latitude="50.719410" longitude="7.123303" radius="30">
+<img src="drawable/logoicon.png"/>
+−
+<visible>
+<reqMissionStatus id="durchbruch" new="0" success="1" fail="0" running="0"/>
+</visible>
+−
+<onEnter>
+<reqMissionStatus id="baustelle text ende" new="0" success="1" fail="0" running="0"/>
+<comStartMission id="durchbruch"/>
+<comPlaySound file="sound/beep.mp3"/>
+</onEnter>
+</hotspot>
+</hotspots>
+</mission>
+</game>

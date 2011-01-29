@@ -1,3 +1,5 @@
+require 'exist_adapter'
+
 class ProjectsController < ApplicationController
   before_filter :authenticate
   def index
@@ -21,6 +23,8 @@ class ProjectsController < ApplicationController
     @project = Project.new (params[:project])
     @project.user = @current_user
     if @project.save
+      adapter = ExistAdapter.new
+      adapter.upload_file("data/game.xml", "game.xml", @project.id.to_s)
       redirect_to projects_path, :notice => 'Project successfully added.'
     end
   end
