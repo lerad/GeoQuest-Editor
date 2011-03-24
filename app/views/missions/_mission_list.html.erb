@@ -1,0 +1,16 @@
+<ul>
+
+<% @missions.each do |mission| %>
+
+ <li>
+  <%= link_to mission.attributes['id'], project_mission_path(params[:project_id], mission.attributes['id']) %>
+  <ul
+   <% REXML::XPath.match(mission, './/mission').each do |submission| %>
+    <li>
+    <%= link_to submission.attributes['id'], project_mission_path(params[:project_id], submission.attributes['id']) %>
+   </li>
+  <%  end     %>
+  </ul>
+</li>
+<% end  %>
+</ul>
