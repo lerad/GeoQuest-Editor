@@ -13,6 +13,8 @@ class ProjectsController < ApplicationController
     adapter = ExistAdapter.new(@project.id)
     @hotspots = adapter.do_request(hotspots_query)
 
+    mission_query = 'doc("game.xml")/game/mission'
+    @missions = adapter.do_request(mission_query);
 
     if @project.nil?
       redirect_to projects_path, :notice => "A project with this id does not exist or it is not yours"

@@ -1,15 +1,29 @@
-<h1> Show project</h1>
-
-Project name: <%= @project.name %> <br />
-
-<% link_to "back", projects_path %>
+<h1>Project: <%= @project.name %> </h1>
 
 <%= javascript_include_tag "jquery-1.4.4"  %>
 <%= javascript_include_tag "http://maps.google.com/maps/api/js?sensor=false" %>
 <%= javascript_include_tag "map"  %>
 
 
-<div id="map_canvas" style="width:400pt; height:300pt"></div>
+<table>
+  <tr>
+    <td id="navigation">
+    <%= render 'mission_list' %>
+      <br />
+      <br />
+    <% link_to "back", projects_path %>
+    </td>
+
+    <td id="content">
+      <div id="map_canvas" style="width:400pt; height:300pt"></div>
+      <br />
+      <input type="button" value="Add Hotspot" onclick="createNewHotspot()" />
+    </td>
+
+  </tr>
+
+</table>
+
 
 <script language="javascript">
 function addHotspotMarker() {
@@ -22,8 +36,6 @@ function addHotspotMarker() {
 
 </script>
 
-<br />
-<input type="button" value="Add Hotspot" onclick="createNewHotspot()" />
 
 <script language="javascript">
   var project = <%= @project.id %>;

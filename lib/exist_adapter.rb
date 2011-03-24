@@ -13,7 +13,7 @@ include REXML
     @collection = collection.to_s
    end
 
-    RESTURL = "http://localhost:8090/exist/rest/db/geoquest/"
+    RESTURL = "http://localhost:8080/exist/rest/db/geoquest/"
 
    def upload_data_as_filename(data, filename)
     url = URI.parse(RESTURL + @collection + '/' + filename)
@@ -52,7 +52,7 @@ def do_request(xquery)
  response = Net::HTTP.start(url.host, url.port) {|http| http.request(request)}
 
  doc = Document.new(response.body)
- result = doc.root.elements.to_a
+ doc.root.elements.to_a
  end
  
   
