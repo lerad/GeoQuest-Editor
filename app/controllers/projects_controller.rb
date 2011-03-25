@@ -9,9 +9,7 @@ class ProjectsController < ApplicationController
   def show
     @project = Project.find(:first, :conditions => {:id => params[:id], :user_id => @current_user.id})
 
-    hotspots_query = 'doc("game.xml")/game/mission[@id = "1"]/hotspots/hotspot'
     adapter = ExistAdapter.new(@project.id)
-    @hotspots = adapter.do_request(hotspots_query)
 
     mission_query = 'doc("game.xml")/game/mission'
     @missions = adapter.do_request(mission_query);

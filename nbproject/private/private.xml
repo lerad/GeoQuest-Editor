@@ -1,12 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
-    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
-        <file>file:/home/studium/NetBeansProjects/Geoquest%20Editor/public/javascripts/map.js</file>
-        <file>file:/home/studium/NetBeansProjects/Geoquest%20Editor/app/views/projects/show.html.erb</file>
-        <file>file:/home/studium/NetBeansProjects/Geoquest%20Editor/app/controllers/hotspots_controller.rb</file>
-        <file>file:/home/studium/NetBeansProjects/Geoquest%20Editor/app/controllers/projects_controller.rb</file>
-        <file>file:/home/studium/NetBeansProjects/Geoquest%20Editor/config/routes.rb</file>
-        <file>file:/home/studium/NetBeansProjects/Geoquest%20Editor/lib/exist_adapter.rb</file>
-    </open-files>
 </project-private>

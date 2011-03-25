@@ -1,0 +1,45 @@
+<%= javascript_include_tag "jquery-1.4.4"  %>
+<%= javascript_include_tag "http://maps.google.com/maps/api/js?sensor=false" %>
+<%= javascript_include_tag "map"  %>
+
+
+<table>
+  <tr>
+    <td id="navigation">
+    <%= render 'mission_list' %>
+      <br />
+      <br />
+    <% link_to "back", projects_path %>
+    </td>
+
+    <td id="content">
+      <div id="map_canvas" style="width:400pt; height:300pt"></div>
+      <br />
+      <input type="button" value="Add Hotspot" onclick="createNewHotspot()" />
+    </td>
+
+  </tr>
+
+</table>
+
+
+
+<script language="javascript">
+function addHotspotMarker() {
+
+  <% @hotspots.each do |hotspot| %>
+  addMarker(<%= hotspot.attributes["latitude"] %>, <%= hotspot.attributes["longitude"] %> , "<%= hotspot.attributes["id"] %>");
+  <% end  %>
+}
+
+
+</script>
+
+
+<script language="javascript">
+  var project = <%= params[:project_id] %>;
+</script>
+
+
+
+
