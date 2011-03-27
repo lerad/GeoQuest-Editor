@@ -1,8 +1,5 @@
 GeoquestEditor::Application.routes.draw do
 
-  get "missions/show"
-
-  get "hotspots/update"
 
   resources :users
   resource :session
@@ -10,6 +7,7 @@ GeoquestEditor::Application.routes.draw do
     resources :missions
   end
 
+  match '/commands/execute' => "commands#execute", :as => "commands/execute"
   match '/hotspots/update' => "hotspots#update", :as => "hotspots/update"
   match '/hotspots/create' => "hotspots#create", :as => "hotspots/create"
   match '/login' => "sessions#new", :as => "login"

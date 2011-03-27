@@ -13,11 +13,13 @@ function AddHotspotCommand() {
         addMarker(this.parameter["latitude"], this.parameter["longitude"], this.parameter["id"]);
 
         // Do Ajax call:
-        jQuery.post("/hotspots/create",
+        // /hotspots/create"
+        jQuery.post("/commands/execute",
                     "id=" + this.parameter["id"] +
                     "&latitude=" + this.parameter["latitude"] +
                     "&longitude=" + this.parameter["longitude"] +
-                    "&project=" + this.parameter["project"]
+                    "&project=" + this.parameter["project"] +
+                    "&command=" + this.type
                     );
 
     }
@@ -36,11 +38,13 @@ function MoveHotspotCommand() {
         // draggable my default. Thus the Google-Maps-API does this.
 
         // Do Ajax call:
-        jQuery.post("/hotspots/update",
+        // /hotspots/update
+        jQuery.post("/commands/execute",
             "id=" + this.parameter["id"] +
             "&latitude=" + this.parameter["latitude"] +
             "&longitude=" + this.parameter["longitude"] +
-            "&project=" + this.parameter["project"]
+            "&project=" + this.parameter["project"] +
+            "&command=" + this.type
             );
 
 
