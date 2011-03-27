@@ -11,6 +11,8 @@ class MissionsController < ApplicationController
     mission_query = 'doc("game.xml")/game/mission'
     @missions = adapter.do_request(mission_query);
 
+    @project = Project.find(:first, :conditions => {:id => params[:project_id], :user_id => @current_user.id})
+
     mission_type = @mission.attributes['type']
 
     if(mission_type == 'MapOverview')
