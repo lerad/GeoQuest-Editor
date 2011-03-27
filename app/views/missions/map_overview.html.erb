@@ -4,25 +4,14 @@
 
 <%= render 'shared/header' %>
 
-<table>
-  <tr>
-    <td id="navigation">
-    <%= render 'shared/mission_list' %>
-      <br />
-      <br />
-    <% link_to "back", projects_path %>
-    </td>
+<%= render 'shared/mission_navigation' %>
+<%= render 'shared/editor_control' %>
 
-    <td id="content">
-      <div id="map_canvas" style="width:400pt; height:300pt"></div>
-      <br />
-      <input type="button" value="Add Hotspot" onclick="createNewHotspot()" />
-    </td>
-
-  </tr>
-
-</table>
-
+<div class="content">
+  <div id="map_canvas" style="width:400pt; height:300pt"></div>
+  <br />
+  <input type="button" value="Add Hotspot" onclick="createNewHotspot()" />
+</div>
 
 
 <script language="javascript">
