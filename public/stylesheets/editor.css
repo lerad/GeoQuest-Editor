@@ -1,0 +1,51 @@
+.content {
+    vertical-align: top;
+    margin: 40px;
+}
+
+#control {
+    float: right;
+    border-style: dotted;
+    margin-left: 20pt;
+    width: 150pt;
+    height: 450pt;
+}
+
+#caption {
+    color: black;
+    text-decoration: none;
+    margin-left: 40px;
+}
+
+#navigation {
+    border-style: dotted;
+    width: 180pt;
+    float: left;
+    margin-right: 20pt;
+    height: 450pt;
+}
+
+.navigation_link {
+    text-decoration: none;
+    color: black;
+    font-size: 11pt;
+}
+
+.navigation_link:hover {
+    text-decoration: underline;
+    color: black;
+    font-size: 11pt;
+}
+
+
+.editor_link {
+    text-decoration: none;
+    color: black;
+    font-size: 11pt;
+}
+
+.editor_link:hover {
+    text-decoration: underline;
+    color: black;
+    font-size: 11pt;
+}
