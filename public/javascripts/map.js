@@ -21,15 +21,14 @@ function initialize() {
                 var lng = event.latLng.lng();
                 var lat = event.latLng.lat();
 
-                addMarker(lat, lng, id);
-                
-                jQuery.post("/hotspots/create",
-                    "id=" + id +
-                    "&latitude=" + lat +
-                    "&longitude=" + lng +
-                    "&project=" + project
-                    );
                 hotspotCreating = false;
+
+                var cmd = new AddHotspotCommand();
+                cmd.setParameter("latitude", lat);
+                cmd.setParameter("longitude", lng);
+                cmd.setParameter("id", id);
+                cmd.setParameter("project", project);
+                cmd.execute();
             }
 
 
@@ -60,13 +59,12 @@ function addMarker(lat, lng, text) {
     });
 
     google.maps.event.addListener(marker, "dragend", function() {
-        jQuery.post("/hotspots/update",
-            "id=" + marker.getTitle() +
-            "&latitude=" + marker.getPosition().lat() +
-            "&longitude=" + marker.getPosition().lng() +
-            "&project=" + project
-            );
-        
+        var cmd = new MoveHotspotCommand();
+        cmd.setParameter("id", marker.getTitle());
+        cmd.setParameter("latitude", marker.getPosition().lat());
+        cmd.setParameter("longitude", marker.getPosition().lng());
+        cmd.setParameter("project", project);
+        cmd.execute();
     });
 
 
