@@ -7,8 +7,12 @@ function Command() {
         this.parameter[key] = value;
     }
 
-    this.makeAjaxCall = function()  {
+    this.execute = function() {
+        this.updateGui();
+        this.makeAjaxCall();
+    }
 
+    this.makeAjaxCall = function()  {
         // Create a string like
         // "id=[value]&latitude=[value]&longitude=[value]&command=[value]&"
         // the extra & at the end should not harm
@@ -21,6 +25,6 @@ function Command() {
             parameter_string += "&";
         }
 
-         jQuery.post("/commands/execute", parameter_string);
+        jQuery.post("/commands/execute", parameter_string);
     }
 }

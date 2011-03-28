@@ -2,19 +2,7 @@
 var map;
 var hotspotCreating = false;
 
-// this is called when the page loads.
-// it initializes the map, and creates each marker
-function initialize() {
-    var latlng = new google.maps.LatLng(50.718437, 7.118864);
-    var myOptions = {
-        zoom: 15,
-        center: latlng,
-        mapTypeId: google.maps.MapTypeId.SATELLITE
-     
-    };
-    map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-
-    google.maps.event.addListener(map, "click", function(event) {
+function onMapClick(event) {
 
             if (hotspotCreating) {
                 var id = prompt("Marker id");
@@ -30,10 +18,21 @@ function initialize() {
                 cmd.setParameter("project", project);
                 cmd.execute();
             }
+    }
 
+// this is called when the page loads.
+// it initializes the map, and creates each marker
+function initialize() {
+    var latlng = new google.maps.LatLng(50.718437, 7.118864);
+    var myOptions = {
+        zoom: 15,
+        center: latlng,
+        mapTypeId: google.maps.MapTypeId.SATELLITE
+     
+    };
+    map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 
-        
-    });
+    google.maps.event.addListener(map, "click", onMapClick);
 
     addHotspotMarker();
 
