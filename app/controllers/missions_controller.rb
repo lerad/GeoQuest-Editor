@@ -20,6 +20,11 @@ class MissionsController < ApplicationController
         @hotspots = adapter.do_request(hotspots_query)
     end
 
+    if(mission_type == 'NPCTalk')
+      dialogitems_query = 'doc("game.xml")//mission[@id="' + params[:id] +  '"]/dialogitem'
+      @dialogitems = adapter.do_request(dialogitems_query)
+    end
+
     render 'npc_talk' if (mission_type == 'NPCTalk')
     render 'map_overview' if (mission_type == 'MapOverview')
 

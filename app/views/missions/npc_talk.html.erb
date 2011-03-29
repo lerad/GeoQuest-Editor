@@ -4,7 +4,21 @@
 <%= render 'shared/editor_control' %>
 
 <div class="content">
-   NPC Talk Mission :)
+   NPC Talk Mission :) <br />
+
+   <table>
+     <tr>
+       <td> Sprecher </td>
+       <td> Text </td>
+     </tr>
+     <% @dialogitems.each do |dialogitem| %>
+     <tr>
+       <td> <%= dialogitem.attributes['speaker'] %> </td>
+       <td> <%= dialogitem.text %> </td>
+     </tr>
+     <% end %>
+   </table>
+
 </div>
 
 
