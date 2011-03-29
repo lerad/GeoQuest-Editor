@@ -1,3 +1,4 @@
+<%= javascript_include_tag "jquery-1.4.4"  %>
 <%= javascript_include_tag "commands/command" %>
 <%= javascript_include_tag "commands/npctalk" %>
 
@@ -7,10 +8,16 @@
 <%= render 'shared/editor_control' %>
 
 <script language="javascript" type="text/javascript">
+
+var mission_id = "<%= @mission.attributes['id'] %>";
+var project_id = "<%= @project.id %>";
+
 function addDialogEntry() {
   var cmd = new AddDialogEntryCommand();
   cmd.setParameter("speaker", document.getElementById('speaker').value);
   cmd.setParameter("text", document.getElementById('text').value);
+  cmd.setParameter("mission_id", mission_id);
+  cmd.setParameter("project_id", project_id);
   cmd.execute();
 }
 </script>
