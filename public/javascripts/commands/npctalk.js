@@ -26,3 +26,15 @@ function AddDialogEntryCommand() {
 }
 
 AddDialogEntryCommand.prototype = new Command();
+
+function DeleteDialogEntryCommand() {
+
+    this.setParameter("command", "DeleteDialogEntryCommand");
+
+    this.updateGui = function()  {
+        var table = document.getElementById('npcTalkTable');
+        table.deleteRow(this.getParameter("index"));
+    }
+}
+
+DeleteDialogEntryCommand.prototype = new Command();

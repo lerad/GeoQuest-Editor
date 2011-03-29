@@ -20,6 +20,27 @@ function addDialogEntry() {
   cmd.setParameter("project_id", project_id);
   cmd.execute();
 }
+
+// Parameter button = Button from which the event is sent
+function deleteDialogEntry(button) {
+  var td = button.parentNode; // Cell to which the button belongs
+  var tr = td.parentNode; // Row to which the button belongs
+  var index = tr.rowIndex;
+
+  // Note to the index:
+  // JavaScript starts at 0, XQuery at 1
+  // because we will never need to modify the first row (because it is the header)
+  // And the second row equals to the first row in the database, we do not
+  // need to modify the index, when we pass it from Javascript to XQuery 
+
+  var cmd = new DeleteDialogEntryCommand();
+  cmd.setParameter("index", index);
+  cmd.setParameter("mission_id", mission_id);
+  cmd.setParameter("project_id", project_id);
+  cmd.execute();
+
+}
+
 </script>
 
 <div class="content">
@@ -29,23 +50,34 @@ function addDialogEntry() {
      <tr class="npcTalkHeader">
        <td> Sprecher </td>
        <td> Text </td>
+       <td> </td>
      </tr>
      <% @dialogitems.each do |dialogitem| %>
      <tr class="npcTalkRow">
        <td class="npcTalkCell npcTalkSpeakerCell"> <%= dialogitem.attributes['speaker'] %> </td>
        <td class="npcTalkCell"> <%= dialogitem.text %> </td>
+       <td class="npcTalkCell"> 
+         <input type="button" value="X" onclick="deleteDialogEntry(this)" />
+       </td>
+       <td class="npcTalkCell">
+         <input type="button" value="^" />
+       </td>
+       <td class="npcTalkCell">
+         <input type="button" value="v" />
+       </td>
      </tr>
      <% end %>
 
      <tr>
        <td class="npcTalkSpeakerCell">
-         <input type="text" id="speaker" value="Erzähler" />
+         <input type="text" id="speaker" value="Erzähler" size="10" />
        </td>
        <td>
          <!-- <input type="text" id="text" value="Text" /> -->
          <textarea id="text" cols="80" rows="4"  style="width: 100%"></textarea> <br />
          <input type="button" value="Neuen Dialogeintrag hinzufügen" onclick="addDialogEntry()"/>
        </td>
+       <td></td>
      </tr>
 
    </table>

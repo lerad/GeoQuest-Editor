@@ -12,3 +12,15 @@ class AddDialogEntryCommand < Command
 
   end
 end
+
+class DeleteDialogEntryCommand < Command
+  def initialize(params)
+    super(params)
+    @type = "DeleteDialogEntryCommand"
+
+    @command = 'let $dialogitem := doc("game.xml")//mission[@id="' + params["mission_id"] + '"]/dialogitem[' + params["index"] + "]\n" +
+               'return update delete $dialogitem'
+
+  end
+end
+

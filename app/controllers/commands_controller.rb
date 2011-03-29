@@ -15,8 +15,10 @@ class CommandsController < ApplicationController
         cmd = MoveHotspotCommand.new(params)
       when "AddDialogEntryCommand"
         cmd = AddDialogEntryCommand.new(params)
+      when "DeleteDialogEntryCommand"
+        cmd = DeleteDialogEntryCommand.new(params)
       else
-        logger.warning "Unsupported command: " + params[:command]
+        logger.warn "Unsupported command: " + params[:command]
     end
 
     cmd.execute unless cmd.nil?
