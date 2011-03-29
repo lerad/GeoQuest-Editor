@@ -1,22 +1,46 @@
+<%= javascript_include_tag "commands/command" %>
+<%= javascript_include_tag "commands/npctalk" %>
+
 <%= render 'shared/header' %>
 
 <%= render 'shared/mission_navigation' %>
 <%= render 'shared/editor_control' %>
 
+<script language="javascript" type="text/javascript">
+function addDialogEntry() {
+  var cmd = new AddDialogEntryCommand();
+  cmd.setParameter("speaker", document.getElementById('speaker').value);
+  cmd.setParameter("text", document.getElementById('text').value);
+  cmd.execute();
+}
+</script>
+
 <div class="content">
    NPC Talk Mission :) <br />
 
-   <table>
-     <tr>
+   <table id="npcTalkTable" class="npcTalkTable">
+     <tr class="npcTalkHeader">
        <td> Sprecher </td>
        <td> Text </td>
      </tr>
      <% @dialogitems.each do |dialogitem| %>
-     <tr>
-       <td> <%= dialogitem.attributes['speaker'] %> </td>
-       <td> <%= dialogitem.text %> </td>
+     <tr class="npcTalkRow">
+       <td class="npcTalkCell npcTalkSpeakerCell"> <%= dialogitem.attributes['speaker'] %> </td>
+       <td class="npcTalkCell"> <%= dialogitem.text %> </td>
      </tr>
      <% end %>
+
+     <tr>
+       <td class="npcTalkSpeakerCell">
+         <input type="text" id="speaker" value="Erzähler" />
+       </td>
+       <td>
+         <!-- <input type="text" id="text" value="Text" /> -->
+         <textarea id="text" cols="80" rows="4"  style="width: 100%"></textarea> <br />
+         <input type="button" value="Neuen Dialogeintrag hinzufügen" onclick="addDialogEntry()"/>
+       </td>
+     </tr>
+
    </table>
 
 </div>

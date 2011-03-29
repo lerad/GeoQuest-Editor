@@ -7,6 +7,10 @@ function Command() {
         this.parameter[key] = value;
     }
 
+    this.getParameter = function(key) {
+        return this.parameter[key];
+    }
+
     this.execute = function() {
         this.updateGui();
         this.makeAjaxCall();
