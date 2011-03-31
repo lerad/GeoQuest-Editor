@@ -1,0 +1,87 @@
+<%= render 'shared/header' %>
+
+<%= render 'shared/mission_navigation' %>
+<%= render 'shared/editor_control' %>
+<!--
+questions="3"
+correctAnswersNeeded="0"
+-->
+Shuffle Questions:
+<input type="checkbox" <%=
+ if @mission.attributes['shuffle'] == "true"
+   "checked"
+ end
+%> id="shuffle"/> <br />
+
+<%
+@intro = ""
+@outroSuccess = ""
+@outroFail = ""
+
+introNode = XPath.first(@mission, "./intro")
+@intro = introNode.text unless introNode.nil?
+
+outroSuccessNode = XPath.first(@mission, "./outroSuccess")
+@outroSuccess = outroSuccessNode.text unless outroSuccessNode.nil?
+
+outroFailNode = XPath.first(@mission, "./outroFail")
+@outroFail = outroFailNode.text unless outroFailNode.nil?
+
+%>
+
+<table>
+  <tr>
+    <td>Intro</td>
+    <td>
+      <textarea cols="30" rows="3"  id="intro"><%= @intro %></textarea>
+    </td>
+    <td>
+      <input type="button" value="Intro aktualisieren" />
+    </td>
+  </tr>
+
+
+  <tr>
+    <td>Outro (Success)</td>
+    <td>
+      <textarea cols="30" rows="3"  id="outroSuccess"><%= @outroSuccess %></textarea>
+    </td>
+    <td>
+      <input type="button" value="Outro (Success) aktualisieren" /> <br />
+    </td>
+  </tr>
+
+  <tr>
+    <td>Outro (Fail)</td>
+    <td>
+      <textarea cols="30" rows="3"  id="outroFail"><%= @outroFail %></textarea>
+    </td>
+    <td>
+      <input type="button" value="Outro (Fail) aktualisieren" /> <br />
+    </td>
+  </tr>
+
+</table>
+
+<h3>Fragen</h3>
+
+<% @questions.each do |question| %>
+<textarea cols="30" rows="4">
+<%= XPath.first(question, "./questiontext").text %>
+</textarea> <br />
+
+<table>
+  <tr><td>Antwort</td><td>Reaktion</td></tr>
+<% XPath.each(question, "./answer") do |answer| %>
+  <tr>
+    <td>
+      <textarea cols="30" rows="4"><%= answer.text %></textarea>
+    </td>
+    <td>
+      <textarea cols="30" rows="4"><%= answer.attributes['onChoose'] %></textarea>
+    </td>
+  </tr>
+<% end %>
+</table>
+<hr />
+<% end %>

@@ -25,6 +25,13 @@ class MissionsController < ApplicationController
       @dialogitems = adapter.do_request(dialogitems_query)
     end
 
+    if(mission_type == 'QuestionAndAnswer')
+      questions_query = 'doc("game.xml")//mission[@id="' + params[:id] +  '"]/question'
+      @questions = adapter.do_request(questions_query)
+    end
+
+
+    render 'question_and_answer' if (mission_type == 'QuestionAndAnswer')
     render 'npc_talk' if (mission_type == 'NPCTalk')
     render 'map_overview' if (mission_type == 'MapOverview')
 
