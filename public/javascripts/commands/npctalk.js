@@ -38,3 +38,30 @@ function DeleteDialogEntryCommand() {
 }
 
 DeleteDialogEntryCommand.prototype = new Command();
+
+function MoveRowUpCommand() {
+    this.setParameter("command", "MoveRowUpCommand");
+
+    this.updateGui = function()  {
+        var index = this.getParameter('index');
+        // Descendant Selector:
+        // http://www.w3.org/TR/CSS2/selector.html#descendant-selectors
+        var row = $("#npcTalkTable tr").eq(index);
+        row.insertBefore(row.prev());
+    }
+}
+
+MoveRowUpCommand.prototype = new Command();
+
+
+function MoveRowDownCommand() {
+    this.setParameter("command", "MoveRowDownCommand");
+
+    this.updateGui = function()  {
+        var index = this.getParameter('index');
+        var row = $("#npcTalkTable tr").eq(index);
+        row.insertAfter(row.next());
+    }
+}
+
+MoveRowDownCommand.prototype = new Command();

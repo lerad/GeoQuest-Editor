@@ -38,7 +38,38 @@ function deleteDialogEntry(button) {
   cmd.setParameter("mission_id", mission_id);
   cmd.setParameter("project_id", project_id);
   cmd.execute();
+}
 
+function moveRowUp(button) {
+  var td = button.parentNode; // Cell to which the button belongs
+  var tr = td.parentNode; // Row to which the button belongs
+  var index = tr.rowIndex;
+
+  if(index == 1)
+    return; // Row is at the top
+
+  var cmd = new MoveRowUpCommand();
+  cmd.setParameter("index", index);
+  cmd.setParameter("mission_id", mission_id);
+  cmd.setParameter("project_id", project_id);
+  cmd.execute();
+}
+
+function moveRowDown(button) {
+  var td = button.parentNode; // Cell to which the button belongs
+  var tr = td.parentNode; // Row to which the button belongs
+  var index = tr.rowIndex;
+  var table = document.getElementById('npcTalkTable');
+  var lastIndex = table.rows.length-1;  // The last row contains the form for adding a new row
+
+  if(index == lastIndex)
+    return; // Row is at the bottom
+
+  var cmd = new MoveRowDownCommand();
+  cmd.setParameter("index", index);
+  cmd.setParameter("mission_id", mission_id);
+  cmd.setParameter("project_id", project_id);
+  cmd.execute();
 }
 
 </script>
@@ -60,10 +91,10 @@ function deleteDialogEntry(button) {
          <input type="button" value="X" onclick="deleteDialogEntry(this)" />
        </td>
        <td class="npcTalkCell">
-         <input type="button" value="^" />
+         <input type="button" value="^" onclick="moveRowUp(this)" />
        </td>
        <td class="npcTalkCell">
-         <input type="button" value="v" />
+         <input type="button" value="v" onclick="moveRowDown(this)" />
        </td>
      </tr>
      <% end %>
