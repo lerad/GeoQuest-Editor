@@ -48,7 +48,7 @@ function moveRowUp(button) {
   if(index == 1)
     return; // Row is at the top
 
-  var cmd = new MoveRowUpCommand();
+  var cmd = new MoveDialogEntryUpCommand();
   cmd.setParameter("index", index);
   cmd.setParameter("mission_id", mission_id);
   cmd.setParameter("project_id", project_id);
@@ -65,7 +65,7 @@ function moveRowDown(button) {
   if(index == lastIndex)
     return; // Row is at the bottom
 
-  var cmd = new MoveRowDownCommand();
+  var cmd = new MoveDialogEntryDownCommand();
   cmd.setParameter("index", index);
   cmd.setParameter("mission_id", mission_id);
   cmd.setParameter("project_id", project_id);

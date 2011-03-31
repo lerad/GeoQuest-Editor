@@ -39,8 +39,8 @@ function DeleteDialogEntryCommand() {
 
 DeleteDialogEntryCommand.prototype = new Command();
 
-function MoveRowUpCommand() {
-    this.setParameter("command", "MoveRowUpCommand");
+function MoveDialogEntryUpCommand() {
+    this.setParameter("command", "MoveDialogEntryUpCommand");
 
     this.updateGui = function()  {
         var index = this.getParameter('index');
@@ -51,11 +51,11 @@ function MoveRowUpCommand() {
     }
 }
 
-MoveRowUpCommand.prototype = new Command();
+MoveDialogEntryUpCommand.prototype = new Command();
 
 
-function MoveRowDownCommand() {
-    this.setParameter("command", "MoveRowDownCommand");
+function MoveDialogEntryDownCommand() {
+    this.setParameter("command", "MoveDialogEntryDownCommand");
 
     this.updateGui = function()  {
         var index = this.getParameter('index');
@@ -64,4 +64,4 @@ function MoveRowDownCommand() {
     }
 }
 
-MoveRowDownCommand.prototype = new Command();
+MoveDialogEntryDownCommand.prototype = new Command();

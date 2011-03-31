@@ -17,6 +17,10 @@ class CommandsController < ApplicationController
         cmd = AddDialogEntryCommand.new(params)
       when "DeleteDialogEntryCommand"
         cmd = DeleteDialogEntryCommand.new(params)
+      when "MoveDialogEntryUpCommand"
+        cmd = MoveDialogEntryUpCommand.new(params)
+      when "MoveDialogEntryDownCommand"
+        cmd = MoveDialogEntryDownCommand.new(params)
       else
         logger.warn "Unsupported command: " + params[:command]
     end
