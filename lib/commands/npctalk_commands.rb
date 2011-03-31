@@ -5,10 +5,13 @@ class AddDialogEntryCommand < Command
     super(params)
     @type = "AddDialogEntryCommand"
 
-    @command = 'let $newItem := <dialogitem speaker="' + params["speaker"] + '">' +
-                                params["text"] + '</dialogitem>' + "\n" +
-               'let $mission := doc("game.xml")//mission[@id="' + params["mission_id"] + '"]' + "\n" +
-               'return update insert $newItem into $mission';
+    template = ERB.new <<-EOF
+let $newItem := <dialogitem speaker="<%= params["speaker"] %>"><%= params["text"] %></dialogitem>
+let $mission := doc("game.xml")//mission[@id="<%= params["mission_id"] %>"]
+return update insert $newItem into $mission
+EOF
+
+    @command = template.result(binding)
 
   end
 end
