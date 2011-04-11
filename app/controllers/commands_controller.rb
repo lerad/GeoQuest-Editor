@@ -1,4 +1,5 @@
 require 'commands/command'
+require 'commands/common_commands'
 require 'commands/hotspot_commands'
 require 'commands/npctalk_commands'
 
@@ -21,6 +22,12 @@ class CommandsController < ApplicationController
         cmd = MoveDialogEntryUpCommand.new(params)
       when "MoveDialogEntryDownCommand"
         cmd = MoveDialogEntryDownCommand.new(params)
+      when "AddXmlNodeToMission"
+        cmd = AddXmlNodeToMission.new(params)
+      when "UpdateXmlNodeContentInMission"
+        cmd = UpdateXmlNodeContentInMission.new(params)
+      when "DeleteXmlNodeFromMission"
+        cmd = DeleteXmlNodeFromMission.new(params)
       else
         logger.warn "Unsupported command: " + params[:command]
     end

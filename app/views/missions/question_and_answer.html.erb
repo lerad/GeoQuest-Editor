@@ -2,10 +2,23 @@
 
 <%= render 'shared/mission_navigation' %>
 <%= render 'shared/editor_control' %>
-<!--
+
+<%= javascript_include_tag "jquery-1.4.4"  %>
+<%= javascript_include_tag "commands/command" %>
+<%= javascript_include_tag "commands/question_and_answer" %>
+<%= javascript_include_tag "views/question_and_answer" %>
+
+<!-- TODO:
 questions="3"
 correctAnswersNeeded="0"
 -->
+
+<script language="javascript" type="text/javascript">
+var mission_id = "<%= @mission.attributes['id'] %>";
+var project_id = "<%= @project.id %>";
+</script>
+
+
 Shuffle Questions:
 <input type="checkbox" <%=
  if @mission.attributes['shuffle'] == "true"
@@ -14,52 +27,70 @@ Shuffle Questions:
 %> id="shuffle"/> <br />
 
 <%
-@intro = ""
-@outroSuccess = ""
-@outroFail = ""
+@introNode = XPath.first(@mission, "./intro")
+@intro = @introNode.text unless @introNode.nil?
 
-introNode = XPath.first(@mission, "./intro")
-@intro = introNode.text unless introNode.nil?
+@outroSuccessNode = XPath.first(@mission, "./outroSuccess")
+@outroSuccess = @outroSuccessNode.text unless @outroSuccessNode.nil?
 
-outroSuccessNode = XPath.first(@mission, "./outroSuccess")
-@outroSuccess = outroSuccessNode.text unless outroSuccessNode.nil?
-
-outroFailNode = XPath.first(@mission, "./outroFail")
-@outroFail = outroFailNode.text unless outroFailNode.nil?
+@outroFailNode = XPath.first(@mission, "./outroFail")
+@outroFail = @outroFailNode.text unless @outroFailNode.nil?
 
 %>
 
 <table>
   <tr>
     <td>Intro</td>
-    <td>
-      <textarea cols="30" rows="3"  id="intro"><%= @intro %></textarea>
+ <% if @introNode.nil? %>
+    <td id="introPlace">  <input type="button" value="Add Intro" onclick="addIntro()" /> </td>
+    <td id="introButtonPlace"></td>
+ <% else %>
+    <td id="introPlace">
+        <textarea cols="30" rows="3"  id="intro"><%= @intro %></textarea>
     </td>
-    <td>
-      <input type="button" value="Intro aktualisieren" />
+    <td id="introButtonPlace">
+      <input type="button" value="Intro aktualisieren" onclick="updateIntro()"/> <br />
+      <input type="button" value="Intro löschen" onclick="deleteIntro()" />
     </td>
-  </tr>
+ <% end %>
+</tr>
 
 
   <tr>
     <td>Outro (Success)</td>
-    <td>
-      <textarea cols="30" rows="3"  id="outroSuccess"><%= @outroSuccess %></textarea>
+ <% if @outroSuccessNode.nil? %>
+    <td id="outroSuccessPlace">  <input type="button" value="Add Outro (Success)" onclick="addOutroSuccess()" /> </td>
+    <td id="outroSuccessButtonPlace"></td>
+ <% else %>
+    <td id="outroSuccessPlace">
+        <textarea cols="30" rows="3"  id="outroSuccess"><%= @outroSuccess %></textarea>
     </td>
-    <td>
-      <input type="button" value="Outro (Success) aktualisieren" /> <br />
+    <td id="outroSuccessButtonPlace">
+      <input type="button" value="Outro (Success) aktualisieren" onclick="updateOutroSuccess()"/><br />
+      <input type="button" value="Outro (Success) löschen" onclick="deleteOutroSuccess()" />
     </td>
-  </tr>
+ <% end %>
+</tr>
+
+
 
   <tr>
     <td>Outro (Fail)</td>
-    <td>
-      <textarea cols="30" rows="3"  id="outroFail"><%= @outroFail %></textarea>
+ <% if @outroFailNode.nil? %>
+    <td id="outroFailPlace">  <input type="button" value="Add Outro (Fail)" onclick="addOutroFail()" /> </td>
+    <td id="outroFailButtonPlace"></td>
+ <% else %>
+    <td id="outroFailPlace">
+        <textarea cols="30" rows="3"  id="outroFail"><%= @outroFail %></textarea>
     </td>
-    <td>
-      <input type="button" value="Outro (Fail) aktualisieren" /> <br />
+    <td id="outroFailButtonPlace">
+      <input type="button" value="Outro (Fail) aktualisieren" onclick="updateOutroFail()"/><br />
+      <input type="button" value="Outro (Fail) löschen" onclick="deleteOutroFail()" />
     </td>
-  </tr>
+ <% end %>
+</tr>
+
+
 
 </table>
 
