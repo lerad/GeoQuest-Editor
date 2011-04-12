@@ -26,3 +26,19 @@ class MoveHotspotCommand < Command
                '}'
   end
 end
+
+class DeleteHotspotCommand < Command
+    def initialize(params)
+    super(params)
+    @type = "DeleteHotspotCommand"
+
+    template = ERB.new <<-EOF
+let $mission := doc("game.xml")//mission[@id="<%= params["mission_id"] %>"]
+let $hotspot := $mission/hotspots/hotspot[@id="<%= params["id"] %>"]
+return update delete $hotspot
+EOF
+
+    @command = template.result(binding)
+
+  end
+end

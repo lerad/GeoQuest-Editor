@@ -21,3 +21,14 @@ function MoveHotspotCommand() {
 }
 
 MoveHotspotCommand.prototype = new Command();
+
+function DeleteHotspotCommand() {
+    this.setParameter("command", "DeleteHotspotCommand");
+
+    this.updateGui = function() {
+        var marker = getMarker(this.getParameter("id"));
+        marker.setMap(null);
+    }
+}
+
+DeleteHotspotCommand.prototype = new Command();s

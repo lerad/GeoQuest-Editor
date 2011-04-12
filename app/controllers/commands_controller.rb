@@ -28,6 +28,8 @@ class CommandsController < ApplicationController
         cmd = UpdateXmlNodeContentInMission.new(params)
       when "DeleteXmlNodeFromMission"
         cmd = DeleteXmlNodeFromMission.new(params)
+      when "DeleteHotspotCommand"
+        cmd = DeleteHotspotCommand.new(params)
       else
         logger.warn "Unsupported command: " + params[:command]
     end

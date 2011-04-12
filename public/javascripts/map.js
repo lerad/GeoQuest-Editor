@@ -1,11 +1,19 @@
 
 var map;
 var hotspotCreating = false;
+var hotspotDeleting = false;
+var markerList = new Array();
 
 function onMapClick(event) {
 
             if (hotspotCreating) {
                 var id = prompt("Marker id");
+
+                if(markerList[id] != null) {
+                    alert("Id is already given to another hotspot");
+                    return;
+                }
+
                 var lng = event.latLng.lng();
                 var lat = event.latLng.lat();
 
@@ -40,9 +48,22 @@ function initialize() {
 
 function createNewHotspot() {
     hotspotCreating = true;
+    hotspotDeleting = false; // If it is still active
+}
+
+function deleteHotspot() {
+    hotspotCreating = false;
+    hotspotDeleting = true; 
 }
 
 function addMarker(lat, lng, text) {
+
+    if(markerList[text] != null) {
+        alert("Error: Duplicate name: " + text);
+        return;
+    }
+
+
     var myLatlng = new google.maps.LatLng(lat,lng);
 
     var marker = new google.maps.Marker({
@@ -52,9 +73,21 @@ function addMarker(lat, lng, text) {
         draggable: true
     });
 
+    markerList[text] = marker;
+
     google.maps.event.addListener(marker, 'click', function() {
-        map.setCenter(myLatlng);
-        map.setZoom(15);
+        if(hotspotDeleting) {
+            hotspotDeleting = false;
+            var cmd = new DeleteHotspotCommand();
+            cmd.setParameter("id", marker.getTitle());
+            cmd.setParameter("project_id", project_id);
+            cmd.setParameter("mission_id", mission_id);
+            cmd.execute();
+        }
+        else {
+            map.setCenter(myLatlng);
+            map.setZoom(15);
+        }
     });
 
     google.maps.event.addListener(marker, "dragend", function() {
@@ -66,10 +99,11 @@ function addMarker(lat, lng, text) {
         cmd.execute();
     });
 
-
-    
 }
 
+function getMarker(id) {
+    return markerList[id];
+}
 
 
 
