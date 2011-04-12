@@ -19,8 +19,36 @@ function AddDialogEntryCommand() {
         var tdTextText = document.createTextNode(this.getParameter("text"));
         tdText.appendChild(tdTextText);
 
+        var tdRemove = $(document.createElement("td"))
+                       .attr("class", "npcTalkCell")
+                       .append($(document.createElement("input"))
+                              .attr("type", "button")
+                              .attr("value", "X")
+                              .attr("onclick", "deleteDialogEntry(this)")
+                            );
+
+        var tdUp = $(document.createElement("td"))
+                       .attr("class", "npcTalkCell")
+                       .append($(document.createElement("input"))
+                              .attr("type", "button")
+                              .attr("value", "^")
+                              .attr("onclick", "moveRowUp(this)")
+                            );
+
+        var tdDown = $(document.createElement("td"))
+                       .attr("class", "npcTalkCell")
+                       .append($(document.createElement("input"))
+                              .attr("type", "button")
+                              .attr("value", "v")
+                              .attr("onclick", "moveRowDown(this)")
+                            );
+
         newRow.appendChild(tdSpeaker);
         newRow.appendChild(tdText);
+        $(newRow).append(tdRemove);
+        $(newRow).append(tdUp);
+        $(newRow).append(tdDown);
+
 
     }
 }
