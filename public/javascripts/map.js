@@ -4,6 +4,8 @@ var hotspotCreating = false;
 var hotspotDeleting = false;
 var markerList = new Array();
 
+
+
 function onMapClick(event) {
 
             if (hotspotCreating) {
@@ -27,6 +29,7 @@ function onMapClick(event) {
                 cmd.execute();
             }
     }
+
 
 // this is called when the page loads.
 // it initializes the map, and creates each marker
@@ -54,6 +57,19 @@ function createNewHotspot() {
 function deleteHotspot() {
     hotspotCreating = false;
     hotspotDeleting = true; 
+}
+
+function addSubmission() {
+    var id = prompt("Mission id");
+    // TODO: Check if this id is used
+    var type = $('#subMissionType').val();
+
+    cmd = new AddSubmissionCommand();
+    cmd.setParameter("project_id", project_id);
+    cmd.setParameter("mission_id", mission_id);
+    cmd.setParameter("submission_id", id);
+    cmd.setParameter("submission_type", type);
+    cmd.execute();
 }
 
 function addMarker(lat, lng, text) {

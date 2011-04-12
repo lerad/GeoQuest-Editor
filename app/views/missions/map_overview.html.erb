@@ -1,7 +1,8 @@
-<%= javascript_include_tag "jquery-1.4.4"  %>
+<%= javascript_include_tag "jquery-1.5.2"  %>
 <%= javascript_include_tag "http://maps.google.com/maps/api/js?sensor=false" %>
 <%= javascript_include_tag "commands/command" %>
 <%= javascript_include_tag "commands/hotspots" %>
+<%= javascript_include_tag "commands/missions" %>
 <%= javascript_include_tag "map"  %>
 
 
@@ -15,6 +16,13 @@
   <br />
   <input type="button" value="Add Hotspot" onclick="createNewHotspot()" />
   <input type="button" value="Delete Hotspot" onclick="deleteHotspot()" />
+  <br />
+  <select id="subMissionType" name="subMissionType">
+    <option value="MapOverview">Map Overview</option>
+    <option value="NPCTalk">NPC Talk</option>
+    <option value="QuestionAndAnswer">Question and Answer</option>
+  </select>
+  <input type="button" value="Untermission hinzufügen" onclick="addSubmission()" />
 </div>
 
 

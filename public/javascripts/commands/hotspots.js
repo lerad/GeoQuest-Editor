@@ -31,4 +31,4 @@ function DeleteHotspotCommand() {
     }
 }
 
-DeleteHotspotCommand.prototype = new Command();s
+DeleteHotspotCommand.prototype = new Command();

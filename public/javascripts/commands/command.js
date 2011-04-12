@@ -16,6 +16,7 @@ function Command() {
         this.makeAjaxCall();
     }
 
+
     this.makeAjaxCall = function()  {
         // Create a string like
         // "id=[value]&latitude=[value]&longitude=[value]&command=[value]&"
@@ -30,5 +31,6 @@ function Command() {
         }
 
         jQuery.post("/commands/execute", parameter_string);
+              
     }
 }

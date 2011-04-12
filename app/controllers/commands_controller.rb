@@ -2,6 +2,7 @@ require 'commands/command'
 require 'commands/common_commands'
 require 'commands/hotspot_commands'
 require 'commands/npctalk_commands'
+require 'commands/mission_commands'
 
 class CommandsController < ApplicationController
 
@@ -30,6 +31,8 @@ class CommandsController < ApplicationController
         cmd = DeleteXmlNodeFromMission.new(params)
       when "DeleteHotspotCommand"
         cmd = DeleteHotspotCommand.new(params)
+      when "AddSubmissionCommand"
+        cmd = AddSubmissionCommand.new(params)
       else
         logger.warn "Unsupported command: " + params[:command]
     end
