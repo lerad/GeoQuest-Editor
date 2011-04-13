@@ -100,19 +100,19 @@ Shuffle Questions:
 <% @questions.each do |question| %>
   <tr class="questionRow"><td>
 <hr />
-<textarea cols="30" rows="4">
+<p>
 <%= XPath.first(question, "./questiontext").text %>
-</textarea> <br />
+</p> <br />
 
 <h4>Antworten</h4>
 <table class="answerTable">
   <tr><td>Antwort</td><td>Reaktion</td></tr>
 <% XPath.each(question, "./answer") do |answer| %>
   <tr>
-    <td>
+    <td class="answerCell">
       <%= answer.text %>
     </td>
-    <td>
+    <td class="answerCell">
       <%= answer.attributes['onChoose'] %>
     </td>
   </tr>

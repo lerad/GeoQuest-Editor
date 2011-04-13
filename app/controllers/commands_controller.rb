@@ -3,6 +3,7 @@ require 'commands/common_commands'
 require 'commands/hotspot_commands'
 require 'commands/npctalk_commands'
 require 'commands/mission_commands'
+require 'commands/question_commands'
 
 class CommandsController < ApplicationController
 
@@ -35,6 +36,10 @@ class CommandsController < ApplicationController
         cmd = AddSubmissionCommand.new(params)
       when "AddMissionCommand"
         cmd = AddMissionCommand.new(params)
+      when "AddQuestionCommand"
+        cmd = AddQuestionCommand.new(params)
+      when "AddAnswerCommand"
+        cmd = AddAnswerCommand.new(params)
       else
         logger.warn "Unsupported command: " + params[:command]
     end

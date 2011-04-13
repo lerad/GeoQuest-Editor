@@ -241,13 +241,12 @@ function AddQuestionCommand() {
         var newRow = $(document.createElement("tr"))
                        .attr("class", "questionRow");
         var newCell = $(document.createElement("td"));
-        var textArea = $(document.createElement("textarea"))
-                            .attr("cols", "30")
-                            .attr("rows", "4")
-                            .val(this.getParameter("text"));
+        var textArea = $(document.createElement("p"))
+                            .text(this.getParameter("text"));
 
         var answerTable = $(document.createElement("table"))
                             .attr("class", "answerTable");
+        answerTable.append($("<tr><td>Antwort</td><td>Reaktion</td></tr>"))
         var answerText = $(document.createElement("textarea"))
                             .attr("cols", "30")
                             .attr("rows", "4")
@@ -288,12 +287,17 @@ function AddAnswerCommand() {
     this.setParameter("command", "AddAnswerCommand");
 
     this.updateGui = function() {
-        var questionRow = $("#questionTable tr").eq(this.getParameter("question_index"));
+        var questionRow = $("#questionTable > tbody > tr").eq(this.getParameter("question_index"));
         var answerTable = questionRow.find("table.answerTable");
 
+
         var newRow = $(document.createElement("tr"));
-        var newAnswerTd = $(document.createElement("td")).text(this.getParameter("answer"));
-        var newOnChooseTd = $(document.createElement("td")).text(this.getParameter("on_choose"));
+        var newAnswerTd = $(document.createElement("td"))
+                          .text(this.getParameter("answer"))
+                          .attr("class", "answerCell");
+        var newOnChooseTd = $(document.createElement("td"))
+                          .text(this.getParameter("on_choose"))
+                          .attr("class", "answerCell");
         newRow.append(newAnswerTd)
               .append(newOnChooseTd);
         answerTable.append(newRow);

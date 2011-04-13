@@ -58,5 +58,11 @@
     font-size: 10pt;
     border-bottom-width: 1pt;
     border-bottom-style: solid;
-    
 }
+
+.answerCell {
+        font-size: 10pt;
+    border-bottom-width: 1pt;
+    border-bottom-style: solid;
+}
+
