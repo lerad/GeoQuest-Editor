@@ -1,23 +1,6 @@
 require 'commands/command'
 
 
-class AddSubmissionCommand < Command
-  def initialize(params)
-    super(params)
-    @type = "AddSubmissionCommand"
-
-    node = create_mission_entry(params["submission_type"], params["submission_id"])
-
-    template = ERB.new <<-EOF
-let $newMission := <%= node %>
-let $parentMission := doc("game.xml")//mission[@id="<%= params["mission_id"] %>"]
-return update insert $newMission into $parentMission
-EOF
-
-    @command = template.result(binding)
-
-  end
-
   def create_mission_entry(type, id)
     case type
     when "MapOverview"
@@ -52,6 +35,41 @@ EOF
 
     # TODO Error handling
   end
+  
+
+class AddSubmissionCommand < Command
+  def initialize(params)
+    super(params)
+    @type = "AddSubmissionCommand"
+
+    node = create_mission_entry(params["submission_type"], params["submission_id"])
+
+    template = ERB.new <<-EOF
+let $newMission := <%= node %>
+let $parentMission := doc("game.xml")//mission[@id="<%= params["mission_id"] %>"]
+return update insert $newMission into $parentMission
+EOF
+
+    @command = template.result(binding)
+
+  end
 
 end
 
+class AddMissionCommand < Command
+  def initialize(params)
+    super(params)
+    @type = "AddMissionCommand"
+
+    node = create_mission_entry(params["new_mission_type"], params["new_mission_id"])
+
+    template = ERB.new <<-EOF
+let $newMission := <%= node %>
+return update insert $newMission into doc("game.xml")/game
+EOF
+
+    @command = template.result(binding)
+
+  end
+
+end

@@ -3,6 +3,11 @@
 <%= render 'shared/mission_navigation' %>
 <%= render 'shared/editor_control' %>
 
+<script>
+var project_id = "<%= @project.id %>";
+</script>
+
+
 <div class="content">
    Id: <%= @mission.attributes['id'] %> <br />
    Type: <%= @mission.attributes['type'] %>

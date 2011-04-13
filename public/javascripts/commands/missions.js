@@ -10,3 +10,16 @@ function AddSubmissionCommand() {
 }
 
 AddSubmissionCommand.prototype = new Command();
+
+function AddMissionCommand() {
+
+    this.setParameter("command", "AddMissionCommand");
+
+    this.updateGui = function()  {
+        // Reload after 1 sec
+        setTimeout(function() {location.reload()}, 1000);
+    }
+
+}
+
+AddMissionCommand.prototype = new Command();

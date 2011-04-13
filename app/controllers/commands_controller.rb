@@ -33,6 +33,8 @@ class CommandsController < ApplicationController
         cmd = DeleteHotspotCommand.new(params)
       when "AddSubmissionCommand"
         cmd = AddSubmissionCommand.new(params)
+      when "AddMissionCommand"
+        cmd = AddMissionCommand.new(params)
       else
         logger.warn "Unsupported command: " + params[:command]
     end

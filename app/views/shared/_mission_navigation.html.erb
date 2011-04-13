@@ -1,5 +1,19 @@
+<%= javascript_include_tag 'shared/mission_list' %>
+<%= javascript_include_tag "commands/command" %>
+<%= javascript_include_tag "commands/missions" %>
+
 <div id="navigation">
   <h5> Projekt Navigation </h5>
 
 <%= render 'shared/mission_list' %>
+
+
+<br />
+  <select id="missionType" name="missionType">
+    <option value="MapOverview">Map Overview</option>
+    <option value="NPCTalk">NPC Talk</option>
+    <option value="QuestionAndAnswer">Question and Answer</option>
+  </select>
+  <input type="button" value="Mission hinzufügen" onclick="addMission()" />
+
 </div>

@@ -61,6 +61,8 @@ function deleteHotspot() {
 
 function addSubmission() {
     var id = prompt("Mission id");
+    if(id == '' || id == null) return;
+
     // TODO: Check if this id is used
     var type = $('#subMissionType').val();
 
