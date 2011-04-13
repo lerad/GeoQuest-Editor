@@ -95,24 +95,43 @@ Shuffle Questions:
 </table>
 
 <h3>Fragen</h3>
+<table id="questionTable">
 
 <% @questions.each do |question| %>
+  <tr class="questionRow"><td>
+<hr />
 <textarea cols="30" rows="4">
 <%= XPath.first(question, "./questiontext").text %>
 </textarea> <br />
 
-<table>
+<h4>Antworten</h4>
+<table class="answerTable">
   <tr><td>Antwort</td><td>Reaktion</td></tr>
 <% XPath.each(question, "./answer") do |answer| %>
   <tr>
     <td>
-      <textarea cols="30" rows="4"><%= answer.text %></textarea>
+      <%= answer.text %>
     </td>
     <td>
-      <textarea cols="30" rows="4"><%= answer.attributes['onChoose'] %></textarea>
+      <%= answer.attributes['onChoose'] %>
     </td>
   </tr>
 <% end %>
 </table>
-<hr />
+<p>Neue Antwort</p>
+<textarea class="newAnswerTextfield" cols="30" rows="4"></textarea>
+<p>Text, wenn diese Antwort gewählt wird</p>
+<textarea class="newOnChooseTextfield" cols="30" rows="4"></textarea>
+
+<input type="button" value="Antwort hinzufügen" onclick="addAnswer(this)" />
+
+</td>
+</tr>
 <% end %>
+</table>
+
+<hr />
+Neue Frage: <br />
+<textarea cols="30" rows="4" id="newQuestionText"></textarea>
+
+<input type="button" value="Neue Frage hinzufügen" onclick="addQuestion()"/>

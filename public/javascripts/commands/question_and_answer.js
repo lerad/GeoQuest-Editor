@@ -233,3 +233,72 @@ DeleteQuestionAndAnswerOutroFail.prototype = new Command();
 
 
 
+function AddQuestionCommand() {
+    this.setParameter("command", "AddQuestionCommand");
+
+    this.updateGui = function() {
+        var questionTable = $("#questionTable");
+        var newRow = $(document.createElement("tr"))
+                       .attr("class", "questionRow");
+        var newCell = $(document.createElement("td"));
+        var textArea = $(document.createElement("textarea"))
+                            .attr("cols", "30")
+                            .attr("rows", "4")
+                            .val(this.getParameter("text"));
+
+        var answerTable = $(document.createElement("table"))
+                            .attr("class", "answerTable");
+        var answerText = $(document.createElement("textarea"))
+                            .attr("cols", "30")
+                            .attr("rows", "4")
+                            .attr("class", "newAnswerTextfield");
+        var onChooseText = $(document.createElement("textarea"))
+                            .attr("cols", "30")
+                            .attr("rows", "4")
+                            .attr("class", "newOnChooseTextfield");
+
+
+        var answerButton = $(document.createElement("input"))
+                                .attr("type", "button")
+                                .attr("value", "Antwort hinzufügen")
+                                .attr("onclick","addAnswer(this)");
+        newCell.append($(document.createElement("hr")));
+        newCell.append(textArea);
+        newCell.append($(document.createElement("br")));
+        newCell.append($(document.createElement("h4"))
+                            .text("Antworten"));
+        newCell.append(answerTable);
+        newCell.append($(document.createElement("p")).text("Neue Antwort"));
+        newCell.append(answerText);
+        newCell.append($(document.createElement("p")).text("Text, wenn diese Antwort gewählt wird"));
+        newCell.append(onChooseText);
+        newCell.append(answerButton);
+
+        newRow.append(newCell);
+        questionTable.append(newRow);
+
+
+    }
+}
+
+AddQuestionCommand.prototype = new Command();
+
+
+function AddAnswerCommand() {
+    this.setParameter("command", "AddAnswerCommand");
+
+    this.updateGui = function() {
+        var questionRow = $("#questionTable tr").eq(this.getParameter("question_index"));
+        var answerTable = questionRow.find("table.answerTable");
+
+        var newRow = $(document.createElement("tr"));
+        var newAnswerTd = $(document.createElement("td")).text(this.getParameter("answer"));
+        var newOnChooseTd = $(document.createElement("td")).text(this.getParameter("on_choose"));
+        newRow.append(newAnswerTd)
+              .append(newOnChooseTd);
+        answerTable.append(newRow);
+
+    }
+}
+
+AddAnswerCommand.prototype = new Command();

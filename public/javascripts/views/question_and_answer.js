@@ -73,3 +73,25 @@ function deleteOutroFail() {
   }
 }
 
+function addQuestion() {
+ cmd = new AddQuestionCommand();
+ cmd.setParameter("mission_id", mission_id);
+ cmd.setParameter("project_id", project_id);
+ cmd.setParameter("text", $("#newQuestionText").val());
+ cmd.execute();
+}
+
+function addAnswer(button) {
+ var row = $(button).parents(".questionRow");
+ var question_index = row.attr("rowIndex");
+ var onChoose = row.find(".newOnChooseTextfield").val();
+ var answer = row.find(".newAnswerTextfield").val();
+
+ var cmd = new AddAnswerCommand();
+ cmd.setParameter("mission_id", mission_id);
+ cmd.setParameter("project_id", project_id);
+ cmd.setParameter("question_index", question_index);
+ cmd.setParameter("answer", answer);
+ cmd.setParameter("on_choose", onChoose);
+ cmd.execute();
+}
