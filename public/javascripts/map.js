@@ -25,6 +25,7 @@ function onMapClick(event) {
                 cmd.setParameter("latitude", lat);
                 cmd.setParameter("longitude", lng);
                 cmd.setParameter("id", id);
+                cmd.setParameter("mission_id", mission_id);
                 cmd.setParameter("project_id", project_id);
                 cmd.execute();
             }
@@ -114,6 +115,7 @@ function addMarker(lat, lng, text) {
         cmd.setParameter("latitude", marker.getPosition().lat());
         cmd.setParameter("longitude", marker.getPosition().lng());
         cmd.setParameter("project_id", project_id);
+        cmd.setParameter("mission_id", mission_id);
         cmd.execute();
     });
 

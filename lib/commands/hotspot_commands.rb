@@ -5,13 +5,18 @@ class AddHotspotCommand < Command
     super(params)
     @type = "AddHotspotCommand"
 
-    @command = 'let $newHotspot := <hotspot id="' + params["id"] + '" latitude="' + params["latitude"] + "\"\n" +
-               'longitude="' + params["longitude"] + '" radius="30">' + "\n" +
-               '<img src="drawable/default.png"/>' + "\n" +
-               '</hotspot>' + "\n" +
-               'let $hotspots := doc("game.xml")//mission[@id = "1"]/hotspots' + "\n" +
-               'return update insert $newHotspot into $hotspots'
+    template = ERB.new <<-EOF
+let $newHotspot := <hotspot id="<%= params["id"] %>" 
+         latitude="<%= params["latitude"] %>" 
+         longitude="<%= params["longitude"] %>" 
+         radius="30">
+           <img src="drawable/default.png"/>
+        </hotspot>
+let $hotspots := doc("game.xml")//mission[@id = "<%= params["mission_id"] %>"]/hotspots
+return update insert $newHotspot into $hotspots
+EOF
 
+@command = template.result(binding)
   end
 end
 
@@ -20,10 +25,16 @@ class MoveHotspotCommand < Command
     super(params)
     @type = "MoveHotspotCommand"
 
-    @command = '(# exist:batch-transaction #) {' + "\n" +
-               'update value doc("game.xml")/game/mission[@id = "1"]/hotspots/hotspot[@id = "' + params["id"] + '"]/@latitude with ' + params["latitude"] + ',' + "\n" +
-               'update value doc("game.xml")/game/mission[@id = "1"]/hotspots/hotspot[@id = "' + params["id"] + '"]/@longitude with ' + params["longitude"] + "\n" +
-               '}'
+    template = ERB.new <<-EOF
+let $mission := doc("game.xml")/game/mission[@id = "<%= params["mission_id"] %>"]
+let $hotspot := $mission/hotspots/hotspot[@id = "<%= params["id"] %>"]
+return (# exist:batch-transaction #) {
+  update value $hotspot/@latitude with "<%= params["latitude"] %>",
+  update value $hotspot/@longitude with "<%= params["longitude"] %>"
+}
+EOF
+
+    @command = template.result(binding)
   end
 end
 
