@@ -60,7 +60,9 @@ function moveRowDown(button) {
   var tr = td.parentNode; // Row to which the button belongs
   var index = tr.rowIndex;
   var table = document.getElementById('npcTalkTable');
-  var lastIndex = table.rows.length-1;  // The last row contains the form for adding a new row
+  // -1 because javascript starts at 0 with counting
+  // -1 because the last row contains the form for adding new entries
+  var lastIndex = table.rows.length-2;
 
   if(index == lastIndex)
     return; // Row is at the bottom
