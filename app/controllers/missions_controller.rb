@@ -34,6 +34,7 @@ class MissionsController < ApplicationController
     render 'question_and_answer' if (mission_type == 'QuestionAndAnswer')
     render 'npc_talk' if (mission_type == 'NPCTalk')
     render 'map_overview' if (mission_type == 'MapOverview')
+    render 'start_and_exit_screen' if (mission_type == 'StartAndExitScreen')
 
   end
 

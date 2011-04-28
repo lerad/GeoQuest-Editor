@@ -1,0 +1,60 @@
+<%= render 'shared/header' %>
+
+<%= render 'shared/mission_navigation' %>
+<%= render 'shared/editor_control' %>
+
+<%= javascript_include_tag 'jquery-1.5.2'  %>
+<%= javascript_include_tag 'jquery.jmpopups-0.5.1' %>
+
+<h4>Start screen</h4>
+
+<script type="text/javascript">
+
+var mission_id = "<%= @mission.attributes['id'] %>";
+var project_id = "<%= @project.id %>";
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+
+$("#changeStartscreenButton").click(function() {
+  $.openPopupLayer({
+	name: "imagePopup",
+	width: 550,
+	target: "imagePopupDiv"
+});
+			
+
+});
+
+});
+</script>
+
+<style type="text/css">
+  .hiddenDiv {display:none;}
+  .popup {background:#FFF; border:1px solid #333; padding:1px;}
+  .popup-header {height:24px; padding:7px; }
+  .popup-header h2 {margin:0; padding:0; font-size:18px; float:left;}
+  .popup-header .close-link {float:right; font-size:11px;}
+  .popup-body {padding:10px;}
+</style>
+
+<img alt="Startscreen" src="/projects/<%= @project.id%>/<%= @mission.attributes['image'] %>" />
+
+<br />
+
+<input type="button" value="Change image" id="changeStartscreenButton" />
+
+<div class="hiddenDiv" id="imagePopupDiv">
+  <div class="popup">
+    <div class="popup-header">
+      <h2>Select image</h2>
+      <a href="javascript:;" onclick="$.closePopupLayer('imagePopup')" title="Close" class="close-link">Close</a>
+      <br clear="all" />
+    </div>
+
+    <div class="popup-body">
+      TODO: Insert image selection here
+    </div>
+  </div>
+</div>
