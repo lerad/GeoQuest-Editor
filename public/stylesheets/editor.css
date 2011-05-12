@@ -1,27 +1,39 @@
 .content {
     vertical-align: top;
-    margin: 40px;
+    margin-left: 220pt; /* to the left side, cmp #navigation */
+    margin-right: 190pt;
+    margin-top: 40pt;
+    width: auto;
+
 }
 
 #control {
-    float: right;
+    position: absolute;
+    right: 20pt;
+    top : 120pt;
     border-style: dotted;
-    margin-left: 20pt;
     width: 150pt;
     height: 450pt;
 }
 
+body {
+  padding: 0px;
+  margin: 0px;
+}
+
 #caption {
+    height: 120pt;
     color: black;
     text-decoration: none;
     margin-left: 40px;
 }
 
 #navigation {
+    position: absolute;
+    left: 20pt;
+    top: 120pt;
     border-style: dotted;
     width: 180pt;
-    float: left;
-    margin-right: 20pt;
     height: 450pt;
 }
 

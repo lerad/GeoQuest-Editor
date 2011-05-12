@@ -12,6 +12,11 @@ function Command() {
     }
 
     this.execute = function() {
+
+        if(this.preExecute) {
+            this.preExecute();
+        }
+
         this.updateGui();
         this.makeAjaxCall();
     }

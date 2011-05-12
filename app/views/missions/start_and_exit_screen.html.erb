@@ -5,8 +5,14 @@
 
 <%= javascript_include_tag 'jquery-1.5.2'  %>
 <%= javascript_include_tag 'jquery.jmpopups-0.5.1' %>
+<%= javascript_include_tag 'jquery.jstree' %>
+<%= javascript_include_tag 'jquery.fileTree' %>
+<%= javascript_include_tag 'jquery-ui-1.8.12.custom.min' %>
+<%= javascript_include_tag 'commands/command' %>
+<%= javascript_include_tag 'commands/start_and_exit_screen' %>
 
-<h4>Start screen</h4>
+<%= stylesheet_link_tag 'jqueryFileTree'  %>
+<%= stylesheet_link_tag 'jquery-ui-1.8.12.custom' %>
 
 <script type="text/javascript">
 
@@ -14,47 +20,86 @@ var mission_id = "<%= @mission.attributes['id'] %>";
 var project_id = "<%= @project.id %>";
 </script>
 
-<script type="text/javascript">
-$(document).ready(function() {
+<style>
+.file-tree {
+    float: left;
+    width: 130pt;
+}
+.preview {
+  float: left;
+  margin-left: 20pt;
+}
+</style>
 
-$("#changeStartscreenButton").click(function() {
-  $.openPopupLayer({
-	name: "imagePopup",
-	width: 550,
-	target: "imagePopupDiv"
-});
-			
+<script>
 
-});
+  var selectedImage = "";
 
+  $(document).ready(function() {
+	var $dialog = $('<div></div>')
+		.html('<div class="file-tree" id="fileTree"></div>' +
+                      '<div class="preview"><p>Preview:</p>' +
+                      '<image id="imagePreview" src="/images/empty.gif" /> <br />' +
+                      '<input type="button" value="Select File" id="selectFileButton" /></div>')
+		.dialog({
+			autoOpen: false,
+			title: 'Select image',
+                        width: 600,
+                        height: 400
+		});
+        
+   $('#fileTree').fileTree({
+        root: 'drawable/',
+        script: '/ajax/show_dir',
+        projectId: project_id,
+        expandSpeed: 300,
+        collapseSpeed: 300,
+        multiFolder: true
+    }, function(file) {
+         // Debug:
+         // alert("/projects/" + project_id + file);
+        $("#imagePreview").attr("src", "/projects/" + project_id + "/" + file);
+        selectedImage = file;
+    });
+
+   $('#selectFileButton').click(function() {
+     if (selectedImage == "") {
+       alert("Please select an image");
+     }
+     else {
+      $dialog.dialog('close');
+      var cmd = new UpdateStartScreenImageCommand();
+      cmd.setParameter("mission_id", mission_id);
+      cmd.setParameter("project_id", project_id);
+      cmd.setParameter("image", selectedImage);
+      cmd.execute();
+     }
+   });
+
+
+	$('#changeStartscreenButton').click(function() {
+		selectedImage = "";
+                $("#imagePreview").attr("src","/images/empty.gif");
+                $dialog.dialog('open');
+		// prevent the default action, e.g., following a link
+		return false;
+	});
 });
 </script>
 
-<style type="text/css">
-  .hiddenDiv {display:none;}
-  .popup {background:#FFF; border:1px solid #333; padding:1px;}
-  .popup-header {height:24px; padding:7px; }
-  .popup-header h2 {margin:0; padding:0; font-size:18px; float:left;}
-  .popup-header .close-link {float:right; font-size:11px;}
-  .popup-body {padding:10px;}
-</style>
 
-<img alt="Startscreen" src="/projects/<%= @project.id%>/<%= @mission.attributes['image'] %>" />
+
+
+<div class="content">
+
+  <h4>Start screen</h4>
+
+
+<img id="startScreenImage" alt="Startscreen" src="/projects/<%= @project.id%>/<%= @mission.attributes['image'] %>" />
 
 <br />
 
 <input type="button" value="Change image" id="changeStartscreenButton" />
 
-<div class="hiddenDiv" id="imagePopupDiv">
-  <div class="popup">
-    <div class="popup-header">
-      <h2>Select image</h2>
-      <a href="javascript:;" onclick="$.closePopupLayer('imagePopup')" title="Close" class="close-link">Close</a>
-      <br clear="all" />
-    </div>
 
-    <div class="popup-body">
-      TODO: Insert image selection here
-    </div>
-  </div>
 </div>

@@ -7,7 +7,10 @@ GeoquestEditor::Application.routes.draw do
     resources :missions
   end
 
-  match '/commands/execute' => "commands#execute", :as => "commands/execute"
+  match '/commands/execute' => "commands#execute", :as => "commands/execute" #Rework as /ajax/execute ?
+  match '/ajax/query' => "query#execute", :as => "ajax/query"
+  match '/ajax/show_dir' => "query#show_dir", :as => "ajax/show_dir"
+
   match '/login' => "sessions#new", :as => "login"
   match '/logout' => "sessions#destroy", :as => "logout"
 
