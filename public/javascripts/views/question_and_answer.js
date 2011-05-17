@@ -95,3 +95,68 @@ function addAnswer(button) {
  cmd.setParameter("on_choose", onChoose);
  cmd.execute();
 }
+
+
+function editQuestionText(value, settings) {
+
+    // Current open question:
+    var question_index = $('#accordion').accordion('option', 'active');
+
+    var cmd = new UpdateQuestionTextCommand();
+    cmd.setParameter("mission_id", mission_id);
+    cmd.setParameter("project_id", project_id);
+    cmd.setParameter("question_index", question_index);
+    cmd.setParameter("value", value);
+    cmd.execute();
+
+    return value ;
+}
+
+
+
+function editAnswerText(value, settings) {
+    // Current open question:
+    var question_index = $('#accordion').accordion('option', 'active');
+
+
+    // Determine index of the modified answer:
+    var active = $('#accordion').accordion('option', 'active');
+    var row = $(this).parents("tr").eq(0);
+    var tbody = row.parent("tbody");
+    var answer = tbody.children().index(row);
+    answer -= 1; // Header row
+
+    var cmd = new UpdateAnswerTextCommand();
+    cmd.setParameter("mission_id", mission_id);
+    cmd.setParameter("project_id", project_id);
+    cmd.setParameter("value", value);
+    cmd.setParameter("answer_index", answer);
+    cmd.setParameter("question_index", question_index);
+    cmd.execute();
+
+    return value ;
+}
+
+
+function editOnChooseText(value, settings) {
+
+    // Current open question:
+    var question_index = $('#accordion').accordion('option', 'active');
+
+    // Determine index of the modified answer:
+    var active = $('#accordion').accordion('option', 'active');
+    var row = $(this).parents("tr").eq(0);
+    var tbody = row.parent("tbody");
+    var answer = tbody.children().index(row);
+    answer -= 1; // Header row
+
+    var cmd = new UpdateAnswerOnChooseTextCommand();
+    cmd.setParameter("mission_id", mission_id);
+    cmd.setParameter("project_id", project_id);
+    cmd.setParameter("value", value);
+    cmd.setParameter("answer_index", answer);
+    cmd.setParameter("question_index", question_index);
+    cmd.execute();
+
+    return value ;
+}

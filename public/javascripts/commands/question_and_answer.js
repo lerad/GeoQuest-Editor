@@ -231,12 +231,91 @@ function DeleteQuestionAndAnswerOutroFail() {
 
 DeleteQuestionAndAnswerOutroFail.prototype = new Command();
 
+function UpdateAnswerTextCommand() {
+    this.setParameter("command", "UpdateAnswerTextCommand");
+
+    this.updateGui = function()  { }
+    this.preExecute = function() {
+        var answer_index = this.getParameter("answer_index");
+        this.setParameter("xquery_answer_index", answer_index + 1);
+        var question_index = this.getParameter("question_index");
+        this.setParameter("xquery_question_index", question_index + 1);
+    }
+}
+
+UpdateAnswerTextCommand.prototype = new Command();
+
+
+function UpdateAnswerOnChooseTextCommand() {
+    this.setParameter("command", "UpdateAnswerOnChooseTextCommand");
+
+    this.updateGui = function()  { }
+    this.preExecute = function() {
+        var answer_index = this.getParameter("answer_index");
+        this.setParameter("xquery_answer_index", answer_index + 1);
+        var question_index = this.getParameter("question_index");
+        this.setParameter("xquery_question_index", question_index + 1);
+    }
+}
+
+UpdateAnswerOnChooseTextCommand.prototype = new Command();
+
+
 
 
 function AddQuestionCommand() {
     this.setParameter("command", "AddQuestionCommand");
 
     this.updateGui = function() {
+
+
+        /*
+         * <div id="accordion">
+<% @questions.each do |question| %>
+<h3><a href="#"><%= XPath.first(question, "./questiontext").text %></a></h3>
+<div>
+
+  Frage: <div class="editable"><%= XPath.first(question, "./questiontext").text %></div> <br />
+  <br />
+
+  <table class="answerTable">
+  <tr><td>Antwort</td><td>Reaktion</td></tr>
+<% XPath.each(question, "./answer") do |answer| %>
+  <tr>
+    <td class="answerCell">
+      <%= answer.text %>
+    </td>
+    <td class="answerCell">
+      <%= answer.attributes['onChoose'] %>
+    </td>
+  </tr>
+<% end %>
+</table>
+<p>Neue Antwort</p>
+<textarea class="newAnswerTextfield" cols="30" rows="4"></textarea>
+<p>Text, wenn diese Antwort gewählt wird</p>
+<textarea class="newOnChooseTextfield" cols="30" rows="4"></textarea>
+
+<br />
+
+<input type="button" value="Antwort hinzufügen" onclick="addAnswer(this)" />
+         */
+
+            //save state
+            var state = $("#accordion").accordion( "option", "active" );
+            //add accordion item, destroy then re-create
+            $("#accordion").append("<h3><a href='#'>Hohoho</a></h3><div/>").accordion("destroy").accordion();
+            //set state
+            $("#accordion").accordion( "option", "active", state );
+
+            // TODODODODO!
+         // $(".accordion").add('<h3><a href="#">Test</a></h3><div>Oho</div>');
+
+/*
+
+
+
+
         var questionTable = $("#questionTable");
         var newRow = $(document.createElement("tr"))
                        .attr("class", "questionRow");
@@ -275,7 +354,7 @@ function AddQuestionCommand() {
 
         newRow.append(newCell);
         questionTable.append(newRow);
-
+*/
 
     }
 }

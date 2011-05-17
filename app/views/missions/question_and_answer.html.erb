@@ -27,23 +27,11 @@ $(function() {
 });
 
 $(document).ready(function() {
-     $('.editable').editable(function(value, settings) {
-
-     // Current open question:
-    var active = $('#accordion').accordion('option', 'active');
-
-      var cmd = new UpdateQuestionTextCommand();
-      cmd.setParameter("mission_id", mission_id);
-      cmd.setParameter("project_id", project_id);
-      cmd.setParameter("question_index", active);
-      cmd.setParameter("value", value);
-      cmd.execute();
-
-     return value ;
-  }, {
-     type    : 'text'
- });
+  $('.editable-question').editable(editQuestionText, {type: 'text'} );
+  $('.editable-answer').editable(editAnswerText, { type: 'text'});
+  $('.editable-onchoose').editable(editOnChooseText, {type : 'text'});
 });
+
 
 </script>
 
@@ -129,7 +117,7 @@ Shuffle Questions:
 <h3><a href="#"><%= XPath.first(question, "./questiontext").text %></a></h3>
 <div>
 
-  Frage: <div class="editable"><%= XPath.first(question, "./questiontext").text %></div> <br />
+  Frage: <div class="editable-question"><%= XPath.first(question, "./questiontext").text %></div> <br />
   <br />
 
   <table class="answerTable">
@@ -137,10 +125,10 @@ Shuffle Questions:
 <% XPath.each(question, "./answer") do |answer| %>
   <tr>
     <td class="answerCell">
-      <%= answer.text %>
+      <div class="editable-answer"> <%= answer.text %></div>
     </td>
     <td class="answerCell">
-      <%= answer.attributes['onChoose'] %>
+      <div class="editable-onchoose"> <%= answer.attributes['onChoose'] %></div>
     </td>
   </tr>
 <% end %>

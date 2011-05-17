@@ -58,3 +58,33 @@ EOF
   end
 end
 
+
+class UpdateAnswerTextCommand < Command
+  def initialize(params)
+    super(params)
+    @type = "UpdateAnswerTextCommand"
+
+    template = ERB.new <<-EOF
+let $node := doc("game.xml")//mission[@id="<%= params["mission_id"] %>"]/question[<%= params[:xquery_question_index] %>]/answer[<%= params[:xquery_answer_index] %>]
+return  update value $node with "<%= params["value"] %>"
+EOF
+
+    @command = template.result(binding)
+
+  end
+end
+
+class UpdateAnswerOnChooseTextCommand < Command
+  def initialize(params)
+    super(params)
+    @type = "UpdateAnswerOnChooseTextCommand"
+
+    template = ERB.new <<-EOF
+let $node := doc("game.xml")//mission[@id="<%= params["mission_id"] %>"]/question[<%= params[:xquery_question_index] %>]/answer[<%= params[:xquery_answer_index] %>]
+return  update value $node/@onChoose with "<%= params["value"] %>"
+EOF
+
+    @command = template.result(binding)
+
+  end
+end
