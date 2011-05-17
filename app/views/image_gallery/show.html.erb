@@ -3,27 +3,11 @@
 <%= render 'shared/mission_navigation' %>
 <%= render 'shared/editor_control' %>
 
-<%= javascript_include_tag 'jquery-1.5.2'  %>
-<%= javascript_include_tag 'jquery.form' %>
+<%= javascript_include_tag 'jquery/jquery'  %>
+<%= javascript_include_tag 'jquery/jquery.form' %>
 
 <div class="content">
 <h1>Image Gallery</h1>
-
-<!--
-<script type="text/javascript">
-$(document).ready(function() { 
-   var options = {
-
-   };
-
-   $('#fileUploadForm').submit(function() {
-        $(this).ajaxSubmit(options);
-        return false;
-    });
-
-});
-</script>
--->
 
 <form id="fileUploadForm" method="post"
                           action="/projects/<%= @project.id %>/uploadFile"

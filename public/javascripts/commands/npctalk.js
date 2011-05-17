@@ -22,7 +22,8 @@ function AddDialogEntryCommand() {
         var tdRemove = $(document.createElement("td"))
                        .attr("class", "npcTalkCell")
                        .append($(document.createElement("input"))
-                              .attr("type", "button")
+                              .attr("type", "image")
+                              .attr("src", "/images/delete.png")
                               .attr("value", "X")
                               .attr("onclick", "deleteDialogEntry(this)")
                             );
@@ -30,7 +31,8 @@ function AddDialogEntryCommand() {
         var tdUp = $(document.createElement("td"))
                        .attr("class", "npcTalkCell")
                        .append($(document.createElement("input"))
-                              .attr("type", "button")
+                              .attr("type", "image")
+                              .attr("src", "/images/up.png")
                               .attr("value", "^")
                               .attr("onclick", "moveRowUp(this)")
                             );
@@ -38,7 +40,8 @@ function AddDialogEntryCommand() {
         var tdDown = $(document.createElement("td"))
                        .attr("class", "npcTalkCell")
                        .append($(document.createElement("input"))
-                              .attr("type", "button")
+                              .attr("type", "image")
+                              .attr("src", "/images/down.png")
                               .attr("value", "v")
                               .attr("onclick", "moveRowDown(this)")
                             );
