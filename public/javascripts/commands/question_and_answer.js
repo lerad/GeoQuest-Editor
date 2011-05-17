@@ -268,93 +268,54 @@ function AddQuestionCommand() {
 
     this.updateGui = function() {
 
-
-        /*
-         * <div id="accordion">
-<% @questions.each do |question| %>
-<h3><a href="#"><%= XPath.first(question, "./questiontext").text %></a></h3>
+/*<h3><a href="#">test</a></h3>
 <div>
 
-  Frage: <div class="editable"><%= XPath.first(question, "./questiontext").text %></div> <br />
+  Frage: <div class="editable-question">test</div> <br />
+
   <br />
 
   <table class="answerTable">
   <tr><td>Antwort</td><td>Reaktion</td></tr>
-<% XPath.each(question, "./answer") do |answer| %>
-  <tr>
-    <td class="answerCell">
-      <%= answer.text %>
-    </td>
-    <td class="answerCell">
-      <%= answer.attributes['onChoose'] %>
-    </td>
-  </tr>
-<% end %>
 </table>
 <p>Neue Antwort</p>
 <textarea class="newAnswerTextfield" cols="30" rows="4"></textarea>
+
 <p>Text, wenn diese Antwort gewählt wird</p>
 <textarea class="newOnChooseTextfield" cols="30" rows="4"></textarea>
 
 <br />
 
 <input type="button" value="Antwort hinzufügen" onclick="addAnswer(this)" />
-         */
-
-            //save state
-            var state = $("#accordion").accordion( "option", "active" );
-            //add accordion item, destroy then re-create
-            $("#accordion").append("<h3><a href='#'>Hohoho</a></h3><div/>").accordion("destroy").accordion();
-            //set state
-            $("#accordion").accordion( "option", "active", state );
-
-            // TODODODODO!
-         // $(".accordion").add('<h3><a href="#">Test</a></h3><div>Oho</div>');
-
-/*
-
-
-
-
-        var questionTable = $("#questionTable");
-        var newRow = $(document.createElement("tr"))
-                       .attr("class", "questionRow");
-        var newCell = $(document.createElement("td"));
-        var textArea = $(document.createElement("p"))
-                            .text(this.getParameter("text"));
-
-        var answerTable = $(document.createElement("table"))
-                            .attr("class", "answerTable");
-        answerTable.append($("<tr><td>Antwort</td><td>Reaktion</td></tr>"))
-        var answerText = $(document.createElement("textarea"))
-                            .attr("cols", "30")
-                            .attr("rows", "4")
-                            .attr("class", "newAnswerTextfield");
-        var onChooseText = $(document.createElement("textarea"))
-                            .attr("cols", "30")
-                            .attr("rows", "4")
-                            .attr("class", "newOnChooseTextfield");
-
-
-        var answerButton = $(document.createElement("input"))
-                                .attr("type", "button")
-                                .attr("value", "Antwort hinzufügen")
-                                .attr("onclick","addAnswer(this)");
-        newCell.append($(document.createElement("hr")));
-        newCell.append(textArea);
-        newCell.append($(document.createElement("br")));
-        newCell.append($(document.createElement("h4"))
-                            .text("Antworten"));
-        newCell.append(answerTable);
-        newCell.append($(document.createElement("p")).text("Neue Antwort"));
-        newCell.append(answerText);
-        newCell.append($(document.createElement("p")).text("Text, wenn diese Antwort gewählt wird"));
-        newCell.append(onChooseText);
-        newCell.append(answerButton);
-
-        newRow.append(newCell);
-        questionTable.append(newRow);
+</div>
 */
+
+        var newQuestionHtml = '\
+            <h3><a href="#">' + this.getParameter("text") +  '</a></h3> \
+            <div> \
+                Frage: <div class="editable-question">' + this.getParameter("text") + '</div> <br /> \
+                <br /> \
+                <table class="answerTable"> \
+                    <tr><td>Antwort</td><td>Reaktion</td></tr> \
+                </table> \
+                <p>Neue Antwort</p> \
+                <textarea class="newAnswerTextfield" cols="30" rows="4"></textarea> \
+                <p>Text, wenn diese Antwort gewählt wird</p> \
+                <textarea class="newOnChooseTextfield" cols="30" rows="4"></textarea> \
+                <br /> \
+                <input type="button" value="Antwort hinzufügen" onclick="addAnswer(this)" /> \
+            </div>';
+
+        //save state
+        var state = $("#accordion").accordion( "option", "active" );
+        //add accordion item, destroy then re-create
+        $("#accordion").append(newQuestionHtml).accordion("destroy").accordion();
+        //set state
+        $("#accordion").accordion( "option", "active", state );
+
+        $('.editable-question').editable("destroy")
+        $('.editable-question').editable(editQuestionText, { type: 'text'});
+
 
     }
 }
@@ -378,6 +339,11 @@ function AddAnswerCommand() {
         var newRow = $(newRowHtml)
 
         answerTable.append(newRow);
+
+        $('.editable-answer').editable("destroy")
+        $('.editable-answer').editable("destroy")
+        $('.editable-answer').editable(editAnswerText, { type: 'text'});
+        $('.editable-onchoose').editable(editOnChooseText, {type : 'text'});
 
     }
 }
