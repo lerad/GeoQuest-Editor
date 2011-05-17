@@ -23,19 +23,6 @@ var mission_id = "<%= @mission.attributes['id'] %>";
 var project_id = "<%= @project.id %>";
 </script>
 
-<script>
-$(function() {
-    $( "#accordion" ).accordion({collapsible: true, animated: false, active: false});
-});
-
-$(document).ready(function() {
-  $('.editable-question').editable(editQuestionText, {type: 'text'} );
-  $('.editable-answer').editable(editAnswerText, { type: 'text'});
-  $('.editable-onchoose').editable(editOnChooseText, {type : 'text'});
-});
-
-
-</script>
 
 <div class="content">
 

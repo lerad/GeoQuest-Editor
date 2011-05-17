@@ -286,12 +286,8 @@ function AddQuestionCommand() {
                 <input type="button" value="Antwort hinzufügen" onclick="addAnswer()" /> \
             </div>';
 
-        //save state
-        var state = $("#accordion").accordion( "option", "active" );
-        //add accordion item, destroy then re-create
-        $("#accordion").append(newQuestionHtml).accordion("destroy").accordion();
-        //set state
-        $("#accordion").accordion( "option", "active", state );
+
+        $("#accordion").append(newQuestionHtml).accordion("destroy").accordion({collapsible: true, animated: false, active: false});
 
         $('.editable-question').editable("destroy")
         $('.editable-question').editable(editQuestionText, { type: 'text'});

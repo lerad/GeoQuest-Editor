@@ -1,3 +1,15 @@
+$(document).ready(function() {
+    $( "#accordion" ).accordion({collapsible: true, animated: false, active: false});
+});
+
+$(document).ready(function() {
+  $('.editable-question').editable(editQuestionText, {type: 'text'} );
+  $('.editable-answer').editable(editAnswerText, { type: 'text'});
+  $('.editable-onchoose').editable(editOnChooseText, {type : 'text'});
+});
+
+
+
 function addIntro() {
   cmd = new AddQuestionAndAnswerIntro();
   cmd.setParameter("mission_id", mission_id);
