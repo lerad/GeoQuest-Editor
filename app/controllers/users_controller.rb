@@ -13,7 +13,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new (params[:user])
     if @user.save
-      redirect_to users_path, :notice => 'User successfully added.'
+      redirect_to login_path, :notice => 'User successfully added.'
     end
   end
 
@@ -21,6 +21,7 @@ class UsersController < ApplicationController
     @user = current_user
   end
 
+  # TODO: If there is something to modify for the user
   def update
     @user = current_user
     if @user.update_attributes(params[:user])

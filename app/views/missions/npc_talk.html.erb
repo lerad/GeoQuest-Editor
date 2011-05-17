@@ -90,13 +90,13 @@ function moveRowDown(button) {
        <td class="npcTalkCell npcTalkSpeakerCell"> <%= dialogitem.attributes['speaker'] %> </td>
        <td class="npcTalkCell"> <%= dialogitem.text %> </td>
        <td class="npcTalkCell"> 
-         <input type="button" value="X" onclick="deleteDialogEntry(this)" />
+         <input type="image" src="/images/delete.png" value="X" onclick="deleteDialogEntry(this)" />
        </td>
        <td class="npcTalkCell">
-         <input type="button" value="^" onclick="moveRowUp(this)" />
+         <input type="image" src="/images/up.png" value="^" onclick="moveRowUp(this)" />
        </td>
        <td class="npcTalkCell">
-         <input type="button" value="v" onclick="moveRowDown(this)" />
+         <input type="image" src="/images/down.png" value="v" onclick="moveRowDown(this)" />
        </td>
      </tr>
      <% end %>
