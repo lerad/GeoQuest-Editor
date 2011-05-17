@@ -23,7 +23,7 @@ var project_id = "<%= @project.id %>";
 
 <script>
 $(function() {
-    $( "#accordion" ).accordion({collapsible: true, animated: false});
+    $( "#accordion" ).accordion({collapsible: true, animated: false, active: false});
 });
 
 $(document).ready(function() {
@@ -118,6 +118,7 @@ Shuffle Questions:
 <div>
 
   Frage: <div class="editable-question"><%= XPath.first(question, "./questiontext").text %></div> <br />
+  <input type="button" onclick="deleteQuestion()" value="Frage löschen" />
   <br />
 
   <table class="answerTable">
@@ -140,7 +141,7 @@ Shuffle Questions:
 
 <br />
 
-<input type="button" value="Antwort hinzufügen" onclick="addAnswer(this)" />
+<input type="button" value="Antwort hinzufügen" onclick="addAnswer()" />
 </div>
 
 <% end %>

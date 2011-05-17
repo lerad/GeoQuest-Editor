@@ -268,32 +268,12 @@ function AddQuestionCommand() {
 
     this.updateGui = function() {
 
-/*<h3><a href="#">test</a></h3>
-<div>
 
-  Frage: <div class="editable-question">test</div> <br />
-
-  <br />
-
-  <table class="answerTable">
-  <tr><td>Antwort</td><td>Reaktion</td></tr>
-</table>
-<p>Neue Antwort</p>
-<textarea class="newAnswerTextfield" cols="30" rows="4"></textarea>
-
-<p>Text, wenn diese Antwort gewählt wird</p>
-<textarea class="newOnChooseTextfield" cols="30" rows="4"></textarea>
-
-<br />
-
-<input type="button" value="Antwort hinzufügen" onclick="addAnswer(this)" />
-</div>
-*/
-
-        var newQuestionHtml = '\
+     var newQuestionHtml = '\
             <h3><a href="#">' + this.getParameter("text") +  '</a></h3> \
             <div> \
                 Frage: <div class="editable-question">' + this.getParameter("text") + '</div> <br /> \
+                <input type="button" onclick="deleteQuestion()" value="Frage löschen" /> \
                 <br /> \
                 <table class="answerTable"> \
                     <tr><td>Antwort</td><td>Reaktion</td></tr> \
@@ -303,7 +283,7 @@ function AddQuestionCommand() {
                 <p>Text, wenn diese Antwort gewählt wird</p> \
                 <textarea class="newOnChooseTextfield" cols="30" rows="4"></textarea> \
                 <br /> \
-                <input type="button" value="Antwort hinzufügen" onclick="addAnswer(this)" /> \
+                <input type="button" value="Antwort hinzufügen" onclick="addAnswer()" /> \
             </div>';
 
         //save state
@@ -315,7 +295,6 @@ function AddQuestionCommand() {
 
         $('.editable-question').editable("destroy")
         $('.editable-question').editable(editQuestionText, { type: 'text'});
-
 
     }
 }
@@ -369,3 +348,23 @@ function UpdateQuestionTextCommand() {
 }
 
 UpdateQuestionTextCommand.prototype = new Command();
+
+
+
+
+function DeleteQuestionCommand() {
+    this.setParameter("command", "DeleteQuestionCommand");
+
+    this.updateGui = function() {
+          $("h3.ui-state-active").remove();
+          $("div.ui-accordion-content-active").remove();
+         $("#accordion").accordion("destroy").accordion();
+    }
+
+    this.preExecute = function() {
+        var index = this.getParameter("question_index");
+        this.setParameter("xquery_question_index", index + 1);
+    }
+}
+
+DeleteQuestionCommand.prototype = new Command();

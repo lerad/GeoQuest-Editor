@@ -88,3 +88,20 @@ EOF
 
   end
 end
+
+
+
+class DeleteQuestionCommand < Command
+  def initialize(params)
+    super(params)
+    @type = "DeleteQuestionCommand"
+
+    template = ERB.new <<-EOF
+let $node := doc("game.xml")//mission[@id="<%= params[:mission_id] %>"]/question[<%= params[:xquery_question_index] %>]
+return update delete $node
+EOF
+
+    @command = template.result(binding)
+
+  end
+end

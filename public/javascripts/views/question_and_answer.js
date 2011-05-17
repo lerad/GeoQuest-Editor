@@ -73,6 +73,18 @@ function deleteOutroFail() {
   }
 }
 
+function deleteQuestion() {
+ var question_index = $('#accordion').accordion('option', 'active');
+ var really = confirm("Frage wirklich löschen?");
+ if(really) {
+     cmd = new DeleteQuestionCommand();
+     cmd.setParameter("mission_id", mission_id);
+     cmd.setParameter("project_id", project_id);
+     cmd.setParameter("question_index", question_index);
+     cmd.execute();
+ }
+}
+
 function addQuestion() {
  cmd = new AddQuestionCommand();
  cmd.setParameter("mission_id", mission_id);
@@ -81,7 +93,7 @@ function addQuestion() {
  cmd.execute();
 }
 
-function addAnswer(button) {
+function addAnswer() {
 
  var question_index = $('#accordion').accordion('option', 'active');
  var answer =  $("div.ui-accordion-content-active > textarea.newAnswerTextfield").val();

@@ -48,6 +48,8 @@ class CommandsController < ApplicationController
         cmd = UpdateAnswerOnChooseTextCommand.new(params)
       when "UpdateAnswerTextCommand"
        cmd = UpdateAnswerTextCommand.new(params)
+      when "DeleteQuestionCommand"
+       cmd = DeleteQuestionCommand.new(params)
     else
         logger.warn "Unsupported command: " + params[:command]
     end
