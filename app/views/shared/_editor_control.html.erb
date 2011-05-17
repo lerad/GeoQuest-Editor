@@ -3,6 +3,7 @@
 
 <%= link_to "Projekt Index", projects_path, :class => 'editor_link' %> <br />
 
-<%= link_to "Image Gallery", project_image_gallery_path, :class => 'editor_link' %>
+<%= link_to "Image Gallery", project_image_gallery_path(@project.id), :class => 'editor_link' %>
+
 
 </div>
