@@ -1,14 +1,26 @@
 <%= notice %>
 
-<%= link_to "Logout", logout_path  %> <br />
-<%= link_to "Create new Project", :controller => :projects, :action => :new  %> <br />
+<h1>Project overview</h1>
 
-<b> Your Projects: </b>
+<div id="navigation">
+  <h5> Mission Navigation </h5>
+  No project selected
+</div>
+<div class="content">
 
 <ul>
 
 <% @projects.each do |project| %>
-  <li> <%= link_to project.name, project %> </li>
+  <li> <%= link_to project.name, project, :class => 'editor_link' %> </li>
 <% end  %>
 
 </ul>
+</div>
+<div id="control">
+<h5> Editor Navigation</h5>
+
+<%= link_to "Logout", logout_path, :class => 'editor_link'  %> <br />
+<%= link_to "Create new Project", new_project_path, :class => 'editor_link' %> <br />
+<%= link_to "Project overview", projects_path, :class => 'editor_link' %> <br />
+
+</div>

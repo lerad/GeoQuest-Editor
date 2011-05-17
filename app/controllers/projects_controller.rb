@@ -30,7 +30,8 @@ class ProjectsController < ApplicationController
     @project.user = @current_user
     if @project.save
       adapter = ExistAdapter.new(@project.id)
-      adapter.upload_file_as_filename("data/skeleton.xml", "game.xml")
+      path = Rails.root.join("data", "skeleton.xml");
+      adapter.upload_file_as_filename(path, "game.xml")
       redirect_to projects_path, :notice => 'Project successfully added.'
     end
   end

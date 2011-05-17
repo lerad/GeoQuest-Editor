@@ -1,9 +1,19 @@
 <div id="control">
 <h5> Editor Navigation</h5>
 
-<%= link_to "Projekt Index", projects_path, :class => 'editor_link' %> <br />
+<%= link_to "Logout", logout_path, :class => 'editor_link'  %> <br />
+<%= link_to "Create new Project", new_project_path, :class => 'editor_link' %> <br />
+<%= link_to "Project overview", projects_path, :class => 'editor_link' %> <br />
 
-<%= link_to "Image Gallery", project_image_gallery_path(@project.id), :class => 'editor_link' %>
+<br />
+<br />
+
+<h5> Projekt options </h5>
+
+
+<%= link_to "Project home", project_path(@project.id), :class => 'editor_link' %> <br />
+
+<%= link_to "Image Gallery", project_image_gallery_path(@project.id), :class => 'editor_link' %> <br />
 
 
 </div>

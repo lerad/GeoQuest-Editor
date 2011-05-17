@@ -2,18 +2,19 @@
     vertical-align: top;
     margin-left: 220pt; /* to the left side, cmp #navigation */
     margin-right: 190pt;
-    margin-top: 40pt;
+    margin-top: 80pt;
     width: auto;
 
 }
 
 #control {
     position: absolute;
-    right: 20pt;
+    right: 10pt;
     top : 120pt;
     border-style: dotted;
     width: 150pt;
     height: 450pt;
+    padding: 20pt;
 }
 
 body {
@@ -30,11 +31,12 @@ body {
 
 #navigation {
     position: absolute;
-    left: 20pt;
+    left: 10pt;
     top: 120pt;
     border-style: dotted;
-    width: 180pt;
+    width: 150pt;
     height: 450pt;
+    padding: 20pt;
 }
 
 .navigation_link {
