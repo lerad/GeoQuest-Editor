@@ -42,6 +42,8 @@ class CommandsController < ApplicationController
         cmd = AddAnswerCommand.new(params)
       when "UpdateAttributeInMission"
         cmd = UpdateAttributeInMission.new(params);
+      when "UpdateQuestionTextCommand"
+        cmd = UpdateQuestionTextCommand.new(params);
       else
         logger.warn "Unsupported command: " + params[:command]
     end

@@ -306,3 +306,23 @@ function AddAnswerCommand() {
 }
 
 AddAnswerCommand.prototype = new Command();
+
+
+
+
+function UpdateQuestionTextCommand() {
+    this.setParameter("command", "UpdateQuestionTextCommand");
+
+    this.updateGui = function() {
+        var index = this.getParameter("question_index");
+        var question_text = this.getParameter("value");
+          $("h3.ui-accordion-header > a").eq(index).text(question_text);
+    }
+
+    this.preExecute = function() {
+        var index = this.getParameter("question_index");
+        this.setParameter("xquery_question_index", index + 1);
+    }
+}
+
+UpdateQuestionTextCommand.prototype = new Command();

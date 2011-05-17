@@ -37,3 +37,24 @@ EOF
     @command = template.result(binding);
   end
 end
+
+
+
+
+
+
+class UpdateQuestionTextCommand < Command
+  def initialize(params)
+    super(params)
+    @type = "UpdateQuestionTextCommand"
+
+    template = ERB.new <<-EOF
+let $node := doc("game.xml")//mission[@id="<%= params["mission_id"] %>"]/question[<%= params[:xquery_question_index] %>]/questiontext
+return  update value $node with "<%= params["value"] %>"
+EOF
+
+    @command = template.result(binding)
+
+  end
+end
+

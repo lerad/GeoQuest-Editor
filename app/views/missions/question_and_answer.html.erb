@@ -4,6 +4,9 @@
 <%= render 'shared/editor_control' %>
 
 <%= javascript_include_tag "jquery-1.5.2"  %>
+<%= javascript_include_tag "jquery-ui-1.8.12.custom.min" %>
+<%= javascript_include_tag "jquery.jeditable" %>
+
 <%= javascript_include_tag "commands/command" %>
 <%= javascript_include_tag "commands/question_and_answer" %>
 <%= javascript_include_tag "views/question_and_answer" %>
@@ -18,6 +21,33 @@ var mission_id = "<%= @mission.attributes['id'] %>";
 var project_id = "<%= @project.id %>";
 </script>
 
+<script>
+$(function() {
+    $( "#accordion" ).accordion({collapsible: true, animated: false});
+});
+
+$(document).ready(function() {
+     $('.editable').editable(function(value, settings) {
+
+     // Current open question:
+    var active = $('#accordion').accordion('option', 'active');
+
+      var cmd = new UpdateQuestionTextCommand();
+      cmd.setParameter("mission_id", mission_id);
+      cmd.setParameter("project_id", project_id);
+      cmd.setParameter("question_index", active);
+      cmd.setParameter("value", value);
+      cmd.execute();
+
+     return value ;
+  }, {
+     type    : 'text'
+ });
+});
+
+</script>
+
+<div class="content">
 
 Shuffle Questions:
 <input type="checkbox" <%=
@@ -94,18 +124,15 @@ Shuffle Questions:
 
 </table>
 
-<h3>Fragen</h3>
-<table id="questionTable">
-
+<div id="accordion">
 <% @questions.each do |question| %>
-  <tr class="questionRow"><td>
-<hr />
-<p>
-<%= XPath.first(question, "./questiontext").text %>
-</p> <br />
+<h3><a href="#"><%= XPath.first(question, "./questiontext").text %></a></h3>
+<div>
 
-<h4>Antworten</h4>
-<table class="answerTable">
+  Frage: <div class="editable"><%= XPath.first(question, "./questiontext").text %></div> <br />
+  <br />
+
+  <table class="answerTable">
   <tr><td>Antwort</td><td>Reaktion</td></tr>
 <% XPath.each(question, "./answer") do |answer| %>
   <tr>
@@ -123,15 +150,18 @@ Shuffle Questions:
 <p>Text, wenn diese Antwort gewählt wird</p>
 <textarea class="newOnChooseTextfield" cols="30" rows="4"></textarea>
 
-<input type="button" value="Antwort hinzufügen" onclick="addAnswer(this)" />
+<br />
 
-</td>
-</tr>
+<input type="button" value="Antwort hinzufügen" onclick="addAnswer(this)" />
+</div>
+
 <% end %>
-</table>
+</div>
+
 
 <hr />
 Neue Frage: <br />
 <textarea cols="30" rows="4" id="newQuestionText"></textarea>
 
 <input type="button" value="Neue Frage hinzufügen" onclick="addQuestion()"/>
+</div>
