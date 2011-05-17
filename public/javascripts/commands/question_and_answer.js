@@ -366,19 +366,17 @@ function AddAnswerCommand() {
     this.setParameter("command", "AddAnswerCommand");
 
     this.updateGui = function() {
-        var questionRow = $("#questionTable > tbody > tr").eq(this.getParameter("question_index"));
-        var answerTable = questionRow.find("table.answerTable");
+        var answerTable = $("div.ui-accordion-content-active > table.answerTable");
+
+        var newRowHtml = '<tr><td class="answerCell">' +
+                         ' <div class="editable-answer">' + this.getParameter("answer") + '</div>' +
+                         '</td><td class="answerCell">' +
+                         '<div class="editable-onchoose">' + this.getParameter("on_choose") + '</div>' +
+                         '</td></tr>';
 
 
-        var newRow = $(document.createElement("tr"));
-        var newAnswerTd = $(document.createElement("td"))
-                          .text(this.getParameter("answer"))
-                          .attr("class", "answerCell");
-        var newOnChooseTd = $(document.createElement("td"))
-                          .text(this.getParameter("on_choose"))
-                          .attr("class", "answerCell");
-        newRow.append(newAnswerTd)
-              .append(newOnChooseTd);
+        var newRow = $(newRowHtml)
+
         answerTable.append(newRow);
 
     }

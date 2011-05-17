@@ -82,10 +82,10 @@ function addQuestion() {
 }
 
 function addAnswer(button) {
- var row = $(button).parents(".questionRow");
- var question_index = row.attr("rowIndex");
- var onChoose = row.find(".newOnChooseTextfield").val();
- var answer = row.find(".newAnswerTextfield").val();
+
+ var question_index = $('#accordion').accordion('option', 'active');
+ var answer =  $("div.ui-accordion-content-active > textarea.newAnswerTextfield").val();
+ var onChoose = $("div.ui-accordion-content-active > textarea.newOnChooseTextfield").val();
 
  var cmd = new AddAnswerCommand();
  cmd.setParameter("mission_id", mission_id);
