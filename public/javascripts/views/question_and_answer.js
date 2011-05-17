@@ -75,14 +75,28 @@ function deleteOutroFail() {
 
 function deleteQuestion() {
  var question_index = $('#accordion').accordion('option', 'active');
- var really = confirm("Frage wirklich löschen?");
- if(really) {
      cmd = new DeleteQuestionCommand();
      cmd.setParameter("mission_id", mission_id);
      cmd.setParameter("project_id", project_id);
      cmd.setParameter("question_index", question_index);
      cmd.execute();
- }
+}
+
+function deleteAnswer(button) {
+ var question_index = $('#accordion').accordion('option', 'active');
+
+ // Determine index of the modified answer:
+ var row = $(button).parents("tr").eq(0);
+ var tbody = row.parent("tbody");
+ var answer = tbody.children().index(row);
+ answer -= 1; // Header row
+
+ var cmd = new DeleteAnswerCommand();
+ cmd.setParameter("mission_id", mission_id);
+ cmd.setParameter("project_id", project_id);
+ cmd.setParameter("question_index", question_index);
+ cmd.setParameter("answer_index", answer);
+ cmd.execute();
 }
 
 function addQuestion() {

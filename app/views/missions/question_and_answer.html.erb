@@ -131,6 +131,9 @@ Shuffle Questions:
     <td class="answerCell">
       <div class="editable-onchoose"> <%= answer.attributes['onChoose'] %></div>
     </td>
+    <td>
+      <input type="image" src="/images/delete.png" value="Delete" onclick="deleteAnswer(this)" />
+    </td>
   </tr>
 <% end %>
 </table>

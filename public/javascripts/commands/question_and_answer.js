@@ -308,11 +308,17 @@ function AddAnswerCommand() {
     this.updateGui = function() {
         var answerTable = $("div.ui-accordion-content-active > table.answerTable");
 
-        var newRowHtml = '<tr><td class="answerCell">' +
-                         ' <div class="editable-answer">' + this.getParameter("answer") + '</div>' +
-                         '</td><td class="answerCell">' +
-                         '<div class="editable-onchoose">' + this.getParameter("on_choose") + '</div>' +
-                         '</td></tr>';
+        var newRowHtml = '<tr>  \
+                            <td class="answerCell"> \
+                               <div class="editable-answer">' + this.getParameter("answer") + '</div> \
+                            </td> \
+                            <td class="answerCell"> \
+                               <div class="editable-onchoose">' + this.getParameter("on_choose") + '</div> \
+                            </td> \
+                            <td> \
+                               <input type="image" src="/images/delete.png" value="Delete" onclick="deleteAnswer(this)" /> \
+                            </td> \
+                          </tr>';
 
 
         var newRow = $(newRowHtml)
@@ -368,3 +374,22 @@ function DeleteQuestionCommand() {
 }
 
 DeleteQuestionCommand.prototype = new Command();
+
+function DeleteAnswerCommand() {
+    this.setParameter("command", "DeleteAnswerCommand");
+
+    this.updateGui = function() {
+        var table = $("div.ui-accordion-content-active > table.answerTable");
+        var row = table.find("tr").eq(this.getParameter("answer_index") + 1); // + 1 because of the header row
+        row.remove();
+    }
+
+    this.preExecute = function() {
+        var index = this.getParameter("question_index");
+        this.setParameter("xquery_question_index", index + 1);
+        answer_index = this.getParameter("answer_index");
+        this.setParameter("xquery_answer_index", answer_index + 1);
+    }
+}
+
+DeleteAnswerCommand.prototype = new Command();
