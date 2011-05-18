@@ -29,6 +29,16 @@ class ProjectsController < ApplicationController
     @project = Project.new (params[:project])
     @project.user = @current_user
     if @project.save
+
+      # Create folders on server:
+      projekt_path = Rails.root.join("public", "projects", @project.id.to_s).to_s
+      Dir.mkdir(projekt_path)
+      Dir.mkdir(projekt_path + "/drawable")
+      Dir.mkdir(projekt_path + "/drawable/npcs")
+      Dir.mkdir(projekt_path + "/drawable/hotspots")
+      Dir.mkdir(projekt_path + "/sound")
+
+      # Upload game.xml to Exists
       adapter = ExistAdapter.new(@project.id)
       path = Rails.root.join("data", "skeleton.xml");
       adapter.upload_file_as_filename(path, "game.xml")
