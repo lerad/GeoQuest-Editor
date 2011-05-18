@@ -5,14 +5,29 @@
 
 <%= javascript_include_tag 'jquery/jquery'  %>
 <%= javascript_include_tag 'jquery/jquery.form' %>
+<%= javascript_include_tag 'jquery/jquery.fileTree' %>
+
+<script>
+  var project_id = <%= @project.id %>;
+</script>
+
+<%= stylesheet_link_tag 'jqueryFileTree'  %>
 
 <div class="content">
 <h1>Image Gallery</h1>
 
+
+
 <form id="fileUploadForm" method="post"
                           action="/projects/<%= @project.id %>/uploadFile"
                           enctype="multipart/form-data">
-   File upload: <input id="fileUpload" name="uploadedFile"  type="file" /> <br />
+Folder: <select name="folder">
+  <% @directories.each do |directory| %>
+     <option value="<%= directory  %>"><%= directory %></option>
+  <% end %>
+   </select>
+<br />
+ File: <input id="fileUpload" name="uploadedFile"  type="file" /> <br />
    <input id="fileUploadSubmit" type="submit" value="Upload" />
    <input type="hidden" name="authenticity_token" id="authenticity_token" value="<%= form_authenticity_token %>" />
 </form>
