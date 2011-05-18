@@ -10,14 +10,13 @@
   var project_id = <%= @project.id %>;
 </script>
 
-
 <div class="content">
-<h1>Image Gallery</h1>
+<h1>Audio Gallery</h1>
 
 
 
 <form id="fileUploadForm" method="post"
-                          action="/projects/<%= @project.id %>/image_gallery/uploadFile"
+                          action="/projects/<%= @project.id %>/audio_gallery/uploadFile"
                           enctype="multipart/form-data">
 Folder: <select name="folder">
   <% @directories.each do |directory| %>

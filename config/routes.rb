@@ -1,12 +1,15 @@
 GeoquestEditor::Application.routes.draw do
 
 
+
   resources :users
   resource :session
   resources :projects do
     resources :missions
     resource :image_gallery,  :only => [:show], :controller => :image_gallery
-    match '/uploadFile' => "image_gallery#uploadFile", :as => "/uploadFile"
+    resource :audio_gallery,  :only => [:show], :controller => :audio_gallery
+    match 'image_gallery/uploadFile' => "image_gallery#uploadFile", :as => "image_gallery/uploadFile"
+    match 'audio_gallery/uploadFile' => "audio_gallery#uploadFile", :as => "audio_gallery/uploadFile"
   end
 
   match '/commands/execute' => "commands#execute", :as => "commands/execute" #Rework as /ajax/execute ?
