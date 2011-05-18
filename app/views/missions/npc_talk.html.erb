@@ -1,22 +1,35 @@
+<script language="javascript" type="text/javascript">
+var mission_id = "<%= @mission.attributes['id'] %>";
+var project_id = "<%= @project.id %>";
+</script>
+
 <%= javascript_include_tag "jquery/jquery"  %>
+<%= javascript_include_tag "jquery/jquery.ui"  %>
+<%= javascript_include_tag "jquery/jquery.fileTree"  %>
 <%= javascript_include_tag "commands/command" %>
 <%= javascript_include_tag "commands/npctalk" %>
+<%= javascript_include_tag 'shared/image_select' %>
 <%= javascript_include_tag 'views/npc_talk' %>
+
+<%= stylesheet_link_tag 'jquery.ui'  %>
+<%= stylesheet_link_tag 'jqueryFileTree'  %>
 
 <%= render 'shared/header' %>
 
 <%= render 'shared/mission_navigation' %>
 <%= render 'shared/editor_control' %>
 
-<script language="javascript" type="text/javascript">
-
-var mission_id = "<%= @mission.attributes['id'] %>";
-var project_id = "<%= @project.id %>";
-
-</script>
 
 <div class="content">
-   NPC Talk Mission :) <br />
+
+  <h4>Dialog</h4>
+
+ Charimage: <br />
+
+ <img id="charImage" alt="Charakterbild" src="/projects/<%= @project.id%>/<%= @mission.attributes['charImage'] %>" />
+ <br /><input type="button" value="Change image" id="changeCharacterImageButton" />
+
+ <br />
 
    <table id="npcTalkTable" class="npcTalkTable">
      <tr class="npcTalkHeader">

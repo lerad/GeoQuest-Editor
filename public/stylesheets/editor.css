@@ -1,9 +1,26 @@
+.file-tree {
+    float: left;
+    width: 130pt;
+}
+.preview {
+  float: left;
+  margin-left: 20pt;
+}
+
+.header {
+    position: absolute;
+    top: 10pt;
+    left: 10pt;
+}
+
 .content {
+    position: absolute;
     vertical-align: top;
     margin-left: 220pt; /* to the left side, cmp #navigation */
     margin-right: 210pt;
-    margin-top: 80pt;
+    top: 120pt;
     width: auto;
+
 
 }
 

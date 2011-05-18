@@ -60,3 +60,19 @@ function moveRowDown(button) {
   cmd.setParameter("project_id", project_id);
   cmd.execute();
 }
+
+function changeCharImage(file) {
+  var cmd = new ChangeCharImageCommand();
+  cmd.setParameter("mission_id", mission_id);
+  cmd.setParameter("project_id", project_id);
+  cmd.setParameter("image", file);
+  cmd.execute();
+}
+
+var imageSelector = new ImageSelector(changeCharImage);
+
+$(document).ready(function() {
+    $("#changeCharacterImageButton").click(function() {
+        imageSelector.show();
+    });
+});

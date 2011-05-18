@@ -26,6 +26,7 @@ EOF
       mission_template = ERB.new <<-EOF
 <mission type="NPCTalk"
          id="<%= id %>"
+         charImage=""
          cancel="success">
 </mission>
 EOF
