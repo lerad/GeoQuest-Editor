@@ -1,6 +1,6 @@
 <game name="New game" xmlformat="5">
 −
-<mission type="StartAndExitScreen" id="0" image="drawable/default.png" cancel="no">
+<mission type="StartAndExitScreen" id="0" image="" cancel="no">
 −
 </mission>
 −
