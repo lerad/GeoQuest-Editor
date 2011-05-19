@@ -52,6 +52,8 @@ class CommandsController < ApplicationController
        cmd = DeleteQuestionCommand.new(params)
       when "DeleteAnswerCommand"
        cmd = DeleteAnswerCommand.new(params)
+      when "UpdateHotspotCommand"
+       cmd = UpdateHotspotCommand.new(params)
     else
         logger.warn "Unsupported command: " + params[:command]
     end

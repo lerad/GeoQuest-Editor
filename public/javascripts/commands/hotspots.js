@@ -5,7 +5,7 @@ function AddHotspotCommand() {
     this.updateGui = function()  {
         // Actualize GUI
         // addMarker is defined in Map.js
-        addMarker(this.parameter["latitude"], this.parameter["longitude"], this.parameter["id"]);
+        addMarker(this.parameter["latitude"], this.parameter["longitude"], this.parameter["id"], 30, "");
     }
 }
 
@@ -32,3 +32,19 @@ function DeleteHotspotCommand() {
 }
 
 DeleteHotspotCommand.prototype = new Command();
+
+
+/**
+ * Expects: image, radius, hotspot_id
+ */
+function UpdateHotspotCommand() {
+    this.setParameter("command", "UpdateHotspotCommand");
+
+    this.updateGui = function() {
+        var marker = getMarker(this.getParameter("hotspot_id"));
+        marker.circle.setRadius(parseInt(this.getParameter("radius")));
+        marker.setIcon("/projects/" + this.getParameter("project_id") + "/" + this.getParameter("image"));
+    }
+}
+
+UpdateHotspotCommand.prototype = new Command();

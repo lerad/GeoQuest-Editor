@@ -75,7 +75,71 @@ function addSubmission() {
     cmd.execute();
 }
 
-function addMarker(lat, lng, text) {
+var hotspotDialogHtml = 'Radius (m): <input id="hotspotRadius" type="text" size="4" /><br /> \
+                         Image: <img src="" id="hotspotImage" /><br />      \
+                         <input type="button" id="changeHotspotProperties" value="Ok" />'
+
+var selectedMarker = null;
+var selectedImage = "";
+var dialog = $('<div></div>')
+		.html(hotspotDialogHtml)
+		.dialog({
+			autoOpen: false,
+			title: 'Hotspot Eigenschaften',
+                        width: 300
+
+		});
+
+var imageSelector = new ImageSelector(changeHotspotImage);
+
+
+function changeHotspotImage(file) {
+    $("#hotspotImage").attr("src", "/projects/" + project_id + "/" + file);
+    selectedImage = file;
+}
+
+$(document).ready(function() {
+   $("#hotspotImage").click(function() {
+        imageSelector.show();
+   });
+   $("#changeHotspotProperties").click(function() {
+      selectedMarker.customIcon = selectedImage;
+   });
+
+   $("#changeHotspotProperties").click(function() {
+       dialog.dialog("close");
+       var radius = $("#hotspotRadius").attr("value");
+       var cmd = new UpdateHotspotCommand();
+       cmd.setParameter("project_id", project_id);
+       cmd.setParameter("mission_id", mission_id);
+       cmd.setParameter("hotspot_id", selectedMarker.title);
+       cmd.setParameter("radius", radius);
+       cmd.setParameter("image", selectedImage);
+       cmd.execute();
+   });
+
+});
+
+
+
+function openHotspotDialog(marker) {
+    selectedMarker = marker;
+    selectedImage = marker.customIcon;
+    
+    if(marker.customIcon == "") {
+        $("#hotspotImage").attr("src","/images/empty32.gif");
+    }
+    else {
+        $("#hotspotImage").attr("src","/projects/" + project_id + "/" +marker.customIcon);
+    }
+
+    $("#hotspotRadius").attr("value", marker.circle.getRadius());
+
+
+    dialog.dialog("open");
+}
+
+function addMarker(lat, lng, text, _radius, image) {
 
     if(markerList[text] != null) {
         alert("Error: Duplicate name: " + text);
@@ -92,6 +156,24 @@ function addMarker(lat, lng, text) {
         draggable: true
     });
 
+    marker.customIcon = image;
+
+    if(image != "") {
+        marker.setIcon("/projects/" + project_id + "/" + image);
+    }
+
+   // Add a 30m Radius to the marker.
+   var circle = new google.maps.Circle({
+          map: map,
+          radius: _radius
+        });
+
+    circle.bindTo('center', marker, 'position');
+
+    marker.circle = circle;
+
+
+
     markerList[text] = marker;
 
     google.maps.event.addListener(marker, 'click', function() {
@@ -104,8 +186,8 @@ function addMarker(lat, lng, text) {
             cmd.execute();
         }
         else {
-            map.setCenter(myLatlng);
-            map.setZoom(15);
+
+            openHotspotDialog(marker);
         }
     });
 
@@ -129,4 +211,3 @@ function getMarker(id) {
 
 $(document).ready(initialize);
 
-//initialize();
