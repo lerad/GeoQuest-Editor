@@ -1,12 +1,46 @@
+<%= javascript_include_tag 'jquery/jquery'  %>
+
+<script>
+  var project_id = "<%= @project.id %>";
+
+  function deployGame() {
+
+    var my_url = "/projects/" + project_id + "/deploy";
+    $.ajax({
+     url: my_url,
+     success: function() {
+       $("#messageField").addClass("success");
+       $("#messageField").removeClass("failure");
+       $("#messageField").text("Deployment was successful");
+     },
+     error: function() {
+       $("#messageField").addClass("failure");
+       $("#messageField").removeClass("success");
+       $("#messageField").text("Deployment failed");
+     }
+   });
+
+  }
+
+
+</script>
+
 <%= render 'shared/header' %>
 
 <%= render 'shared/mission_navigation' %>
 <%= render 'shared/editor_control' %>
 
 <div class="content">
-   Projekt informationen...
-</div>
+<p id="messageField"></p>
 
-<script>
-var project_id = "<%= @project.id %>";
-</script>
+<input type="button" value="Deploy into repository" onclick="deployGame()" />
+
+</div>
+<div id="control">
+<h5> Editor Navigation</h5>
+
+<%= link_to "Logout", logout_path, :class => 'editor_link'  %> <br />
+<%= link_to "Create new Project", new_project_path, :class => 'editor_link' %> <br />
+<%= link_to "Project overview", projects_path, :class => 'editor_link' %> <br />
+
+</div>

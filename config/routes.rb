@@ -2,15 +2,19 @@ GeoquestEditor::Application.routes.draw do
 
 
 
+  get "profile/show"
+
   get "xmleditor/show"
 
   resources :users
   resource :session
+  resource :profile, :only =>  [:show], :controller => :profile
   resources :projects do
     resources :missions
     resource :image_gallery,  :only => [:show], :controller => :image_gallery
     resource :audio_gallery,  :only => [:show], :controller => :audio_gallery
     resource :xmleditor, :only => [:show], :controller => :xmleditor
+    match 'deploy' => "projects#deploy", :as => 'deploy', :controller => :projects
     match 'image_gallery/uploadFile' => "image_gallery#uploadFile", :as => "image_gallery/uploadFile"
     match 'audio_gallery/uploadFile' => "audio_gallery#uploadFile", :as => "audio_gallery/uploadFile"
   end
