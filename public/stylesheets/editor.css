@@ -21,8 +21,6 @@
     right: 210pt;
     left: 220pt;
     top: 120pt;
-
-
 }
 
 #control {
@@ -31,7 +29,7 @@
     top : 120pt;
     border-style: dotted;
     width: 150pt;
-    height: 450pt;
+    min-height: 450pt;
     padding: 20pt;
 }
 
@@ -41,7 +39,7 @@ body {
 }
 
 #caption {
-    height: 120pt;
+    min-height: 120pt;
     color: black;
     text-decoration: none;
     margin-left: 40px;

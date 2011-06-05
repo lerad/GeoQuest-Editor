@@ -8,13 +8,20 @@ class Command
     @type = "";
   end
 
+  def on_execute()
+
+  end
+
   def execute()
     Rails.logger.info "Execute " + @type + " in project "  + @params["project_id"] + ":"
     Rails.logger.info "----------------------------------------"
-    Rails.logger.info @command
+    Rails.logger.info @command unless @command.nil?
     Rails.logger.info "----------------------------------------"
 
-    @adapter.do_request(@command)
+    @adapter.do_request(@command) unless @command.nil?
+
+    self.on_execute();
+
   end
 
 end

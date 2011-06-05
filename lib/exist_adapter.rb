@@ -20,8 +20,10 @@ include REXML
     request = Net::HTTP::Put.new(url.path)
     request.content_type = "text/xml"
     request.body = data
-    Net::HTTP.start(url.host, url.port) { |http| http.request(request)}
-  end
+    res = Net::HTTP.start(url.host, url.port) { |http| http.request(request)}
+    Rails.logger.debug(res.body);
+
+   end
 
   def get_file_as_string(filename)
     data = ''

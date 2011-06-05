@@ -8,7 +8,7 @@
 
 .CodeMirror-scroll {
   overflow: auto;
-  height: 600px;
+  height: 450pt;
 }
 
 .CodeMirror-gutter {

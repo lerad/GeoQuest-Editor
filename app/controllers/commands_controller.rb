@@ -4,6 +4,7 @@ require 'commands/hotspot_commands'
 require 'commands/npctalk_commands'
 require 'commands/mission_commands'
 require 'commands/question_commands'
+require 'commands/xmlfile_commands'
 
 class CommandsController < ApplicationController
 
@@ -54,6 +55,8 @@ class CommandsController < ApplicationController
        cmd = DeleteAnswerCommand.new(params)
       when "UpdateHotspotCommand"
        cmd = UpdateHotspotCommand.new(params)
+      when "UpdateXmlFileCommand"
+       cmd = UpdateXmlFileCommand.new(params)
     else
         logger.warn "Unsupported command: " + params[:command]
     end

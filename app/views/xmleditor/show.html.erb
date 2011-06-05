@@ -11,6 +11,8 @@
 <%= javascript_include_tag 'codemirror2/codemirror'  %>
 <%= javascript_include_tag 'codemirror2/xml'  %>
 <%= javascript_include_tag 'jquery/jquery'  %>
+<%= javascript_include_tag 'commands/command' %>
+<%= javascript_include_tag 'commands/xmlfile' %>
 <%= javascript_include_tag 'views/xml_editor'  %>
 
 <%= stylesheet_link_tag 'codemirror'  %>
@@ -25,5 +27,8 @@
 <%= @xmlfile %>
 </textarea>
 
+<br />
+
+<input type="button" style="position: absolute; top : 540pt;" value="Update Xml File" onclick="updateXmlFile()" />
 
 </div>
