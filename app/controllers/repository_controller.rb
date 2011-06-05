@@ -13,5 +13,19 @@ def gamelist
   render :content_type => "text/xml", :layout => false
 end
 
+def download
+  @repo_user = User.find_by_name(params[:name])
+
+  file_path = Rails.root.join("data", "repository", @repo_user.id.to_s, params[:file] + ".zip")
+
+
+
+  Rails.logger.debug("Render: " + file_path.to_s)
+
+  send_file(file_path)
+
+  #render :layout => false, :file => file_path, :content_type => "application/octet-stream"
+
+end
 
 end

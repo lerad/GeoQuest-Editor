@@ -1,0 +1,8 @@
+div.repository {
+    border: medium dotted;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50pt;
+    padding: 20pt;
+    width: 300pt;
+}

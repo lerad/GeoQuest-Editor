@@ -31,7 +31,7 @@ GeoquestEditor::Application.routes.draw do
 
   match '/repository/:name' => "repository#show"
   match '/repository/:name/gamelist.php' => "repository#gamelist"
-
+  match '/repository/:name/games/:file.zip' => "repository#download"
 
   root :to => "welcome#index"
 

@@ -18,4 +18,13 @@
 <%= link_to "Edit game.xml", project_xmleditor_path(@project.id), :class => 'editor_link' %> <br />
 
 <% end %>
+
+<h5> Extern </h5>
+
+<a class="editor_link" href="/repository/<%= @current_user.name %>">My Repository</a>
+
+<br />
+<br />
+
+
 </div>
