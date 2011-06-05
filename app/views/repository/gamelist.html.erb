@@ -1,0 +1,6 @@
+<games>
+  <!-- TODO: Add dynamic lastmodified-->
+  <% @deployed_projects.each do |project| %>
+  <game file="<%= project.id %>.zip" name="<%= project.name %>" xmlformat="5" lastmodified="1303313993"/>
+  <% end %>
+</games>

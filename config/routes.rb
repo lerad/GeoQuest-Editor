@@ -19,6 +19,7 @@ GeoquestEditor::Application.routes.draw do
     match 'audio_gallery/uploadFile' => "audio_gallery#uploadFile", :as => "audio_gallery/uploadFile"
   end
 
+
   match '/commands/execute' => "commands#execute", :as => "commands/execute" #Rework as /ajax/execute ?
   match '/ajax/query' => "query#execute", :as => "ajax/query"
   match '/ajax/show_dir' => "query#show_dir", :as => "ajax/show_dir"
@@ -27,6 +28,10 @@ GeoquestEditor::Application.routes.draw do
   match '/logout' => "sessions#destroy", :as => "logout"
 
   match '/register' => "users#new", :as => "register"
+
+  match '/repository/:name' => "repository#show"
+  match '/repository/:name/gamelist.php' => "repository#gamelist"
+
 
   root :to => "welcome#index"
 

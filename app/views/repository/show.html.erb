@@ -1,0 +1,10 @@
+Repository of <%= @repo_user.name %> <br />
+
+Deployed Games:
+
+<ul>
+  <% @deployed_projects.each do |project| %>
+  <li> <%=  project.name %> </li>
+  <% end %>
+
+</ul>
