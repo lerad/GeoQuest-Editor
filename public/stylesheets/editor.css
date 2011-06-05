@@ -16,10 +16,11 @@
 .content {
     position: absolute;
     vertical-align: top;
-    margin-left: 220pt; /* to the left side, cmp #navigation */
-    margin-right: 210pt;
+    margin-left: 0pt; /* to the left side, cmp #navigation */
+    margin-right: 0pt;
+    right: 210pt;
+    left: 220pt;
     top: 120pt;
-    width: auto;
 
 
 }

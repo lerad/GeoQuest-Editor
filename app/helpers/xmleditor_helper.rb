@@ -1,0 +1,2 @@
+module XmleditorHelper
+end

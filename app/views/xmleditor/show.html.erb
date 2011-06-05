@@ -1,0 +1,29 @@
+<%= render 'shared/header' %>
+
+<%= render 'shared/mission_navigation' %>
+<%= render 'shared/editor_control' %>
+
+<script>
+  var project_id = <%= @project.id %>;
+</script>
+
+
+<%= javascript_include_tag 'codemirror2/codemirror'  %>
+<%= javascript_include_tag 'codemirror2/xml'  %>
+<%= javascript_include_tag 'jquery/jquery'  %>
+<%= javascript_include_tag 'views/xml_editor'  %>
+
+<%= stylesheet_link_tag 'codemirror'  %>
+<%= stylesheet_link_tag 'codemirror.xml' %>
+
+
+
+<div class="content">
+<h1>game.xml</h1>
+
+<textarea cols="80" rows="100" id="xmleditor">
+<%= @xmlfile %>
+</textarea>
+
+
+</div>
