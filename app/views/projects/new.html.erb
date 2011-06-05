@@ -1,22 +1,14 @@
-<h1>New project</h1>
-
-<div id="navigation">
-  <h5> Mission Navigation </h5>
-  No project selected
+<div class="header">
+<h1>
+  New project
+</h1>
 </div>
+<%= render 'shared/mission_navigation' %>
+<%= render 'shared/editor_control' %>
+
 <div class="content">
 <%= render 'form' %>
 
 </div>
-<div id="control">
-<h5> Editor Navigation</h5>
-
-<%= link_to "Logout", logout_path, :class => 'editor_link'  %> <br />
-<%= link_to "Create new Project", new_project_path, :class => 'editor_link' %> <br />
-<%= link_to "Project overview", projects_path, :class => 'editor_link' %> <br />
-
-</div>
-
-
 
 

@@ -6,8 +6,26 @@
 <div id="navigation">
   <h5> Mission Navigation </h5>
 
-<%= render 'shared/mission_list' %>
+<ul>
 
+  <% unless @project.nil? or @project.new_record? %>
+
+  
+
+  <% @missions.each do |mission| %>
+
+ <li>
+   <%= link_to mission.attributes['id'], project_mission_path(@project.id, mission.attributes['id']), :class => 'navigation_link' %>
+  <ul
+   <% REXML::XPath.match(mission, './/mission').each do |submission| %>
+    <li>
+    <%= link_to submission.attributes['id'], project_mission_path(@project.id, submission.attributes['id']), :class => 'navigation_link' %>
+   </li>
+  <%  end     %>
+  </ul>
+</li>
+<% end  %>
+</ul>
 
 <br />
   <select id="missionType" name="missionType">
@@ -16,5 +34,11 @@
     <option value="QuestionAndAnswer">Question and Answer</option>
   </select>
   <input type="button" value="Mission hinzufügen" onclick="addMission()" />
+
+  <% else %>
+
+  No project selected
+
+  <% end %>
 
 </div>
