@@ -48,10 +48,10 @@ class ProjectsController < ApplicationController
 
         while stack.size() > 0 do
           dir = stack.pop()
+          dir = dir + "/" unless dir == ""
 
           Dir.chdir(path_public.to_s + "/" + dir)
           Dir.glob("*") {|x|
-            dir = dir + "/" unless dir == ""
             name = dir + File.basename(x).to_s;
             if File.directory?(x) then
               zipfile.mkdir(name)
