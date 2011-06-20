@@ -1,4 +1,5 @@
 <%= javascript_include_tag 'jquery/jquery' %>
+<%= javascript_include_tag 'jquery/jquery.jstree' %>
 <%= javascript_include_tag 'shared/mission_list' %>
 <%= javascript_include_tag "commands/command" %>
 <%= javascript_include_tag "commands/missions" %>
@@ -35,10 +36,47 @@
   </select>
   <input type="button" value="Mission hinzufügen" onclick="addMission()" />
 
+
+  <br />
+  <hr />
+   Test
+   <hr />
+
+   <div id="missionTree">
+   </div>
+   <script>
+$(document).ready(function() {
+
+$.jstree._themes = "/images/jstree/themes/";
+
+  $("#missionTree").jstree({
+    "plugins" : ["themes", "json_data","ui"],
+    "core"  : {
+      "animation" : 100
+    },
+    "json_data" : {
+        "ajax" : {
+        "url" : "/ajax/show_missions",
+        "data" : function(n) {
+          var mission_id = -1;
+          if(n.data) {
+            var nodeData = eval (n.data("jstree"));
+            mission_id = nodeData.mission_id;
+          }
+          return {"project_id" : 37, "mission_id" : mission_id};
+        }
+        }
+    }
+  });
+});
+   </script>
   <% else %>
 
   No project selected
 
   <% end %>
+
+
+
 
 </div>

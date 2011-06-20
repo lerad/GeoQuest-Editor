@@ -79,6 +79,49 @@ class QueryController < ApplicationController
   text += "</ul>"
   render :content_type => "text/html", :text => text
   end
-  
+
+
+  def show_missions
+    json_data = <<-EOF
+    {
+	"data" : {
+		"title" : "Game",
+		"attr" : {},
+		"icon" : "game"
+ 	},
+
+	"metadata" : {"mission_id" : -1},
+	"language" : "en",
+  "state" : "open",
+  "children" : [
+   {
+	"data" : {
+		"title" : "Introtext",
+		"icon" : "npc-icon"
+ 	},
+
+	"metadata" : {"mission_id" : 0},
+	"language" : "en"
+ },
+
+   {
+	"data" : {
+		"title" : "Mapoverview",
+		"icon" : "map-icon"
+ 	},
+
+	"metadata" : {"mission_id" : 1},
+	"language" : "en",
+"state" : "closed"
+ }
+
+
+]
+ }
+
+EOF
+    render :content_type => "application/json", :text => json_data
+  end
+
 
 end

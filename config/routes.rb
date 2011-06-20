@@ -23,6 +23,8 @@ GeoquestEditor::Application.routes.draw do
   match '/commands/execute' => "commands#execute", :as => "commands/execute" #Rework as /ajax/execute ?
   match '/ajax/query' => "query#execute", :as => "ajax/query"
   match '/ajax/show_dir' => "query#show_dir", :as => "ajax/show_dir"
+  match '/ajax/show_missions' => "query#show_missions", :as => "ajax/show_missions"
+
 
   match '/login' => "sessions#new", :as => "login"
   match '/logout' => "sessions#destroy", :as => "logout"
