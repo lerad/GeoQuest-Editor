@@ -126,7 +126,10 @@ class QueryController < ApplicationController
       game = {
         "data" => {
           "title" => "Game",
-          "icon" => "game"
+          "icon" => "game",
+          "attr" => {
+            "href" => project_path(params[:project_id])
+          }
         },
         "metadata" => {"mission_id" => -1, "type" => "root"},
         "state" => "open",

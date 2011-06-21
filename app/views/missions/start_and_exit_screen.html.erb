@@ -1,17 +1,17 @@
-<%= render 'shared/header' %>
-
-<%= javascript_include_tag 'jquery/jquery'  %>
-<%= javascript_include_tag 'jquery/jquery.fileTree' %>
-<%= javascript_include_tag 'jquery/jquery.ui' %>
-
-
 <script type="text/javascript">
 var mission_id = "<%= @mission.attributes['id'] %>";
 var project_id = "<%= @project.id %>";
 </script>
 
+<%= render 'shared/header' %>
 <%= render 'shared/mission_navigation' %>
 <%= render 'shared/editor_control' %>
+
+<%= javascript_include_tag 'jquery/jquery.fileTree' %>
+<%= javascript_include_tag 'jquery/jquery.ui' %>
+
+
+
 
 
 <%= javascript_include_tag 'commands/command' %>

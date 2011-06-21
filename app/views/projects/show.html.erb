@@ -1,4 +1,9 @@
-<%= javascript_include_tag 'jquery/jquery'  %>
+
+
+<%= render 'shared/header' %>
+
+<%= render 'shared/mission_navigation' %>
+<%= render 'shared/editor_control' %>
 
 <script>
   var project_id = "<%= @project.id %>";
@@ -24,11 +29,6 @@
 
 
 </script>
-
-<%= render 'shared/header' %>
-
-<%= render 'shared/mission_navigation' %>
-<%= render 'shared/editor_control' %>
 
 <div class="content">
 <p id="messageField"></p>
