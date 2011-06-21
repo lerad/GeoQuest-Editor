@@ -59,6 +59,8 @@ end
 
 
 # Updates one attribute of a specific node
+# Creates the attribute if it does not already exist
+#
 # Param: mission_id: To specify the node
 # Param: project_id: To sepcifiy the project
 # Param: "attribute": The name of the attribute
@@ -70,7 +72,7 @@ class UpdateAttributeInMission < Command
 
     template = ERB.new <<-EOF
 let $mission := doc("game.xml")//mission[@id="<%= params["mission_id"] %>"]
-return  update value $mission/@<%= params["attribute"]%> with "<%= params["value"] %>"
+return  update insert attribute <%= params["attribute"] %>{"<%= params["value"] %>"} into  $mission
 EOF
 
     @command = template.result(binding)

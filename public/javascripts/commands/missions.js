@@ -51,3 +51,24 @@ function DeleteMissionCommand() {
 }
 
 DeleteMissionCommand.prototype = new Command();
+
+
+
+
+function RenameMissionCommand() {
+
+    this.setParameter("command", "UpdateAttributeInMission");
+    this.setParameter("attribute", "name");
+
+    this.updateGui = function() {
+
+    }
+
+    this.preExecute = function() {
+        this.setParameter("value", this.getParameter("name"));
+    }
+}
+
+
+
+RenameMissionCommand.prototype = new Command();

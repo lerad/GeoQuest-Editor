@@ -40,7 +40,7 @@ $(document).ready(function() {
 $.jstree._themes = "/images/jstree/themes/";
 
   mission_tree = $("#missionTree").jstree({
-    "plugins" : ["themes", "json_data","contextmenu"],
+    "plugins" : ["themes", "json_data","contextmenu","crrm"],
     "core"  : {
       "animation" : 100
     },
@@ -62,9 +62,12 @@ $.jstree._themes = "/images/jstree/themes/";
       var nodeData = getNodeDataAsObject(n);
       var items = {
       "ccp" : false,
-      "rename" : false,
       "create" : false,
       "remove" : false,
+      "rename" : {
+          "label" : "Rename Mission",
+          "action" : function(n) {$("#missionTree").jstree("rename",n)}
+      },
       "delete" : {
         "label" : "Delete Mission",
         "action" : function(n) {deleteMission(getNodeDataAsObject(n).mission_id); }
@@ -100,4 +103,19 @@ $.jstree._themes = "/images/jstree/themes/";
     }
 
   });
+
+  mission_tree.bind("rename_node.jstree", function (e, data) {
+    var name = data.rslt.name;
+
+
+    var missionToRenamedId = getNodeDataAsObject(data.args[0]).mission_id;
+
+    var cmd = new RenameMissionCommand();
+    cmd.setParameter("name", name);
+    cmd.setParameter("project_id", project_id);
+    cmd.setParameter("mission_id", missionToRenamedId);
+    cmd.execute();
+});
+
+
 });

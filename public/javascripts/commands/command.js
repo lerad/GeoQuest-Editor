@@ -22,7 +22,7 @@ function Command() {
     }
 
     this.onSuccess = function() {
-        alert("SUCCESS!");
+        
     }
 
     this.onFailure = function(jqXHR, textStatus, errorThrown) {

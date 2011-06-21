@@ -82,9 +82,12 @@ class QueryController < ApplicationController
   end
 
   def get_mission_as_hash(mission)
+    name = mission.attributes['id']
+    name = mission.attributes['name'] unless mission.attributes['name'].nil?
+
     mission_data = {
       "data" => {
-        "title" => mission.attributes['id'],
+        "title" => name,
         "icon" => "mission",
         "attr" => {
           "href" => project_mission_path(params[:project_id], mission.attributes['id'])
@@ -133,7 +136,6 @@ class QueryController < ApplicationController
       results.each do |mission|
         mission_data = get_mission_as_hash(mission)
         game['children'] += [mission_data];
-        Rails.logger.info(mission.attributes['id'])
       end
 
 
