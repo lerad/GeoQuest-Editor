@@ -74,3 +74,21 @@ EOF
   end
 
 end
+
+
+class DeleteMissionCommand < Command
+  def initialize(params)
+    super(params)
+    @type = "DeleteMissionCommand"
+
+
+    template = ERB.new <<-EOF
+let $mission := doc("game.xml")//mission[@id="<%= params["mission_id"] %>"]
+return update delete $mission
+EOF
+
+    @command = template.result(binding)
+
+  end
+
+end

@@ -57,12 +57,18 @@ class CommandsController < ApplicationController
        cmd = UpdateHotspotCommand.new(params)
       when "UpdateXmlFileCommand"
        cmd = UpdateXmlFileCommand.new(params)
+      when "DeleteMissionCommand"
+       cmd = DeleteMissionCommand.new(params);
     else
         logger.warn "Unsupported command: " + params[:command]
     end
-
-    cmd.execute unless cmd.nil?
-
+    begin
+      cmd.execute unless cmd.nil?
+      render :text => "Command successfull done"
+    rescue Exception => e
+      msg = "Error: " + e.to_s
+      render :text => msg, :status => 500
+    end
   end
 
 end

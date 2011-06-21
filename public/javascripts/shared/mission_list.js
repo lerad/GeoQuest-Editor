@@ -1,5 +1,13 @@
 var mission_tree = null;
 
+function deleteMission(missionId) {
+    var really = confirm("Really delete mission with id \"" + missionId + "\"");
+    if (!really) return;
+    var cmd = new DeleteMissionCommand();
+    cmd.setParameter("project_id", project_id);
+    cmd.setParameter("mission_id", missionId);
+    cmd.execute();
+}
 
 function addMission(parentId, type) {
     var id = prompt("Mission id");
@@ -59,7 +67,7 @@ $.jstree._themes = "/images/jstree/themes/";
       "remove" : false,
       "delete" : {
         "label" : "Delete Mission",
-        "action" : function(n) {alert("DELETE");}
+        "action" : function(n) {deleteMission(getNodeDataAsObject(n).mission_id); }
       },
       "add_mission" : {
         "label" : "Add Mission",

@@ -3,12 +3,13 @@ function AddSubmissionCommand() {
     this.setParameter("command", "AddSubmissionCommand");
 
     this.updateGui = function()  {
-        // Reload after 200ms
-        setTimeout(function() {
-            if (mission_tree != null) {
+
+    }
+
+    this.onSuccess = function() {
+      if (mission_tree != null) {
                mission_tree.jstree("refresh");
-            }
-        }, 200);
+      }
     }
 
 }
@@ -20,16 +21,33 @@ function AddMissionCommand() {
     this.setParameter("command", "AddMissionCommand");
 
     this.updateGui = function()  {
-        // Reload after 200ms sec. Make nicer solution later
-        setTimeout(function() {
-            if (mission_tree != null) {
-               mission_tree.jstree("refresh");
-            }
-        }, 200);
-        // $("#missionTree").jstree.refresh();
+    }
 
+    this.onSuccess = function() {
+      if (mission_tree != null) {
+               mission_tree.jstree("refresh");
+      }
     }
 
 }
 
 AddMissionCommand.prototype = new Command();
+
+
+function DeleteMissionCommand() {
+
+    this.setParameter("command", "DeleteMissionCommand");
+
+    this.updateGui = function() {
+        
+    }
+
+    this.onSuccess = function() {
+      if (mission_tree != null) {
+               mission_tree.jstree("refresh");
+      }
+    }
+
+}
+
+DeleteMissionCommand.prototype = new Command();
