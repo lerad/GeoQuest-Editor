@@ -50,7 +50,7 @@ $(document).ready(function() {
 $.jstree._themes = "/images/jstree/themes/";
 
   $("#missionTree").jstree({
-    "plugins" : ["themes", "json_data","ui"],
+    "plugins" : ["themes", "json_data"],
     "core"  : {
       "animation" : 100
     },
@@ -63,10 +63,11 @@ $.jstree._themes = "/images/jstree/themes/";
             var nodeData = eval (n.data("jstree"));
             mission_id = nodeData.mission_id;
           }
-          return {"project_id" : 37, "mission_id" : mission_id};
+          return {"project_id" : project_id, "mission_id" : mission_id};
         }
         }
     }
+
   });
 });
    </script>
