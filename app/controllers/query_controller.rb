@@ -90,7 +90,10 @@ class QueryController < ApplicationController
           "href" => project_mission_path(params[:project_id], mission.attributes['id'])
         }
       },
-      "metadata" => {"mission_id" => mission.attributes['id']},
+      "metadata" => {
+        "mission_id" => mission.attributes['id'],
+        "type" => mission.attributes['type']
+      },
     }
     if(REXML::XPath.match(mission, './mission').length > 0) # Mission has submissions
       mission_data["children"] = []
@@ -122,7 +125,7 @@ class QueryController < ApplicationController
           "title" => "Game",
           "icon" => "game"
         },
-        "metadata" => {"mission_id" => -1},
+        "metadata" => {"mission_id" => -1, "type" => "root"},
         "state" => "open",
         "children" => []
       }

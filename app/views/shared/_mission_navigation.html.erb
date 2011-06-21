@@ -7,70 +7,13 @@
 <div id="navigation">
   <h5> Mission Navigation </h5>
 
-<ul>
+
 
   <% unless @project.nil? or @project.new_record? %>
 
-  
-
-  <% @missions.each do |mission| %>
-
- <li>
-   <%= link_to mission.attributes['id'], project_mission_path(@project.id, mission.attributes['id']), :class => 'navigation_link' %>
-  <ul
-   <% REXML::XPath.match(mission, './/mission').each do |submission| %>
-    <li>
-    <%= link_to submission.attributes['id'], project_mission_path(@project.id, submission.attributes['id']), :class => 'navigation_link' %>
-   </li>
-  <%  end     %>
-  </ul>
-</li>
-<% end  %>
-</ul>
-
-<br />
-  <select id="missionType" name="missionType">
-    <option value="MapOverview">Map Overview</option>
-    <option value="NPCTalk">NPC Talk</option>
-    <option value="QuestionAndAnswer">Question and Answer</option>
-  </select>
-  <input type="button" value="Mission hinzufügen" onclick="addMission()" />
-
-
-  <br />
-  <hr />
-   Test
-   <hr />
-
    <div id="missionTree">
    </div>
-   <script>
-$(document).ready(function() {
 
-$.jstree._themes = "/images/jstree/themes/";
-
-  $("#missionTree").jstree({
-    "plugins" : ["themes", "json_data"],
-    "core"  : {
-      "animation" : 100
-    },
-    "json_data" : {
-        "ajax" : {
-        "url" : "/ajax/show_missions",
-        "data" : function(n) {
-          var mission_id = -1;
-          if(n.data) {
-            var nodeData = eval (n.data("jstree"));
-            mission_id = nodeData.mission_id;
-          }
-          return {"project_id" : project_id, "mission_id" : mission_id};
-        }
-        }
-    }
-
-  });
-});
-   </script>
   <% else %>
 
   No project selected

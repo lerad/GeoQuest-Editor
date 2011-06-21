@@ -60,20 +60,6 @@ function deleteHotspot() {
     hotspotDeleting = true; 
 }
 
-function addSubmission() {
-    var id = prompt("Mission id");
-    if(id == '' || id == null) return;
-
-    // TODO: Check if this id is used
-    var type = $('#subMissionType').val();
-
-    cmd = new AddSubmissionCommand();
-    cmd.setParameter("project_id", project_id);
-    cmd.setParameter("mission_id", mission_id);
-    cmd.setParameter("submission_id", id);
-    cmd.setParameter("submission_type", type);
-    cmd.execute();
-}
 
 var hotspotDialogHtml = 'Radius (m): <input id="hotspotRadius" type="text" size="4" /><br /> \
                          Image: <img src="" id="hotspotImage" /><br />      \
