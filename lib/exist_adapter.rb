@@ -22,7 +22,13 @@ include REXML
     request.body = data
     res = Net::HTTP.start(url.host, url.port) { |http| http.request(request)}
     Rails.logger.debug(res.body);
+   end
 
+   def delete_collection(collection)
+     url = URI.parse(RESTURL + collection.to_s)
+     request = Net::HTTP::Delete.new(url.path)
+     res = Net::HTTP.start(url.host, url.port) { |http| http.request(request)}
+     Rails.logger.debug(res.body)
    end
 
   def get_file_as_string(filename)

@@ -102,4 +102,23 @@ class ProjectsController < ApplicationController
     end
   end
 
+  # Deletes a project. Should be called via ajax
+  def delete
+    @project = Project.find(:first, :conditions => {:id => params[:project_id], :user_id => @current_user.id})
+
+    # Delete collection from eXist database
+    adapter = ExistAdapter.new(@project.id)
+    adapter.delete_collection(@project.id)
+
+    # Delete folder in directory
+    project_path = Rails.root.join("public", "projects", @project.id.to_s).to_s
+
+    FileUtils.rm_rf(project_path) if File.exists?(project_path)
+
+    # Delete project from database
+    @project.delete()
+
+    render :status => 200, :text => "Project deleted"
+  end
+
 end

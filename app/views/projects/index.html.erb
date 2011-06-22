@@ -1,19 +1,81 @@
 <div class="header">
-<h1>
-  Project overview
-</h1>
+  <h1>
+    Project overview
+  </h1>
 </div>
+
+<%= javascript_include_tag 'jquery/jquery'  %>
+
+
 <%= render 'shared/mission_navigation' %>
 <%= render 'shared/editor_control' %>
 
-<div class="content">
-<%= notice %>
+<%= javascript_include_tag 'jquery/jquery.contextMenu'  %>
+<%= stylesheet_link_tag 'jquery.contextMenu'  %>
 
-<ul>
-
-<% @projects.each do |project| %>
-  <li> <%= link_to project.name, project, :class => 'editor_link' %> </li>
-<% end  %>
-
+<ul id="projectMenu" class="contextMenu">
+  <li>
+    <a href="#open">Open</a>
+  </li>
+  <li>
+    <a href="#delete">Delete</a>
+  </li>
 </ul>
+
+<script type="text/javascript">
+
+  function openProject(id) {
+    document.location = "/projects/" + id;
+  }
+
+  function deleteProject(id, name) {
+    var really = confirm("Really delete Project '" + name + "'?\nThis action cannot be reversed.");
+    if(!really) return;
+
+    // Delete project:
+    $.ajax({
+      url : "/projects/" + id + "/delete",
+      type : "POST",
+      data : {
+        "project_id" : id
+      },
+      success : function() {
+        $("li#" + id).remove();
+      },
+      error : function() {
+        alert("Error during deleting");
+      }
+    })
+
+  }
+
+  $(document).ready(function() {
+
+    $(".projectEntry").contextMenu({
+      menu: 'projectMenu'
+    },
+    function(action, el, pos) {
+      if (action == "open") openProject($(el).attr('id'));
+      if (action == "delete") deleteProject($(el).attr('id'), $(el).attr('name'));
+    });
+
+
+  });
+</script>
+
+<div class="content">
+  <%= notice %>
+
+
+
+  <ul>
+
+    <% @projects.each do |project| %>
+      <li class="projectEntry" id="<%= project.id %>" name="<%= project.name %>"> <%= link_to project.name, project, :class => 'editor_link' %> </li>
+    <% end  %>
+
+  </ul>
+
+
+
 </div>

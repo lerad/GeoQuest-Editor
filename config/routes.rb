@@ -15,6 +15,8 @@ GeoquestEditor::Application.routes.draw do
     resource :audio_gallery,  :only => [:show], :controller => :audio_gallery
     resource :xmleditor, :only => [:show], :controller => :xmleditor
     match 'deploy' => "projects#deploy", :as => 'deploy', :controller => :projects
+    match 'delete' => "projects#delete", :as => 'delete', :controller => :projects
+
     match 'image_gallery/uploadFile' => "image_gallery#uploadFile", :as => "image_gallery/uploadFile"
     match 'audio_gallery/uploadFile' => "audio_gallery#uploadFile", :as => "audio_gallery/uploadFile"
   end
