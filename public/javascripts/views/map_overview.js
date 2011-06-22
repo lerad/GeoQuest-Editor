@@ -4,32 +4,35 @@ var hotspotCreating = false;
 var hotspotDeleting = false;
 var markerList = new Array();
 
+// This is needed to convert a Point to a LatLng...
+var overlay = new google.maps.OverlayView();
+overlay.draw = function() {};
 
 
 function onMapClick(event) {
 
-            if (hotspotCreating) {
-                var id = prompt("Marker id");
+    if (hotspotCreating) {
+        var id = prompt("Marker id");
 
-                if(markerList[id] != null) {
-                    alert("Id is already given to another hotspot");
-                    return;
-                }
+        if(markerList[id] != null) {
+            alert("Id is already given to another hotspot");
+            return;
+        }
 
-                var lng = event.latLng.lng();
-                var lat = event.latLng.lat();
+        var lng = event.latLng.lng();
+        var lat = event.latLng.lat();
 
-                hotspotCreating = false;
+        hotspotCreating = false;
 
-                var cmd = new AddHotspotCommand();
-                cmd.setParameter("latitude", lat);
-                cmd.setParameter("longitude", lng);
-                cmd.setParameter("id", id);
-                cmd.setParameter("mission_id", mission_id);
-                cmd.setParameter("project_id", project_id);
-                cmd.execute();
-            }
+        var cmd = new AddHotspotCommand();
+        cmd.setParameter("latitude", lat);
+        cmd.setParameter("longitude", lng);
+        cmd.setParameter("id", id);
+        cmd.setParameter("mission_id", mission_id);
+        cmd.setParameter("project_id", project_id);
+        cmd.execute();
     }
+}
 
 
 // this is called when the page loads.
@@ -45,6 +48,7 @@ function initialize() {
     map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 
     google.maps.event.addListener(map, "click", onMapClick);
+    overlay.setMap(map);
 
     addHotspotMarker();
 
@@ -68,13 +72,13 @@ var hotspotDialogHtml = 'Radius (m): <input id="hotspotRadius" type="text" size=
 var selectedMarker = null;
 var selectedImage = "";
 var dialog = $('<div></div>')
-		.html(hotspotDialogHtml)
-		.dialog({
-			autoOpen: false,
-			title: 'Hotspot Eigenschaften',
-                        width: 300
+.html(hotspotDialogHtml)
+.dialog({
+    autoOpen: false,
+    title: 'Hotspot Eigenschaften',
+    width: 300
 
-		});
+});
 
 var imageSelector = new ImageSelector(changeHotspotImage);
 
@@ -85,24 +89,24 @@ function changeHotspotImage(file) {
 }
 
 $(document).ready(function() {
-   $("#hotspotImage").click(function() {
+    $("#hotspotImage").click(function() {
         imageSelector.show();
-   });
-   $("#changeHotspotProperties").click(function() {
-      selectedMarker.customIcon = selectedImage;
-   });
+    });
+    $("#changeHotspotProperties").click(function() {
+        selectedMarker.customIcon = selectedImage;
+    });
 
-   $("#changeHotspotProperties").click(function() {
-       dialog.dialog("close");
-       var radius = $("#hotspotRadius").attr("value");
-       var cmd = new UpdateHotspotCommand();
-       cmd.setParameter("project_id", project_id);
-       cmd.setParameter("mission_id", mission_id);
-       cmd.setParameter("hotspot_id", selectedMarker.title);
-       cmd.setParameter("radius", radius);
-       cmd.setParameter("image", selectedImage);
-       cmd.execute();
-   });
+    $("#changeHotspotProperties").click(function() {
+        dialog.dialog("close");
+        var radius = $("#hotspotRadius").attr("value");
+        var cmd = new UpdateHotspotCommand();
+        cmd.setParameter("project_id", project_id);
+        cmd.setParameter("mission_id", mission_id);
+        cmd.setParameter("hotspot_id", selectedMarker.title);
+        cmd.setParameter("radius", radius);
+        cmd.setParameter("image", selectedImage);
+        cmd.execute();
+    });
 
 });
 
@@ -148,11 +152,11 @@ function addMarker(lat, lng, text, _radius, image) {
         marker.setIcon("/projects/" + project_id + "/" + image);
     }
 
-   // Add a 30m Radius to the marker.
-   var circle = new google.maps.Circle({
-          map: map,
-          radius: _radius
-        });
+    // Add a 30m Radius to the marker.
+    var circle = new google.maps.Circle({
+        map: map,
+        radius: _radius
+    });
 
     circle.bindTo('center', marker, 'position');
 
@@ -193,6 +197,35 @@ function getMarker(id) {
     return markerList[id];
 }
 
+function createHotspotFromContextMenu(pos) {
+    point = new google.maps.Point(pos.x, pos.y);
+    latlng = overlay.getProjection().fromContainerPixelToLatLng(point);
+
+//    alert(latlng.lat());
+//    alert(latlng.lng());
+
+    id = prompt("id?");
+
+    var cmd = new AddHotspotCommand();
+    cmd.setParameter("latitude", latlng.lat());
+    cmd.setParameter("longitude", latlng.lng());
+    cmd.setParameter("id", id);
+    cmd.setParameter("mission_id", mission_id);
+    cmd.setParameter("project_id", project_id);
+    cmd.execute();
+
+}
+
+$(document).ready(function() {
+
+    $("#map_canvas").contextMenu({
+        menu: 'mapMenu'
+    },
+    function(action, el, pos) {
+        if (action == "newHotspot") createHotspotFromContextMenu(pos);
+    });
+
+});
 
 
 $(document).ready(initialize);
