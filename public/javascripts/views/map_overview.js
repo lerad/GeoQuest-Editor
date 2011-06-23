@@ -129,10 +129,10 @@ function openHotspotDialog(marker) {
     dialog.dialog("open");
 }
 
-function addMarker(lat, lng, text, _radius, image) {
+function addMarker(lat, lng, hotspot_id, _radius, image) {
 
-    if(markerList[text] != null) {
-        alert("Error: Duplicate name: " + text);
+    if(markerList[hotspot_id] != null) {
+        alert("Error: Duplicate name: " + hotspot_id);
         return;
     }
 
@@ -142,15 +142,42 @@ function addMarker(lat, lng, text, _radius, image) {
     var marker = new google.maps.Marker({
         position: myLatlng,
         map: map,
-        title: text,
+        title: hotspot_id,
         draggable: true
     });
 
+
+
     marker.customIcon = image;
 
-    if(image != "") {
-        marker.setIcon("/projects/" + project_id + "/" + image);
+    var path = "";
+
+    if(image == "") { // Use default icon:
+        path = "http://www.google.com/mapfiles/marker.png#" + hotspot_id;
     }
+    else {
+        path = "/projects/" + project_id + "/" + image + "#" + hotspot_id; // + "#<id>" to find the element later
+    }
+
+    marker.setIcon(path);
+
+    // It seems as if the image is not added directly. Thus a little time
+    // must pass until the contextmenu gets added
+    setTimeout(function() {
+        $("img[src=\"" + path + "\"]").parent().contextMenu(
+            {  menu: 'hotspotMenu' },
+            function(action, el, pos) {
+                if (action == "deleteHotspot") {
+                    var cmd = new DeleteHotspotCommand();
+                    cmd.setParameter("id", hotspot_id);
+                    cmd.setParameter("project_id", project_id);
+                    cmd.setParameter("mission_id", mission_id);
+                    cmd.execute();
+                }
+            });
+
+        }, 1000);
+    
 
     // Add a 30m Radius to the marker.
     var circle = new google.maps.Circle({
@@ -164,7 +191,8 @@ function addMarker(lat, lng, text, _radius, image) {
 
 
 
-    markerList[text] = marker;
+    markerList[hotspot_id] = marker;
+
 
     google.maps.event.addListener(marker, 'click', function() {
         if(hotspotDeleting) {
@@ -200,9 +228,6 @@ function getMarker(id) {
 function createHotspotFromContextMenu(pos) {
     point = new google.maps.Point(pos.x, pos.y);
     latlng = overlay.getProjection().fromContainerPixelToLatLng(point);
-
-//    alert(latlng.lat());
-//    alert(latlng.lng());
 
     id = prompt("id?");
 

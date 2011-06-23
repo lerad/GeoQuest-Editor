@@ -27,6 +27,7 @@ function DeleteHotspotCommand() {
 
     this.updateGui = function() {
         var marker = getMarker(this.getParameter("id"));
+        marker.circle.setMap(null);
         marker.setMap(null);
     }
 }
