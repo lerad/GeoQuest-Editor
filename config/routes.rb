@@ -26,6 +26,8 @@ GeoquestEditor::Application.routes.draw do
   match '/ajax/query' => "query#execute", :as => "ajax/query"
   match '/ajax/show_dir' => "query#show_dir", :as => "ajax/show_dir"
   match '/ajax/show_missions' => "query#show_missions", :as => "ajax/show_missions"
+  match '/ajax/get_next_mission_id' => "query#get_next_mission_id", :as => "ajax/get_next_mission_id"
+  match '/ajax/get_next_hotspot_id' => "query#get_next_hotspot_id", :as => "ajax/get_next_hotspot_id"
 
 
   match '/login' => "sessions#new", :as => "login"

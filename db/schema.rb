@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110605160438) do
+ActiveRecord::Schema.define(:version => 20110624151951) do
 
   create_table "projects", :force => true do |t|
     t.string   "name"
@@ -18,6 +18,8 @@ ActiveRecord::Schema.define(:version => 20110605160438) do
     t.datetime "updated_at"
     t.integer  "user_id"
     t.boolean  "is_deployed"
+    t.integer  "max_mission_id", :default => 0
+    t.integer  "max_hotspot_id", :default => 0
   end
 
   create_table "sessions", :force => true do |t|
