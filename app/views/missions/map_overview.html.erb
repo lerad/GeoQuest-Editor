@@ -49,16 +49,12 @@
 
 <div class="content">
   <div id="map_canvas" style="width:400pt; height:300pt"></div>
-  <br />
-  <input type="button" value="Add Hotspot" onclick="createNewHotspot()" />
-  <input type="button" value="Delete Hotspot" onclick="deleteHotspot()" />
-  <br />
 
 </div>
 
 
 <script language="javascript">
-function addHotspotMarker() {
+function addHotspotMarkerToMap() {
 
   <% @hotspots.each do |hotspot| %>
   addMarker(<%= hotspot.attributes["latitude"] %>, <%= hotspot.attributes["longitude"] %> , "<%= hotspot.attributes["id"] %>", <%= hotspot.attributes["radius"] %>,  "<%= REXML::XPath.first(hotspot, './img').attributes["src"] %>" );
