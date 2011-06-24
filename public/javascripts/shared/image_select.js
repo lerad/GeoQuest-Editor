@@ -24,6 +24,10 @@ ImageSelector = function(callback) {
 
     this.callback = callback;
 
+    this.setCallback = function(callback) {
+        this.callback = callback;
+    }
+
    $('#fileTree').fileTree({
         root: 'drawable/',
         script: '/ajax/show_dir',
@@ -41,8 +45,8 @@ ImageSelector = function(callback) {
        alert("Please select an image");
    }
    else {
-        myself.dialog.dialog('close');
         myself.callback(myself.selectedImage);
+        myself.dialog.dialog('close');
      }
    });
 
@@ -52,5 +56,6 @@ ImageSelector = function(callback) {
         myself.selectedImage = "";
         myself.dialog.dialog('open');
     }
+
 
 }

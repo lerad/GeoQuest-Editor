@@ -65,22 +65,21 @@ function deleteHotspot() {
 }
 
 
-var hotspotDialogHtml = 'Radius (m): <input id="hotspotRadius" type="text" size="4" /><br /> \
-                         Image: <img src="" id="hotspotImage" /><br />      \
-                         <input type="button" id="changeHotspotProperties" value="Ok" />'
+var hotspotRadiusDialogHtml = 'Radius (m): <input id="hotspotRadius" type="text" size="4" /><br /> \
+                               <input type="button" id="changeRadiusButton" value="Ok" />'
 
 var selectedMarker = null;
 var selectedImage = "";
-var dialog = $('<div></div>')
-.html(hotspotDialogHtml)
+var hotspotRadiusDialog = $('<div></div>')
+.html(hotspotRadiusDialogHtml)
 .dialog({
     autoOpen: false,
-    title: 'Hotspot Eigenschaften',
+    title: 'Radius',
     width: 300
 
 });
 
-var imageSelector = new ImageSelector(changeHotspotImage);
+var imageSelector = new ImageSelector(null);
 
 
 function changeHotspotImage(file) {
@@ -89,24 +88,17 @@ function changeHotspotImage(file) {
 }
 
 $(document).ready(function() {
-    $("#hotspotImage").click(function() {
-        imageSelector.show();
-    });
-    $("#changeHotspotProperties").click(function() {
-        selectedMarker.customIcon = selectedImage;
-    });
-
-    $("#changeHotspotProperties").click(function() {
-        dialog.dialog("close");
-        var radius = $("#hotspotRadius").attr("value");
+    $("#changeRadiusButton").click(function() {
+        hotspotRadiusDialog.dialog('close');
         var cmd = new UpdateHotspotCommand();
         cmd.setParameter("project_id", project_id);
         cmd.setParameter("mission_id", mission_id);
-        cmd.setParameter("hotspot_id", selectedMarker.title);
-        cmd.setParameter("radius", radius);
-        cmd.setParameter("image", selectedImage);
+        cmd.setParameter("hotspot_id", hotspotRadiusDialog.marker.hotspot_id);
+        cmd.setParameter("radius", $("#hotspotRadius").attr("value"));
+        cmd.setParameter("image", hotspotRadiusDialog.marker.customIcon);
         cmd.execute();
     });
+
 
 });
 
@@ -149,6 +141,8 @@ function addMarker(lat, lng, hotspot_id, _radius, image) {
 
 
     marker.customIcon = image;
+    marker.hotspot_id = hotspot_id;
+    marker.radius = _radius;
 
     var path = "";
 
@@ -161,24 +155,6 @@ function addMarker(lat, lng, hotspot_id, _radius, image) {
 
     marker.setIcon(path);
 
-    // It seems as if the image is not added directly. Thus a little time
-    // must pass until the contextmenu gets added
-    setTimeout(function() {
-        $("img[src=\"" + path + "\"]").parent().contextMenu(
-            {  menu: 'hotspotMenu' },
-            function(action, el, pos) {
-                if (action == "deleteHotspot") {
-                    var cmd = new DeleteHotspotCommand();
-                    cmd.setParameter("id", hotspot_id);
-                    cmd.setParameter("project_id", project_id);
-                    cmd.setParameter("mission_id", mission_id);
-                    cmd.execute();
-                }
-            });
-
-        }, 1000);
-    
-
     // Add a 30m Radius to the marker.
     var circle = new google.maps.Circle({
         map: map,
@@ -188,6 +164,46 @@ function addMarker(lat, lng, hotspot_id, _radius, image) {
     circle.bindTo('center', marker, 'position');
 
     marker.circle = circle;
+
+
+    // It seems as if the image is not added directly. Thus a little time
+    // must pass until the contextmenu gets added
+    setTimeout(function() {
+        $("img[src=\"" + path + "\"]").parent().contextMenu(
+            {menu: 'hotspotMenu'},
+            function(action, el, pos) {
+                if (action == "deleteHotspot") {
+                    var cmd = new DeleteHotspotCommand();
+                    cmd.setParameter("id", hotspot_id);
+                    cmd.setParameter("project_id", project_id);
+                    cmd.setParameter("mission_id", mission_id);
+                    cmd.execute();
+                }
+                else if (action == "changeImage") {
+                    // Remove existing initiation, so only one is always open
+                    // Otherwise it might lead to problems with the ids.
+                    imageSelector.setCallback(function(file) {
+                        marker.customIcon = file;
+                         var cmd = new UpdateHotspotCommand();
+                         cmd.setParameter("project_id", project_id);
+                         cmd.setParameter("mission_id", mission_id);
+                         cmd.setParameter("hotspot_id", hotspot_id);
+                         cmd.setParameter("radius", marker.circle.radius);
+                         cmd.setParameter("image", file);
+                         cmd.execute();
+                    });
+                    imageSelector.show();
+                }
+              else if (action == "changeRadius") {
+                  $("#hotspotRadius").attr("value", marker.radius);
+                  hotspotRadiusDialog.marker = marker;
+                  hotspotRadiusDialog.dialog("open");
+              }
+            });
+
+        }, 1000);
+    
+
 
 
 
