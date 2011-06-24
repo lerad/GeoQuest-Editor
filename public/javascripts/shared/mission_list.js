@@ -10,25 +10,42 @@ function deleteMission(missionId) {
 }
 
 function addMission(parentId, type) {
-    var id = prompt("Mission id");
-    if(id == '' || id == null) return;
 
-    // New Mission on the root layer:
-    if(parentId == -1 || parentId == "-1") {
-        cmd = new AddMissionCommand();
-        cmd.setParameter("project_id", project_id);
-        cmd.setParameter("new_mission_id", id);
-        cmd.setParameter("new_mission_type", type);
-        cmd.execute();
+    var onSuccess = function(data) {
+        if(!data.next_mission_id) {
+            alert("Something has gone wrong");
+            return;
+        }
+        // New Mission on the root layer:
+        if(parentId == -1 || parentId == "-1") {
+            cmd = new AddMissionCommand();
+            cmd.setParameter("project_id", project_id);
+            cmd.setParameter("new_mission_id", data.next_mission_id);
+            cmd.setParameter("new_mission_type", type);
+            cmd.execute();
+        }
+        else { // Add Submission
+            cmd = new AddSubmissionCommand();
+            cmd.setParameter("project_id", project_id);
+            cmd.setParameter("mission_id", parentId);
+            cmd.setParameter("submission_id", data.next_mission_id);
+            cmd.setParameter("submission_type", type);
+            cmd.execute();
+        }
     }
-    else { // Add Submission
-        cmd = new AddSubmissionCommand();
-        cmd.setParameter("project_id", project_id);
-        cmd.setParameter("mission_id", parentId);
-        cmd.setParameter("submission_id", id);
-        cmd.setParameter("submission_type", type);
-        cmd.execute();
-    }
+
+    // Query new mission id:
+
+    $.ajax({
+        url: "/ajax/get_next_mission_id",
+        data : {
+            "project_id" : project_id
+        },
+        success : onSuccess,
+        error : function() {
+            alert("Something has gone wrong");
+        }
+    });
 }
 
 function getNodeDataAsObject(node) {

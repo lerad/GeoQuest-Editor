@@ -207,15 +207,27 @@ function createHotspot(pos) {
     point = new google.maps.Point(pos.x, pos.y);
     latlng = overlay.getProjection().fromContainerPixelToLatLng(point);
 
-    id = prompt("id?");
+    // Query new hotspot id:
 
-    var cmd = new AddHotspotCommand();
-    cmd.setParameter("latitude", latlng.lat());
-    cmd.setParameter("longitude", latlng.lng());
-    cmd.setParameter("id", id);
-    cmd.setParameter("mission_id", mission_id);
-    cmd.setParameter("project_id", project_id);
-    cmd.execute();
+    $.ajax({
+        url: "/ajax/get_next_hotspot_id",
+        data : {
+            "project_id" : project_id
+        },
+        success : function(data) {
+            var cmd = new AddHotspotCommand();
+            cmd.setParameter("latitude", latlng.lat());
+            cmd.setParameter("longitude", latlng.lng());
+            cmd.setParameter("id", data.next_hotspot_id);
+            cmd.setParameter("mission_id", mission_id);
+            cmd.setParameter("project_id", project_id);
+            cmd.execute();
+        },
+        error : function() {
+            alert("Something has gone wrong");
+        }
+    });
+
 
 }
 

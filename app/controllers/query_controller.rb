@@ -82,7 +82,7 @@ class QueryController < ApplicationController
   end
 
   def get_mission_as_hash(mission)
-    name = mission.attributes['id']
+    name = mission.attributes['type'] + "_" + mission.attributes['id']
     name = mission.attributes['name'] unless mission.attributes['name'].nil?
 
     mission_data = {
