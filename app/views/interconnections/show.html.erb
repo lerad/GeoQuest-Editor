@@ -1,0 +1,23 @@
+<%= render 'shared/header' %>
+
+<%= render 'shared/mission_navigation' %>
+<%= render 'shared/editor_control' %>
+
+<%= stylesheet_link_tag 'jquery.ui.css' %>
+
+<%= javascript_include_tag 'jquery/jquery.ui' %>
+<%= javascript_include_tag 'other/excanvas' %>
+<%= javascript_include_tag 'jquery/jquery.jsPlumb'  %>
+<%= javascript_include_tag 'views/mission_logic'  %>
+
+<script>
+  var project_id = <%= @project.id %>;
+</script>
+
+
+<div class="content">
+<h1>Missionslogik</h1>
+
+
+
+</div>

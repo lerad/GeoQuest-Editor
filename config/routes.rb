@@ -2,6 +2,8 @@ GeoquestEditor::Application.routes.draw do
 
 
 
+  get "interconnections/show"
+
   get "profile/show"
 
   get "xmleditor/show"
@@ -14,6 +16,7 @@ GeoquestEditor::Application.routes.draw do
     resource :image_gallery,  :only => [:show], :controller => :image_gallery
     resource :audio_gallery,  :only => [:show], :controller => :audio_gallery
     resource :xmleditor, :only => [:show], :controller => :xmleditor
+    resource :interconnections, :only => [:show], :controller => :interconnections
     match 'deploy' => "projects#deploy", :as => 'deploy', :controller => :projects
     match 'delete' => "projects#delete", :as => 'delete', :controller => :projects
 
@@ -28,6 +31,7 @@ GeoquestEditor::Application.routes.draw do
   match '/ajax/show_missions' => "query#show_missions", :as => "ajax/show_missions"
   match '/ajax/get_next_mission_id' => "query#get_next_mission_id", :as => "ajax/get_next_mission_id"
   match '/ajax/get_next_hotspot_id' => "query#get_next_hotspot_id", :as => "ajax/get_next_hotspot_id"
+  match '/ajax/show_mission_interconnections' => "query#show_mission_interconnections", :as => "ajax/show_mission_interconnections"
 
 
   match '/login' => "sessions#new", :as => "login"

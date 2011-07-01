@@ -245,4 +245,71 @@ class QueryController < ApplicationController
    render :content_type => "application/json", :text => json_data
   end
 
+  def list_events(adapter, mission_id, type)
+    request = 'doc("game.xml")//mission[@id="' + mission_id + '"]/' + type
+    result = adapter.do_request(request)
+
+    Rails.logger.info(request)
+    Rails.logger.info(result.to_xml)
+
+    events = []
+
+    result.each do |event|
+      comStartMission = XPath.first(event, "./comStartMission")
+      next_mission_id = nil
+      next_mission_id = comStartMission.attribute("id").to_s unless comStartMission.nil?
+      event_data = {
+        "next_mission" => next_mission_id,
+        "type" => type
+      }
+      events = events + [event_data]
+    end
+
+    return events
+  end
+
+
+  def show_mission_interconnections
+
+    json_data = ""
+    adapter = ExistAdapter.new(params["project_id"]);
+
+
+    mission_list = {}
+    hotspot_list = {}
+
+    result = adapter.do_request('doc("game.xml")//mission')
+
+    result.each do |mission|
+
+      on_end = list_events(adapter, mission.attribute("id").to_s, "onEnd")
+      on_success = list_events(adapter, mission.attribute("id").to_s, "onSuccess")
+      on_fail = list_events(adapter, mission.attribute("id").to_s, "onFail")
+      
+
+      mission_data = {
+        "id" => mission.attribute("id").to_s,
+        "name" => mission.attribute("name").to_s,
+        "on_success" => on_success,
+        "on_fail" => on_fail,
+        "on_end" => on_end
+
+      }
+
+
+      mission_list[mission.attribute("id")] = mission_data
+    end
+
+
+    data = {
+      :missions => mission_list,
+      :hotspots => hotspot_list
+    }
+
+    json_data = ActiveSupport::JSON.encode(data)
+
+
+    render  :text => json_data, :content_type => "application/json"
+  end
+
 end
