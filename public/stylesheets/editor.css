@@ -125,3 +125,20 @@ body {
   border-radius: 7pt;
   z-index: 2000;
 }
+
+.hotspot-box {
+  display: table-cell;
+  position: absolute;
+  background-color: chartreuse;
+  border: solid;
+  padding: 5pt;
+  min-width: 30pt;
+  max-width: 200pt;
+  min-height: 20pt;
+  text-align: center;
+  vertical-align: middle;
+  -webkit-border-radius: 7pt;
+  -moz-border-radius: 7pt;
+  border-radius: 7pt;
+  z-index: 2000;
+}

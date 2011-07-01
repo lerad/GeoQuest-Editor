@@ -245,8 +245,16 @@ class QueryController < ApplicationController
    render :content_type => "application/json", :text => json_data
   end
 
-  def list_events(adapter, mission_id, type)
-    request = 'doc("game.xml")//mission[@id="' + mission_id + '"]/' + type
+  def list_events(adapter, id, event_type, event_holder)
+    case event_holder
+    when :mission
+      request = 'doc("game.xml")//mission[@id="' + id + '"]/' + event_type
+    when :hotspot
+      request = 'doc("game.xml")//hotspot[@id="' + id + '"]/' + event_type
+    else
+      Rails.logger.error("list_events: Wrong event holder: " + event_holder)
+    end
+
     result = adapter.do_request(request)
 
     Rails.logger.info(request)
@@ -260,7 +268,7 @@ class QueryController < ApplicationController
       next_mission_id = comStartMission.attribute("id").to_s unless comStartMission.nil?
       event_data = {
         "next_mission" => next_mission_id,
-        "type" => type
+        "type" => event_type
       }
       events = events + [event_data]
     end
@@ -278,13 +286,14 @@ class QueryController < ApplicationController
     mission_list = {}
     hotspot_list = {}
 
+    # List Missions
     result = adapter.do_request('doc("game.xml")//mission')
 
     result.each do |mission|
 
-      on_end = list_events(adapter, mission.attribute("id").to_s, "onEnd")
-      on_success = list_events(adapter, mission.attribute("id").to_s, "onSuccess")
-      on_fail = list_events(adapter, mission.attribute("id").to_s, "onFail")
+      on_end = list_events(adapter, mission.attribute("id").to_s, "onEnd", :mission)
+      on_success = list_events(adapter, mission.attribute("id").to_s, "onSuccess", :mission)
+      on_fail = list_events(adapter, mission.attribute("id").to_s, "onFail", :mission)
       
 
       mission_data = {
@@ -300,6 +309,25 @@ class QueryController < ApplicationController
       mission_list[mission.attribute("id")] = mission_data
     end
 
+    # List Hotspots
+    result = adapter.do_request('doc("game.xml")//hotspot')
+
+    result.each do |hotspot|
+
+      on_tap = list_events(adapter, hotspot.attribute("id").to_s, "onTap", :hotspot)
+      on_enter = list_events(adapter, hotspot.attribute("id").to_s, "onEnter", :hotspot)
+
+
+      hotspot_data = {
+        "id" => hotspot.attribute("id").to_s,
+        "name" => hotspot.attribute("name").to_s,
+        "on_tap" => on_tap,
+        "on_enter" => on_enter
+      }
+
+
+      hotspot_list[hotspot.attribute("id")] = hotspot_data
+    end
 
     data = {
       :missions => mission_list,

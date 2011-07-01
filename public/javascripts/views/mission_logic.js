@@ -1,6 +1,9 @@
-// Use ajax to retrieve data
 
-function addEvent(data, mission, event) {
+// from can be either a mission or a hotspot description. It only has to have an id
+function addEvent(data, from, event) {
+
+  // Not all events are a Mission call:
+  if(event.next_mission == null) return;
 
   style = {
     lineWidth: 3,
@@ -18,7 +21,7 @@ function addEvent(data, mission, event) {
              "BottomLeft", "BottomCenter", "BottomRight"];
 
   jsPlumb.connect({
-      source: (mission.id + "-box"),
+      source: (from.id + "-box"),
       target: (event.next_mission + "-box"),
       paintStyle: style,
       hoverPaintStyle: hoverStyle,
@@ -34,19 +37,36 @@ function addEvent(data, mission, event) {
 
 }
 
+
 function addElements(data) {
 
+    missions = data.missions;
+    hotspots = data.hotspots;
+
     // Add Mission elements:
-    $.each (data.missions, function(mission_index, mission) {
+    $.each(missions, function(mission_index, mission) {
        $(".content").append($('<div class="mission-box" id="' + mission.id + '-box"><p>' + mission.name + '</p></div>'))
        jsPlumb.draggable($("#" + mission.id + "-box"));
     });
 
-    // Add connections:
-    $.each(data.missions, function(mission_index, mission) {
+    // Add Hotspot elements:
+    $.each(hotspots, function(hotspot_index, hotspot) {
+       if(!hotspot.name) hotspot.name = hotspot.id;
+       $(".content").append($('<div class="hotspot-box" id="' + hotspot.id + '-box"><p>' + hotspot.name + '</p></div>'))
+       jsPlumb.draggable($("#" + hotspot.id + "-box"));
+    });
+
+    // Add connections from Mission to Mission:
+    $.each(missions, function(mission_index, mission) {
        $.each(mission.on_success, function(event_index, event) {addEvent(data, mission, event);});
        $.each(mission.on_end, function(event_index, event) {addEvent(data, mission, event);});
        $.each(mission.on_fail, function(event_index, event) {addEvent(data, mission, event);});
+    });
+
+    // Add connections from Hotspot to Mission:
+    $.each(hotspots, function(hotspot_index, hotspot) {
+       $.each(hotspot.on_enter, function(event_index, event) {addEvent(data, hotspot, event);});
+       $.each(hotspot.on_tap, function(event_index, event) {addEvent(data, hotspot, event);});
     });
 
 
