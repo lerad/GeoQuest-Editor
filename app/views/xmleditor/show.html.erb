@@ -26,7 +26,13 @@
 <p id="messageField"></p>
 
 <textarea cols="80" rows="100" id="xmleditor">
-<%= @xmlfile %>
+<%=
+formatter = REXML::Formatters::Pretty.new
+output = String.new
+formatter.write(@xmlfile, output)
+
+output
+%>
 </textarea>
 
 <br />
