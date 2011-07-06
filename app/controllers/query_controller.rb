@@ -297,7 +297,7 @@ class QueryController < ApplicationController
       let $newEntry :=
         <<%= object_type_string %> id="<%= id %>">
             <x>0</x>
-            <y>0</y>
+            <y>50</y>
         </mission>
       return update insert $newEntry into doc("editor.xml")/editor/visualisation
       EOF
@@ -307,7 +307,7 @@ class QueryController < ApplicationController
 
       visualization = {
         "x" => 0,
-        "y" => 0
+        "y" => 50
       }
       return visualization
     else

@@ -45,7 +45,13 @@ function addElements(data) {
 
     // Add Mission elements:
     $.each(missions, function(mission_index, mission) {
-       $(".content").append($('<div class="mission-box" id="' + mission.id + '-box"><p>' + mission.name + '</p></div>'))
+       var element = $('<div></div>')
+                        .html("<p>" + mission.name + "</p>")
+                        .addClass("mission-box")
+                        .attr("id", mission.id + "-box")
+                        .css("left", mission.visualization.x)
+                        .css("top", mission.visualization.y);
+       $(".content").append(element)
        jsPlumb.draggable($("#" + mission.id + "-box"));
     });
 
