@@ -34,7 +34,8 @@ if(jQuery)( function() {
 					var evt = e;
 					evt.stopPropagation();
 					$(this).mouseup( function(e) {
-						e.stopPropagation();
+						// Leads to problems in combination with the draggable plugin
+                                                // e.stopPropagation();
 						var srcElement = $(this);
 						$(this).unbind('mouseup');
 						if( evt.button == 2 ) {

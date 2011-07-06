@@ -254,7 +254,9 @@ class QueryController < ApplicationController
       comStartMission = XPath.first(event, "./comStartMission")
       next_mission_id = nil
       next_mission_id = comStartMission.attribute("id").to_s unless comStartMission.nil?
+      event_id = event.attribute("id").to_s
       event_data = {
+        "id" => event_id,
         "next_mission" => next_mission_id,
         "type" => event_type
       }
@@ -360,7 +362,7 @@ class QueryController < ApplicationController
 
       on_tap = list_events(hotspot, "onTap", :hotspot)
       on_enter = list_events(hotspot, "onEnter", :hotspot)
-      visualization = get_visualization(visualisationResult, hotspot.attribute("id").to_s, :hotspot)
+      visualization = get_visualization(visualisation_result, hotspot.attribute("id").to_s, :hotspot)
 
       hotspot_data = {
         "id" => hotspot.attribute("id").to_s,
