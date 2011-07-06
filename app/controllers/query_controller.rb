@@ -243,22 +243,14 @@ class QueryController < ApplicationController
    render :content_type => "application/json", :text => json_data
   end
 
-  def list_events(adapter, id, event_type, event_holder)
-    case event_holder
-    when :mission
-      request = 'doc("game.xml")//mission[@id="' + id + '"]/' + event_type
-    when :hotspot
-      request = 'doc("game.xml")//hotspot[@id="' + id + '"]/' + event_type
-    else
-      Rails.logger.error("list_events: Wrong event holder: " + event_holder)
-    end
-
-    result = adapter.do_request(request)
+  def list_events(element, event_type, event_holder)
 
 
     events = []
 
-    result.each do |event|
+    request = "./" + event_type
+
+    XPath.each(element, request) do |event|
       comStartMission = XPath.first(event, "./comStartMission")
       next_mission_id = nil
       next_mission_id = comStartMission.attribute("id").to_s unless comStartMission.nil?
@@ -272,7 +264,9 @@ class QueryController < ApplicationController
     return events
   end
 
-  def get_visualization(adapter, id, object_type)
+  # Gets a reference to the whole visualisation element in editor.xml
+  # and returns the x/y positions of the mission/hotspot with the given id
+  def get_visualization(visualisation_result, id, object_type)
 
     object_type_string = nil
 
@@ -286,13 +280,12 @@ class QueryController < ApplicationController
       return {}
     end
 
-    request = 'doc("editor.xml")/editor/visualisation/' + object_type_string + '[@id="' + id + '"]'
-    result = adapter.do_request(request)
+    request = './' + object_type_string + '[@id="' + id + '"]'
+    result = XPath.first(visualisation_result, request)
 
-    visualization = nil
-
-    if result.length == 0 then
+    if result.nil? then
       Rails.logger.info("Create new visualization object for " + object_type_string + ": " + id)
+
       template = ERB.new <<-EOF
       let $newEntry :=
         <<%= object_type_string %> id="<%= id %>">
@@ -303,6 +296,7 @@ class QueryController < ApplicationController
       EOF
 
       request = template.result(binding)
+      adapter = ExistAdapter.new(params["project_id"]);
       adapter.do_request(request)
 
       visualization = {
@@ -311,8 +305,8 @@ class QueryController < ApplicationController
       }
       return visualization
     else
-      x = XPath.first(result[0], "./x").text.to_i
-      y = XPath.first(result[0], "./y").text.to_i
+      x = XPath.first(result, "./x").text.to_i
+      y = XPath.first(result, "./y").text.to_i
       visualization = {
         "x" => x,
         "y" => y
@@ -322,6 +316,11 @@ class QueryController < ApplicationController
 
   end
 
+  # Is called via ajax
+  # Creates a JSON object which contains
+  # Information about the missions and hotspots,
+  # the interconnection between the missions
+  # and information about the visualisation.
   def show_mission_interconnections
 
     json_data = ""
@@ -331,15 +330,16 @@ class QueryController < ApplicationController
     mission_list = {}
     hotspot_list = {}
 
-    # List Missions
-    result = adapter.do_request('doc("game.xml")//mission')
+    # List all missions
+    mission_result = adapter.do_request('doc("game.xml")//mission')
+    visualisation_result = adapter.do_request('doc("editor.xml")/editor/visualisation')
 
-    result.each do |mission|
+    mission_result.each do |mission|
 
-      on_end = list_events(adapter, mission.attribute("id").to_s, "onEnd", :mission)
-      on_success = list_events(adapter, mission.attribute("id").to_s, "onSuccess", :mission)
-      on_fail = list_events(adapter, mission.attribute("id").to_s, "onFail", :mission)
-      visualization = get_visualization(adapter, mission.attribute("id").to_s, :mission)
+      on_end = list_events(mission, "onEnd", :mission)
+      on_success = list_events(mission, "onSuccess", :mission)
+      on_fail = list_events(mission, "onFail", :mission)
+      visualization = get_visualization(visualisation_result, mission.attribute("id").to_s, :mission)
 
       mission_data = {
         "id" => mission.attribute("id").to_s,
@@ -350,18 +350,17 @@ class QueryController < ApplicationController
         "visualization" => visualization
       }
 
-
       mission_list[mission.attribute("id")] = mission_data
     end
 
-    # List Hotspots
-    result = adapter.do_request('doc("game.xml")//hotspot')
+    # List all hotspots
+    hotspot_result = adapter.do_request('doc("game.xml")//hotspot')
 
-    result.each do |hotspot|
+    hotspot_result.each do |hotspot|
 
-      on_tap = list_events(adapter, hotspot.attribute("id").to_s, "onTap", :hotspot)
-      on_enter = list_events(adapter, hotspot.attribute("id").to_s, "onEnter", :hotspot)
-      visualization = get_visualization(adapter, hotspot.attribute("id").to_s, :hotspot)
+      on_tap = list_events(hotspot, "onTap", :hotspot)
+      on_enter = list_events(hotspot, "onEnter", :hotspot)
+      visualization = get_visualization(visualisationResult, hotspot.attribute("id").to_s, :hotspot)
 
       hotspot_data = {
         "id" => hotspot.attribute("id").to_s,
