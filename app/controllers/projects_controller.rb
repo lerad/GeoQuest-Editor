@@ -96,8 +96,13 @@ class ProjectsController < ApplicationController
 
       # Upload game.xml to Exists
       adapter = ExistAdapter.new(@project.id)
-      path = Rails.root.join("data", "skeleton.xml");
-      adapter.upload_file_as_filename(path, "game.xml")
+      game_skeleton_path = Rails.root.join("data", "skeleton.xml");
+      adapter.upload_file_as_filename(game_skeleton_path, "game.xml")
+
+      # Upload visualization.xml to Exists
+      editor_data_path = Rails.root.join("data", "editor.xml");
+      adapter.upload_file_as_filename(editor_data_path, "editor.xml")
+
       redirect_to projects_path, :notice => 'Project successfully added.'
     end
   end

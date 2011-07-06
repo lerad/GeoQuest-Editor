@@ -184,7 +184,6 @@ class QueryController < ApplicationController
      new_id = "m" + new_id_value.to_s
      query = "doc(\"game.xml\")//mission[@id=\"" + new_id + "\"]"
      result = adapter.do_request(query);
-     Rails.logger.info(result.to_xml)
      # if there is none mission with this id, the result should be an array
      # of zero length
    end while result.length != 0
@@ -228,7 +227,6 @@ class QueryController < ApplicationController
      new_id = "h" + new_id_value.to_s
      query = "doc(\"game.xml\")//hotspot[@id=\"" + new_id + "\"]"
      result = adapter.do_request(query);
-     Rails.logger.info(result.to_xml)
      # if there is none mission with this id, the result should be an array
      # of zero length
    end while result.length != 0
@@ -257,8 +255,6 @@ class QueryController < ApplicationController
 
     result = adapter.do_request(request)
 
-    Rails.logger.info(request)
-    Rails.logger.info(result.to_xml)
 
     events = []
 
@@ -276,6 +272,55 @@ class QueryController < ApplicationController
     return events
   end
 
+  def get_visualization(adapter, id, object_type)
+
+    object_type_string = nil
+
+    case object_type
+    when :mission
+      object_type_string = "mission"
+    when :hotspot
+      object_type_string = "hotspot"
+    else
+      Rails.logger.error("get_visualization: Unknown object_type: " + object_type.to_s)
+      return {}
+    end
+
+    request = 'doc("editor.xml")/editor/visualisation/' + object_type_string + '[@id="' + id + '"]'
+    result = adapter.do_request(request)
+
+    visualization = nil
+
+    if result.length == 0 then
+      Rails.logger.info("Create new visualization object for " + object_type_string + ": " + id)
+      template = ERB.new <<-EOF
+      let $newEntry :=
+        <<%= object_type_string %> id="<%= id %>">
+            <x>0</x>
+            <y>0</y>
+        </mission>
+      return update insert $newEntry into doc("editor.xml")/editor/visualisation
+      EOF
+
+      request = template.result(binding)
+      adapter.do_request(request)
+
+      visualization = {
+        "x" => 0,
+        "y" => 0
+      }
+      return visualization
+    else
+      x = XPath.first(result[0], "./x").text.to_i
+      y = XPath.first(result[0], "./y").text.to_i
+      visualization = {
+        "x" => x,
+        "y" => y
+      }
+      return visualization
+    end
+
+  end
 
   def show_mission_interconnections
 
@@ -294,15 +339,15 @@ class QueryController < ApplicationController
       on_end = list_events(adapter, mission.attribute("id").to_s, "onEnd", :mission)
       on_success = list_events(adapter, mission.attribute("id").to_s, "onSuccess", :mission)
       on_fail = list_events(adapter, mission.attribute("id").to_s, "onFail", :mission)
-      
+      visualization = get_visualization(adapter, mission.attribute("id").to_s, :mission)
 
       mission_data = {
         "id" => mission.attribute("id").to_s,
         "name" => mission.attribute("name").to_s,
         "on_success" => on_success,
         "on_fail" => on_fail,
-        "on_end" => on_end
-
+        "on_end" => on_end,
+        "visualization" => visualization
       }
 
 
@@ -316,13 +361,14 @@ class QueryController < ApplicationController
 
       on_tap = list_events(adapter, hotspot.attribute("id").to_s, "onTap", :hotspot)
       on_enter = list_events(adapter, hotspot.attribute("id").to_s, "onEnter", :hotspot)
-
+      visualization = get_visualization(adapter, hotspot.attribute("id").to_s, :hotspot)
 
       hotspot_data = {
         "id" => hotspot.attribute("id").to_s,
         "name" => hotspot.attribute("name").to_s,
         "on_tap" => on_tap,
-        "on_enter" => on_enter
+        "on_enter" => on_enter,
+        "visualization" => visualization
       }
 
 
