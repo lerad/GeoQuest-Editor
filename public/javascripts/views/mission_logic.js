@@ -52,14 +52,37 @@ function addElements(data) {
                         .css("left", mission.visualization.x)
                         .css("top", mission.visualization.y);
        $(".content").append(element)
-       jsPlumb.draggable($("#" + mission.id + "-box"));
+       element.bind("drag", function(event, ui) {
+        cmd = new MoveMissionVisualizationCommand();
+        cmd.setParameter("project_id", project_id);
+        cmd.setParameter("mission_id", mission.id);
+        cmd.setParameter("x", ui.position.left);
+        cmd.setParameter("y", ui.position.top);
+        cmd.execute();
+       });
+       jsPlumb.draggable(element);
     });
 
     // Add Hotspot elements:
     $.each(hotspots, function(hotspot_index, hotspot) {
        if(!hotspot.name) hotspot.name = hotspot.id;
-       $(".content").append($('<div class="hotspot-box" id="' + hotspot.id + '-box"><p>' + hotspot.name + '</p></div>'))
-       jsPlumb.draggable($("#" + hotspot.id + "-box"));
+       var element = $('<div></div>')
+                    .addClass("hotspot-box")
+                    .attr("id", hotspot.id + "-box")
+                    .html("<p>" + hotspot.name + "</p>")
+                    .css("left", hotspot.visualization.x)
+                    .css("top", hotspot.visualization.y);
+       $(".content").append(element);
+       jsPlumb.draggable(element);
+
+       element.bind("drag", function(event, ui) {
+        cmd = new MoveHotspotVisualizationCommand();
+        cmd.setParameter("project_id", project_id);
+        cmd.setParameter("hotspot_id", hotspot.id);
+        cmd.setParameter("x", ui.position.left);
+        cmd.setParameter("y", ui.position.top);
+        cmd.execute();
+       });
     });
 
     // Add connections from Mission to Mission:

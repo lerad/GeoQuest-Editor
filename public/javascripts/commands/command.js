@@ -26,7 +26,14 @@ function Command() {
     }
 
     this.onFailure = function(jqXHR, textStatus, errorThrown) {
-        // By default error (maybe do something more silent later)
+        /**
+         * If the user clicks reload, during an ajax call an error is thrown
+         * The following conditions checks for this
+         * Such errors need not to be presented to the user
+         */
+        if(jqXHR.readyState == 0 || jqXHR.status == 0)
+            return;
+        // By default show error (maybe do something more silent later)
         alert("Error during AJAX: " + errorThrown);
     }
 

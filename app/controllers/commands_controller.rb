@@ -5,6 +5,7 @@ require 'commands/npctalk_commands'
 require 'commands/mission_commands'
 require 'commands/question_commands'
 require 'commands/xmlfile_commands'
+require 'commands/mission_visualization_commands'
 
 class CommandsController < ApplicationController
 
@@ -59,6 +60,10 @@ class CommandsController < ApplicationController
        cmd = UpdateXmlFileCommand.new(params)
       when "DeleteMissionCommand"
        cmd = DeleteMissionCommand.new(params);
+      when "MoveMissionVisualizationCommand"
+       cmd = MoveMissionVisualizationCommand.new(params);
+      when "MoveHotspotVisualizationCommand"
+       cmd = MoveHotspotVisualizationCommand.new(params);
     else
         logger.warn "Unsupported command: " + params[:command]
     end

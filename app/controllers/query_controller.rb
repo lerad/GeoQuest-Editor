@@ -298,7 +298,7 @@ class QueryController < ApplicationController
         <<%= object_type_string %> id="<%= id %>">
             <x>0</x>
             <y>50</y>
-        </mission>
+        </<%= object_type_string %>>
       return update insert $newEntry into doc("editor.xml")/editor/visualisation
       EOF
 
