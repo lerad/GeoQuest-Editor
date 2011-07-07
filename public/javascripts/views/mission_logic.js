@@ -4,7 +4,7 @@ $(document).ready(function() {
     });
 })
 // from can be either a mission or a hotspot description. It only has to have an id
-function addEvent(data, from, event) {
+function addJsplumbConnection(data, from, event) {
 
   // Not all events are a Mission call:
   if(event.next_mission == null) return;
@@ -41,6 +41,16 @@ function addEvent(data, from, event) {
 
 }
 
+function createNewEvent(type, element) {
+    var title = "Create new " + type + " event in " + element.name;
+    $("#eventDialog_dialog").dialog("option", "title", title)
+                     .dialog("open");
+}
+
+function listEvents(element) {
+    alert("List events...")
+}
+
 function contextMenuCallback(action, element, pos) {
     actionMapping = {
         "addOnEnd" : "onEnd",
@@ -51,8 +61,15 @@ function contextMenuCallback(action, element, pos) {
     }
 
     if (action in actionMapping) {
-        alert("New " + actionMapping[action] + " event! (For a " + element.data("geoquest.type") + ")");
+        createNewEvent(actionMapping[action], element);
     }
+    else if (action == "listEvents") {
+        listEvents(element);
+    }
+    else {
+        alert("Error. Unknown action '" + action + "' in contextMenuCallback");
+    }
+
 
 }
 
@@ -71,7 +88,8 @@ function addElements(data) {
                         .css("left", mission.visualization.x)
                         .css("top", mission.visualization.y)
                         .data("geoquest.type", "mission")
-                        .data("geoquest.mission_id", mission.id);
+                        .data("geoquest.mission_id", mission.id)
+                        .data("geoquest.name", mission.name);
        $(".content").append(element)
        jsPlumb.draggable(element);
        element.bind("drag", function(event, ui) {
@@ -98,7 +116,8 @@ function addElements(data) {
                     .css("left", hotspot.visualization.x)
                     .css("top", hotspot.visualization.y)
                     .data("geoquest.type", "hotspot")
-                    .data("geoquest.hotspot_id", hotspot.id);
+                    .data("geoquest.hotspot_id", hotspot.id)
+                    .data("geoquest.name", hotspot.name);
        $(".content").append(element);
        jsPlumb.draggable(element);
 
@@ -120,15 +139,15 @@ function addElements(data) {
 
     // Add connections from Mission to Mission:
     $.each(missions, function(mission_index, mission) {
-       $.each(mission.on_success, function(event_index, event) {addEvent(data, mission, event);});
-       $.each(mission.on_end, function(event_index, event) {addEvent(data, mission, event);});
-       $.each(mission.on_fail, function(event_index, event) {addEvent(data, mission, event);});
+       $.each(mission.on_success, function(event_index, event) {addJsplumbConnection(data, mission, event);});
+       $.each(mission.on_end, function(event_index, event) {addJsplumbConnection(data, mission, event);});
+       $.each(mission.on_fail, function(event_index, event) {addJsplumbConnection(data, mission, event);});
     });
 
     // Add connections from Hotspot to Mission:
     $.each(hotspots, function(hotspot_index, hotspot) {
-       $.each(hotspot.on_enter, function(event_index, event) {addEvent(data, hotspot, event);});
-       $.each(hotspot.on_tap, function(event_index, event) {addEvent(data, hotspot, event);});
+       $.each(hotspot.on_enter, function(event_index, event) {addJsplumbConnection(data, hotspot, event);});
+       $.each(hotspot.on_tap, function(event_index, event) {addJsplumbConnection(data, hotspot, event);});
     });
 
 
