@@ -1,4 +1,8 @@
-
+$(document).ready(function() {
+    $("#eventDialog_dialog").dialog({
+        autoOpen: false
+    });
+})
 // from can be either a mission or a hotspot description. It only has to have an id
 function addEvent(data, from, event) {
 
@@ -37,6 +41,21 @@ function addEvent(data, from, event) {
 
 }
 
+function contextMenuCallback(action, element, pos) {
+    actionMapping = {
+        "addOnEnd" : "onEnd",
+        "addOnFail" : "onFail",
+        "addOnSuccess" : "onSuccess",
+        "addOnTap" : "onTap",
+        "addOnEnter" : "onEnter"
+    }
+
+    if (action in actionMapping) {
+        alert("New " + actionMapping[action] + " event! (For a " + element.data("geoquest.type") + ")");
+    }
+
+}
+
 
 function addElements(data) {
 
@@ -50,8 +69,11 @@ function addElements(data) {
                         .addClass("mission-box")
                         .attr("id", mission.id + "-box")
                         .css("left", mission.visualization.x)
-                        .css("top", mission.visualization.y);
+                        .css("top", mission.visualization.y)
+                        .data("geoquest.type", "mission")
+                        .data("geoquest.mission_id", mission.id);
        $(".content").append(element)
+       jsPlumb.draggable(element);
        element.bind("drag", function(event, ui) {
         cmd = new MoveMissionVisualizationCommand();
         cmd.setParameter("project_id", project_id);
@@ -60,7 +82,10 @@ function addElements(data) {
         cmd.setParameter("y", ui.position.top);
         cmd.execute();
        });
-       jsPlumb.draggable(element);
+       element.contextMenu(
+         {menu: 'missionMenu'},
+         contextMenuCallback
+        );
     });
 
     // Add Hotspot elements:
@@ -71,7 +96,9 @@ function addElements(data) {
                     .attr("id", hotspot.id + "-box")
                     .html("<p>" + hotspot.name + "</p>")
                     .css("left", hotspot.visualization.x)
-                    .css("top", hotspot.visualization.y);
+                    .css("top", hotspot.visualization.y)
+                    .data("geoquest.type", "hotspot")
+                    .data("geoquest.hotspot_id", hotspot.id);
        $(".content").append(element);
        jsPlumb.draggable(element);
 
@@ -83,6 +110,12 @@ function addElements(data) {
         cmd.setParameter("y", ui.position.top);
         cmd.execute();
        });
+
+       element.contextMenu(
+         {menu: 'hotspotMenu'},
+         contextMenuCallback
+        );
+
     });
 
     // Add connections from Mission to Mission:

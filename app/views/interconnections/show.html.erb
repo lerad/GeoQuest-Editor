@@ -3,11 +3,13 @@
 <%= render 'shared/mission_navigation' %>
 <%= render 'shared/editor_control' %>
 
-<%= stylesheet_link_tag 'jquery.ui.css' %>
+<%= stylesheet_link_tag 'jquery.ui' %>
+<%= stylesheet_link_tag 'jquery.contextMenu' %>
 
 <%= javascript_include_tag 'jquery/jquery.ui' %>
 <%= javascript_include_tag 'other/excanvas' %>
 <%= javascript_include_tag 'jquery/jquery.jsPlumb'  %>
+<%= javascript_include_tag 'jquery/jquery.contextMenu'  %>
 <%= javascript_include_tag 'commands/command'  %>
 <%= javascript_include_tag 'commands/mission_logic'  %>
 <%= javascript_include_tag 'views/mission_logic'  %>
@@ -16,6 +18,53 @@
   var project_id = <%= @project.id %>;
 </script>
 
+<ul id="missionMenu">
+  <li>
+    <a href="#listEvents">List all events</a>
+  </li>
+  <li>
+    <a href="#addOnEnd">new onEnd event</a>
+  </li>
+  <li>
+    <a href="#addOnFail">new onFail event</a>
+  </li>
+  <li>
+    <a href="#addOnSuccess">new onSuccess event</a>
+  </li>
+</ul>
+
+<ul id="hotspotMenu">
+  <li>
+    <a href="#listEvents">List all events</a>
+  </li>
+  <li>
+    <a href="#addOnEnter">new onEnter event</a>
+  </li>
+  <li>
+    <a href="#addOnTap">new onTap event</a>
+  </li>
+</ul>
+
+<div id="eventDialog_dialog">
+  Next mission:
+  <select id="eventDialog_nextMission">
+    <option value="none">none</option>
+    <option value="m1">m1</option>
+  </select>
+  <br />
+  <b>Requirements</b>
+  <br />
+  <ul id="eventDialog_requirements">
+    <li>...</li>
+  </ul>
+  <br />
+  <b>Actions</b>
+  <br />
+  <ul id="eventDialog_actions">
+    <li>...</li>
+  </ul>
+
+</div>
 
 <div class="content">
 <h1>Missionslogik</h1>
