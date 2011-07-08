@@ -364,9 +364,14 @@ class QueryController < ApplicationController
       on_enter = list_events(hotspot, "onEnter", :hotspot)
       visualization = get_visualization(visualisation_result, hotspot.attribute("id").to_s, :hotspot)
 
+      name = hotspot.attribute("name").to_s
+      if name.nil? or name == ""
+        name = hotspot.attribute("id").to_s
+      end
+
       hotspot_data = {
         "id" => hotspot.attribute("id").to_s,
-        "name" => hotspot.attribute("name").to_s,
+        "name" => name,
         "on_tap" => on_tap,
         "on_enter" => on_enter,
         "visualization" => visualization
