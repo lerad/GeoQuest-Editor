@@ -51,18 +51,16 @@ class CreateNewEventCommand < Command
     event_holder = params["event_holder"];
     event = params["event"];
 
-    if(event["id"].nil?)
-      Rails.logger.debug("Create id");
-      event["id"] = "e" + rand(1000).to_s
-    end
 
     event_template = ERB.new <<-EOF
     <<%= event["type"] %> id="<%= event["id"] %>">
-    <% if event["nextMission"] != "none" %>
-    <comStartMission id="<%= event["nextMission"] %>" />
+    <% if event["next_mission"] != "none" %>
+    <comStartMission id="<%= event["next_mission"] %>" />
     <% end %>
+    <% if event["requirements"] != "" %>
     <% event["requirements"].each do |index, requirement| %>
     <%= requirement["xml"] %>
+    <% end %>
     <% end %>
     </<%= event["type"] %>>
 EOF

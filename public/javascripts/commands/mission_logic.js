@@ -27,6 +27,14 @@ function CreateNewEventCommand() {
 
     this.updateGui = function() {
     }
+
+    _this = this; // Save object, because onSuccess is not called on the object
+
+    this.onSuccess = function() {
+        from = _this.getParameter("event_holder");
+        event = _this.getParameter("event");
+        addJsplumbConnection(from, event);
+    }
 }
 
 CreateNewEventCommand.prototype = new Command();

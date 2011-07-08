@@ -37,11 +37,15 @@ $(document).ready(function() {
         requirements = $("#eventDialog_dialog").data("geoquest.requirements");
         commands = $("#eventDialog_dialog").data("geoquest.commands");
         type = $("#eventDialog_dialog").data("geoquest.event_type");
+
+        // TODO: Do Ajax call:
+        id = "e" + (100 + parseInt( Math.random() * 800));
         event = {
-            "nextMission" : nextMission,
+            "next_mission" : nextMission,
             "requirements" : requirements,
             "commands" : commands,
-            "type" : type
+            "type" : type,
+            "id" : id
         };
 
         cmd = new CreateNewEventCommand();
@@ -161,7 +165,7 @@ function recomputeReqMissionStatus() {
 }
 
 // from can be either a mission or a hotspot description. It only has to have an id
-function addJsplumbConnection(data, from, event) {
+function addJsplumbConnection( from, event) {
 
   // Not all events are a Mission call:
   if(event.next_mission == null) return;
@@ -301,15 +305,15 @@ function addElements(data) {
 
     // Add connections from Mission to Mission:
     $.each(missions, function(mission_index, mission) {
-       $.each(mission.on_success, function(event_index, event) {addJsplumbConnection(data, mission, event);});
-       $.each(mission.on_end, function(event_index, event) {addJsplumbConnection(data, mission, event);});
-       $.each(mission.on_fail, function(event_index, event) {addJsplumbConnection(data, mission, event);});
+       $.each(mission.on_success, function(event_index, event) {addJsplumbConnection( mission, event);});
+       $.each(mission.on_end, function(event_index, event) {addJsplumbConnection( mission, event);});
+       $.each(mission.on_fail, function(event_index, event) {addJsplumbConnection( mission, event);});
     });
 
     // Add connections from Hotspot to Mission:
     $.each(hotspots, function(hotspot_index, hotspot) {
-       $.each(hotspot.on_enter, function(event_index, event) {addJsplumbConnection(data, hotspot, event);});
-       $.each(hotspot.on_tap, function(event_index, event) {addJsplumbConnection(data, hotspot, event);});
+       $.each(hotspot.on_enter, function(event_index, event) {addJsplumbConnection( hotspot, event);});
+       $.each(hotspot.on_tap, function(event_index, event) {addJsplumbConnection( hotspot, event);});
     });
 
 }
