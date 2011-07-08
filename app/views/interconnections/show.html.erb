@@ -92,6 +92,43 @@
   <input type="button" value="create requirement" id="attributeRequirementDialog_createButton" />
 </div>
 
+
+
+<div id="attributeCommandDialog_dialog">
+  Attribute: <input type="text" id="attributeCommandDialog_attribute" /> <br /><br />
+  Set to value: <input type="text" id="attributeCommandDialog_value" /> <br /> <br  />
+  <b>Command:</b> <br />
+  <p id="attributeCommandDialog_command"></p>
+
+  <br />
+  <input type="button" value="create requirement" id="attributeCommandDialog_createButton" />
+</div>
+
+<div id="playSoundCommandDialog_dialog">
+  Sound:
+  <select id="playSoundCommandDialog_sound">
+  </select>
+  <br/><br />
+  <b>Command:</b> <br />
+  <p id="playSoundCommandDialog_command"></p>
+
+  <br />
+  <input type="button" value="create requirement" id="playSoundCommandDialog_createButton" />
+</div>
+
+<div id="messageCommandDialog_dialog">
+  Message: <br />
+  <textarea id="messageCommandDialog_message" cols="20" rows="5">
+  </textarea>
+  <br/><br />
+  <b>Command:</b> <br />
+  <p id="messageCommandDialog_command"></p>
+
+  <br />
+  <input type="button" value="create requirement" id="messageCommandDialog_createButton" />
+</div>
+
+
 <div id="eventDialog_dialog">
   Next mission:
   <select id="eventDialog_nextMission">
@@ -109,15 +146,21 @@
         <option value="reqAttribute">Value of an attribute</option>
      </select>
      <a href="#" id="eventDialog_addRequirement">add requirement</a>
-
     </li>
   </ul>
   <br />
   <br />
-  <b>Actions</b>
+  <b>Commands</b>
   <br />
   <ul id="eventDialog_actions">
-    <li>...</li>
+    <li id="eventDialog_addCommandListEntry">
+     <select id="eventDialog_addCommandType">
+        <option value="comMessage">Show a message</option>
+        <option value="comAttribute">Set an attribute</option>
+        <option value="comPlaySound">Play a sound</option>
+     </select>
+     <a href="#" id="eventDialog_addCommand">add command</a>
+    </li>
   </ul>
   <br />
   <br />

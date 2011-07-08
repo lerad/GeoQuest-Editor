@@ -57,11 +57,20 @@ class CreateNewEventCommand < Command
     <% if event["next_mission"] != "none" %>
     <comStartMission id="<%= event["next_mission"] %>" />
     <% end %>
+
+    <% if event["commands"] != "" %>
+    <% event["commands"].each do |index, command| %>
+    <%= command["xml"] %>
+    <% end %>
+    <% end %>
+
+
     <% if event["requirements"] != "" %>
     <% event["requirements"].each do |index, requirement| %>
     <%= requirement["xml"] %>
     <% end %>
     <% end %>
+
     </<%= event["type"] %>>
 EOF
 

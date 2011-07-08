@@ -9,7 +9,7 @@ $(document).ready(function() {
     $("#eventDialog_dialog").dialog({
         autoOpen: false,
         width: 500,
-        height: 300
+        height: 500
     });
 
 
@@ -35,6 +35,31 @@ $(document).ready(function() {
         }
         else {
             alert("This requirement is not implemented yet");
+        }
+
+    });
+
+    $("#eventDialog_addCommand").click(function() {
+        var type = $("#eventDialog_addCommandType").val();
+
+        var dialogId = {
+            "comMessage" : "#messageCommandDialog_dialog",
+            "comAttribute" : "#attributeCommandDialog_dialog",
+            "comPlaySound" : "#playSoundCommandDialog_dialog"
+        };
+        
+        var initFunction = {
+            "comMessage" : initComMessageDialog,
+            "comAttribute" : initComAttributeDialog,
+            "comPlaySound" : initComPlaySoundDialog
+        };
+
+        if (type in dialogId) {
+            $(dialogId[type]).dialog("open");
+            initFunction[type]();
+        }
+        else {
+            alert("This command is not implemented yet");
         }
 
     });
@@ -86,6 +111,14 @@ function addRequirementToEventDialog(requirement) {
      newElement = $("<li></li>").text(requirement.description)
                                 .addClass("event-dialog-dynamic-content")
      $("#eventDialog_addRequirementListEntry").before(newElement);
+}
+
+// Adds a new command to the dialog
+function addCommandToEventDialog(command) {
+     $("#eventDialog_dialog").data("geoquest.commands").push(command);
+     newElement = $("<li></li>").text(command.description)
+                                .addClass("event-dialog-dynamic-content")
+     $("#eventDialog_addCommandListEntry").before(newElement);
 }
 
 /*****************************************************
@@ -188,9 +221,6 @@ function recomputeReqMissionStatus() {
  * In Hospot Range Requirement Dialog
  * Used to create new requirements of the type "reqInRange"
  *****************************************************/
-
-
-
 
 // Initialize In Hotspot Range Requirement Dialog
 $(document).ready(function() {
@@ -359,7 +389,178 @@ function recomputeReqAttribute() {
 
 }
 
+/*****************************************************
+ * Message Command Dialog
+ * Used to create new commands of the type "comMessage"
+ *****************************************************/
 
+
+// Initialize Message Command Dialog
+$(document).ready(function() {
+    $("#messageCommandDialog_dialog").dialog({
+        autoOpen: false,
+        title: "Create new comMessage Command",
+        width: 400,
+        height: 300
+    });
+
+    $("#messageCommandDialog_message").change(recomputeComMessage);
+    $("#messageCommandDialog_message").keyup(recomputeComMessage);
+
+    $("#messageCommandDialog_createButton").click(function() {
+       command = $("#messageCommandDialog_dialog").data("geoquest.command");
+       $("#messageCommandDialog_dialog").dialog("close");
+       addCommandToEventDialog(command);
+    });
+
+});
+
+// Initialisation function of the dialog.
+// It is called everytime the dialog is openened
+function initComMessageDialog() {
+    $("#messageCommandDialog_message").val("");
+    recomputeComMessage();
+}
+
+// Is called everytime a value changes and
+// recomputes the command object, and its description
+function recomputeComMessage() {
+    message = $("#messageCommandDialog_message").val();
+
+    command_text = 'Show the message "' + message + '"';
+    xml = '<comMessage text="' + message + '" />';
+
+    command = {
+        "type" : "comMessage",
+        "message" : message,
+        "description" : command_text,
+        "xml" : xml
+    };
+
+    $("#messageCommandDialog_dialog").data("geoquest.command", command);
+
+    $("#messageCommandDialog_command").text(command_text);
+
+}
+
+/*****************************************************
+ * Attribute Command Dialog
+ * Used to create new commands of the type "comAttribute"
+ *****************************************************/
+
+
+// Initialize Attribute Command Dialog
+$(document).ready(function() {
+    $("#attributeCommandDialog_dialog").dialog({
+        autoOpen: false,
+        title: "Create new comAttribute Command",
+        width: 400,
+        height: 300
+    });
+
+    $("#attributeCommandDialog_attribute").change(recomputeComAttribute);
+    $("#attributeCommandDialog_attribute").keyup(recomputeComAttribute);
+    $("#attributeCommandDialog_value").change(recomputeComAttribute);
+    $("#attributeCommandDialog_value").keyup(recomputeComAttribute);
+
+    $("#attributeCommandDialog_createButton").click(function() {
+       command = $("#attributeCommandDialog_dialog").data("geoquest.command");
+       $("#attributeCommandDialog_dialog").dialog("close");
+       addCommandToEventDialog(command);
+    });
+
+});
+//
+// Initialisation function of the dialog.
+// It is called everytime the dialog is openened
+function initComAttributeDialog() {
+    $("#attributeCommandDialog_attribute").val("");
+    $("#attributeCommandDialog_value").val("");
+    recomputeComAttribute();
+}
+
+// Is called everytime a value changes and
+// recomputes the command object, and its description
+function recomputeComAttribute() {
+    attribute = $("#attributeCommandDialog_attribute").val();
+    value = $("#attributeCommandDialog_value").val();
+
+    command_text = 'Set the attribute "' + attribute + '" to the value"' + value + '"';
+    xml = '<comAttribute name="' + attribute + '" value="' + value + '" />';
+
+    command = {
+        "type" : "comAttribute",
+        "attribute" : attribute,
+        "value" : value,
+        "description" : command_text,
+        "xml" : xml
+    };
+
+    $("#attributeCommandDialog_dialog").data("geoquest.command", command);
+
+    $("#attributeCommandDialog_command").text(command_text);
+
+}
+
+
+
+/*****************************************************
+ * Play Sound Command Dialog
+ * Used to create new commands of the type "comAttribute"
+ *****************************************************/
+
+
+// Initialize Play Sound Command Dialog
+$(document).ready(function() {
+    $("#playSoundCommandDialog_dialog").dialog({
+        autoOpen: false,
+        title: "Create new comPlaySound Command",
+        width: 400,
+        height: 300
+    });
+
+    // TODO: Ajax call to retrieve existing sound files
+
+    // TODO: implement
+
+    $("#playSoundCommandDialog_createButton").click(function() {
+       command = $("#playSoundCommandDialog_dialog").data("geoquest.command");
+       $("#playSoundCommandDialog_dialog").dialog("close");
+       addCommandToEventDialog(command);
+    });
+
+});
+
+// Initialisation function of the dialog.
+// It is called everytime the dialog is openened
+function initComPlaySoundDialog() {
+    // TODO: Dependend on implementation
+    recomputeComPlaySound();
+}
+
+// Is called everytime a value changes and
+// recomputes the command object, and its description
+function recomputeComPlaySound() {
+    
+    // TODO: Dependend on implementation
+
+    file = "sound/implementThis.mp3";
+
+    command_text = 'Play the sound "' +  file + '"';
+    xml = '<comPlaySound file="' + file + '" />';
+
+    command = {
+        "type" : "comPlaySound",
+        "file" : file,
+        "description" : command_text,
+        "xml" : xml
+    };
+
+    $("#playSoundCommandDialog_dialog").data("geoquest.command", command);
+
+    $("#playSoundCommandDialog_command").text(command_text);
+
+}
 
 
 /*********************************
