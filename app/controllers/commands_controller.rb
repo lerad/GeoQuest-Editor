@@ -64,6 +64,8 @@ class CommandsController < ApplicationController
        cmd = MoveMissionVisualizationCommand.new(params);
       when "MoveHotspotVisualizationCommand"
        cmd = MoveHotspotVisualizationCommand.new(params);
+      when "CreateNewEventCommand"
+       cmd = CreateNewEventCommand.new(params);
     else
         logger.warn "Unsupported command: " + params[:command]
     end

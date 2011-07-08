@@ -6,7 +6,6 @@ $(document).ready(function() {
         height: 300
     });
 
-    $("#eventDialog_dialog").data("geoquest.requirements", []);
 
     $("#eventDialog_addRequirement").click(function() {
         var type = $("#eventDialog_addRequirementType").val();
@@ -15,7 +14,7 @@ $(document).ready(function() {
             "reqMissionStatus" : "#missionRequirementDialog_dialog"
         }
         var initFunction = {
-            "reqMissionStatus" : recomputeReqMissionStatus
+            "reqMissionStatus" : initReqMissionStatusDialog
         }
 
         if (type in dialogId) {
@@ -26,6 +25,31 @@ $(document).ready(function() {
             alert("This requirement is not implemented yet");
         }
 
+    });
+
+
+    // Create the new event
+    $("#eventDialog_createButton").click(function() {
+
+        $("#eventDialog_dialog").dialog("close");
+
+        nextMission = $("#eventDialog_nextMission").val();
+        requirements = $("#eventDialog_dialog").data("geoquest.requirements");
+        commands = $("#eventDialog_dialog").data("geoquest.commands");
+        type = $("#eventDialog_dialog").data("geoquest.event_type");
+        event = {
+            "nextMission" : nextMission,
+            "requirements" : requirements,
+            "commands" : commands,
+            "type" : type
+        };
+
+        cmd = new CreateNewEventCommand();
+        cmd.setParameter("project_id", project_id);
+        cmd.setParameter("event_holder", $("#eventDialog_dialog").data("geoquest.object"));
+        cmd.setParameter("event_holder_type", $("#eventDialog_dialog").data("geoquest.type"));
+        cmd.setParameter("event", event);
+        cmd.execute();
     });
 
 });
@@ -42,8 +66,37 @@ $(document).ready(function() {
     $(".missionRequirementDialog-checkbox").change(recomputeReqMissionStatus)
     $("#missionRequirementDialog_mission").change(recomputeReqMissionStatus)
 
+    $("#missionRequirementDialog_createButton").click(function() {
+       requirement = $("#missionRequirementDialog_dialog").data("geoquest.requirement");
+       $("#missionRequirementDialog_dialog").dialog("close");
+       addRequirementToEventDialog(requirement);
+    });
+
 });
 
+function initEventDialog(type) {
+    $("#eventDialog_dialog").data("geoquest.event_type", type);
+    $("#eventDialog_dialog").data("geoquest.requirements", []);
+    $("#eventDialog_dialog").data("geoquest.commands", []);
+    $("#eventDialog_nextMission").selectOptions("none", true);
+    $(".event-dialog-dynamic-content").remove();
+}
+
+function initReqMissionStatusDialog() {
+    $(".missionRequirementDialog-checkbox").attr("checked", false);
+    // None does not exist in this list, but in this way the list is set back
+    // to the first element
+    $("#missionRequirementDialog_mission").selectOptions("none", true);
+    recomputeReqMissionStatus();
+}
+
+// Adds a new requirement to the dialog
+function addRequirementToEventDialog(requirement) {
+     $("#eventDialog_dialog").data("geoquest.requirements").push(requirement);
+     newElement = $("<li></li>").text(requirement.description)
+                                .addClass("event-dialog-dynamic-content")
+     $("#eventDialog_addRequirementListEntry").before(newElement);
+}
 
 
 // Recomputes the mission Status requirement, if it is changed in the corresponding dialog
@@ -53,7 +106,7 @@ function recomputeReqMissionStatus() {
     var success = $("#missionRequirementDialog_success").is(':checked');
     var running = $("#missionRequirementDialog_running").is(':checked');
 
-    var mission = $("#missionRequirementDialog_mission").is(':checked');
+    var mission = $("#missionRequirementDialog_mission").val();
     var mission_name = $("#missionRequirementDialog_mission option:selected").text();
     var requirement_text = "";
 
@@ -81,6 +134,25 @@ function recomputeReqMissionStatus() {
         requirement_text += status[status.length-1];
     }
 
+    xml = '<reqMissionStatus id="' + mission +
+            '" new="' + _new +
+            '" success="' + success +
+            '" fail="' + fail +
+            '" running="' + running + '" />';
+
+    requirement = {
+        "type" : "reqMissionStatus",
+        "new" : _new,
+        "fail" : fail,
+        "success" : success,
+        "running" : running,
+        "requiredMission" : mission,
+        "requiredMissionName" : mission_name,
+        "description" : requirement_text,
+        "xml" : xml
+    }
+
+    $("#missionRequirementDialog_dialog").data("geoquest.requirement", requirement);
 
     $("#missionRequirementDialog_requirement").text(requirement_text);
     // Todo save requirement somewhere
@@ -127,9 +199,12 @@ function addJsplumbConnection(data, from, event) {
 }
 
 function createNewEvent(type, element) {
+    initEventDialog(type);
     var title = "Create new " + type + " event in " + element.data("geoquest.name");
     $("#eventDialog_dialog").dialog("option", "title", title)
-                     .dialog("open");
+                            .data("geoquest.type", element.data("geoquest.type"))
+                            .data("geoquest.object", element.data("geoquest.object"))
+                            .dialog("open");
 }
 
 function listEvents(element) {
@@ -174,6 +249,7 @@ function addElements(data) {
                         .css("top", mission.visualization.y)
                         .data("geoquest.type", "mission")
                         .data("geoquest.name", mission.name)
+                        .data("geoquest.object", mission)
                         .data("geoquest.mission", mission);
        $(".content").append(element)
        jsPlumb.draggable(element);
@@ -201,6 +277,7 @@ function addElements(data) {
                     .css("left", hotspot.visualization.x)
                     .css("top", hotspot.visualization.y)
                     .data("geoquest.type", "hotspot")
+                    .data("geoquest.object", hotspot)
                     .data("geoquest.hotspot", hotspot)
                     .data("geoquest.name", hotspot.name);
        $(".content").append(element);
@@ -243,9 +320,17 @@ function initMissionRequirementDialogList(data) {
    });
 }
 
+function initEventDialogNextMissionList(data) {
+   $("#eventDialog_nextMission").addOption("none", "[none]");
+   $.each(data.missions, function(mission_index, mission) {
+       $("#eventDialog_nextMission").addOption(mission.id, mission.name);
+   });
+}
+
 function onMissionDataReceived(data) {
    addElements(data);
    initMissionRequirementDialogList(data);
+   initEventDialogNextMissionList(data);
 }
 
 $(document).ready(function() {

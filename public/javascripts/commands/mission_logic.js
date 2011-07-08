@@ -22,3 +22,11 @@ function MoveHotspotVisualizationCommand() {
 MoveHotspotVisualizationCommand.prototype = new Command();
 
 
+function CreateNewEventCommand() {
+    this.setParameter("command", "CreateNewEventCommand");
+
+    this.updateGui = function() {
+    }
+}
+
+CreateNewEventCommand.prototype = new Command();
