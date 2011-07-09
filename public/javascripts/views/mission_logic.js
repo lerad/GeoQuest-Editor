@@ -75,22 +75,34 @@ $(document).ready(function() {
         commands = $("#eventDialog_dialog").data("geoquest.commands");
         type = $("#eventDialog_dialog").data("geoquest.event_type");
 
-        // TODO: Do Ajax call:
-        id = "e" + (100 + parseInt( Math.random() * 800));
         event = {
             "next_mission" : nextMission,
             "requirements" : requirements,
             "commands" : commands,
-            "type" : type,
-            "id" : id
+            "type" : type
         };
 
-        cmd = new CreateNewEventCommand();
-        cmd.setParameter("project_id", project_id);
-        cmd.setParameter("event_holder", $("#eventDialog_dialog").data("geoquest.object"));
-        cmd.setParameter("event_holder_type", $("#eventDialog_dialog").data("geoquest.type"));
-        cmd.setParameter("event", event);
-        cmd.execute();
+       $.ajax({
+           url: "/ajax/get_next_event_id",
+           data : {
+               "project_id" : project_id
+           },
+           success : function(data) {
+               event.id = data.next_event_id;
+               cmd = new CreateNewEventCommand();
+               cmd.setParameter("project_id", project_id);
+               cmd.setParameter("event_holder", $("#eventDialog_dialog").data("geoquest.object"));
+               cmd.setParameter("event_holder_type", $("#eventDialog_dialog").data("geoquest.type"));
+               cmd.setParameter("event", event);
+               cmd.execute();
+           },
+           error : function() {
+               alert("Could not determine next event id");
+           }
+       });
+
+
+
     });
 
 });

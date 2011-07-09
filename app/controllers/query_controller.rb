@@ -243,6 +243,68 @@ class QueryController < ApplicationController
    render :content_type => "application/json", :text => json_data
   end
 
+  def get_next_event_id
+
+   @project = Project.find(:first, :conditions => {:id => params[:project_id]})
+   new_id_value = @project.max_event_id
+
+   # new_id_value = 0
+   # Check if this is used already
+   # E.g. written by hand
+   adapter = ExistAdapter.new(params["project_id"]);
+
+   loop = 0
+
+   begin
+     loop += 1
+     if (loop > 100) then # Probably an error
+       Rails.logger.error("To many IDs for Event tried")
+       Rails.logger.error("Project: " + @project.id.to_s)
+       Rails.logger.error("Id Value: " + new_id_value.to_s)
+       render :status => 500, :text => "An error has occured"
+       return 
+     end
+
+     new_id_value += 1
+     new_id = "e" + new_id_value.to_s
+     query_template = ERB.new <<-EOF
+     (
+        doc("game.xml")//onEnd[@id="<%= new_id %>"] union
+        doc("game.xml")//onSuccess[@id="<%= new_id %>"] union
+        doc("game.xml")//onFail[@id="<%= new_id %>"] union
+        doc("game.xml")//onEnter[@id="<%= new_id %>"] union
+        doc("game.xml")//onTap[@id="<%= new_id %>"]
+     )
+    EOF
+
+     query = query_template.result(binding)
+
+      Rails.logger.debug(query)
+
+     result = adapter.do_request(query);
+     # if there is no event with this id, the result should be an array
+     # of zero length
+   end while result.length != 0
+
+   template = ERB.new <<-EOF
+   {
+     "next_event_id" : "<%= new_id %>"
+   }
+  EOF
+   @project.max_event_id = new_id_value
+   @project.save
+   json_data = template.result(binding)
+
+   render :content_type => "application/json", :text => json_data
+
+    <<-EOF
+    let $game := doc("geoquest/38/game.xml")
+return ($game//onEnd[@id="e2"] union $game//onEnter[@id="e2"] union $game//onSuccess[@id="e2"])
+
+EOF
+  end
+
+
   def list_events(element, event_type, event_holder)
 
 

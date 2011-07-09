@@ -31,6 +31,7 @@ GeoquestEditor::Application.routes.draw do
   match '/ajax/show_missions' => "query#show_missions", :as => "ajax/show_missions"
   match '/ajax/get_next_mission_id' => "query#get_next_mission_id", :as => "ajax/get_next_mission_id"
   match '/ajax/get_next_hotspot_id' => "query#get_next_hotspot_id", :as => "ajax/get_next_hotspot_id"
+  match '/ajax/get_next_event_id' => "query#get_next_event_id", :as => "ajax/get_next_event_id"
   match '/ajax/show_mission_interconnections' => "query#show_mission_interconnections", :as => "ajax/show_mission_interconnections"
 
 
