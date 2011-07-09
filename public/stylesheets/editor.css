@@ -142,3 +142,7 @@ body {
   border-radius: 7pt;
   z-index: 20;
 }
+
+.initially-hidden {
+    display: none;
+}

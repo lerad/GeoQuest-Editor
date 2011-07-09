@@ -5,12 +5,14 @@
 
 <%= stylesheet_link_tag 'jquery.ui' %>
 <%= stylesheet_link_tag 'jquery.contextMenu' %>
+<%= stylesheet_link_tag 'jqueryFileTree' %>
 
 <%= javascript_include_tag 'jquery/jquery.ui' %>
 <%= javascript_include_tag 'other/excanvas' %>
 <%= javascript_include_tag 'jquery/jquery.jsPlumb'  %>
 <%= javascript_include_tag 'jquery/jquery.contextMenu'  %>
 <%= javascript_include_tag 'jquery/jquery.selectBoxes' %>
+<%= javascript_include_tag "jquery/jquery.fileTree"  %>
 <%= javascript_include_tag 'commands/command'  %>
 <%= javascript_include_tag 'commands/mission_logic'  %>
 <%= javascript_include_tag 'views/mission_logic'  %>
@@ -19,7 +21,7 @@
   var project_id = <%= @project.id %>;
 </script>
 
-<ul id="missionMenu">
+<ul class="initially-hidden" id="missionMenu">
   <li>
     <a href="#listEvents">List all events</a>
   </li>
@@ -34,7 +36,7 @@
   </li>
 </ul>
 
-<ul id="hotspotMenu">
+<ul class="initially-hidden" id="hotspotMenu">
   <li>
     <a href="#listEvents">List all events</a>
   </li>
@@ -46,7 +48,7 @@
   </li>
 </ul>
 
-<div id="missionRequirementDialog_dialog">
+<div class="initially-hidden" id="missionRequirementDialog_dialog">
   Mission: <select id="missionRequirementDialog_mission"></select> <br/><br />
 
   Requirement is true if the mission is in one of the following states: <br />
@@ -64,7 +66,7 @@
 </div>
 
 
-<div id="inHotspotRangeRequirementDialog_dialog">
+<div class="initially-hidden" id="inHotspotRangeRequirementDialog_dialog">
   Hotspot: <select id="inHotspotRangeRequirementDialog_hotspot"></select> <br/><br />
   <b>Requirement:</b> <br />
   <p id="inHotspotRangeRequirementDialog_requirement"></p>
@@ -73,7 +75,7 @@
   <input type="button" value="create requirement" id="inHotspotRangeRequirementDialog_createButton" />
 </div>
 
-<div id="outHotspotRangeRequirementDialog_dialog">
+<div class="initially-hidden" id="outHotspotRangeRequirementDialog_dialog">
   Hotspot: <select id="outHotspotRangeRequirementDialog_hotspot"></select> <br/><br />
   <b>Requirement:</b> <br />
   <p id="outHotspotRangeRequirementDialog_requirement"></p>
@@ -82,7 +84,7 @@
   <input type="button" value="create requirement" id="outHotspotRangeRequirementDialog_createButton" />
 </div>
 
-<div id="attributeRequirementDialog_dialog">
+<div class="initially-hidden" id="attributeRequirementDialog_dialog">
   Attribute: <input type="text" id="attributeRequirementDialog_attribute" /> <br/><br />
   Needed value: <input type="text" id="attributeRequirementDialog_value" /> <br /> <br  />
   <b>Requirement:</b> <br />
@@ -94,29 +96,28 @@
 
 
 
-<div id="attributeCommandDialog_dialog">
+<div class="initially-hidden" id="attributeCommandDialog_dialog">
   Attribute: <input type="text" id="attributeCommandDialog_attribute" /> <br /><br />
   Set to value: <input type="text" id="attributeCommandDialog_value" /> <br /> <br  />
   <b>Command:</b> <br />
   <p id="attributeCommandDialog_command"></p>
 
   <br />
-  <input type="button" value="create requirement" id="attributeCommandDialog_createButton" />
+  <input type="button" value="create command" id="attributeCommandDialog_createButton" />
 </div>
 
-<div id="playSoundCommandDialog_dialog">
+<div class="initially-hidden" id="playSoundCommandDialog_dialog">
   Sound:
-  <select id="playSoundCommandDialog_sound">
-  </select>
+  <div id="playSoundCommandDialog_fileTree"></div>
   <br/><br />
   <b>Command:</b> <br />
   <p id="playSoundCommandDialog_command"></p>
 
   <br />
-  <input type="button" value="create requirement" id="playSoundCommandDialog_createButton" />
+  <input type="button" value="create command" id="playSoundCommandDialog_createButton" />
 </div>
 
-<div id="messageCommandDialog_dialog">
+<div class="initially-hidden" id="messageCommandDialog_dialog">
   Message: <br />
   <textarea id="messageCommandDialog_message" cols="20" rows="5">
   </textarea>
@@ -125,11 +126,11 @@
   <p id="messageCommandDialog_command"></p>
 
   <br />
-  <input type="button" value="create requirement" id="messageCommandDialog_createButton" />
+  <input type="button" value="create command" id="messageCommandDialog_createButton" />
 </div>
 
 
-<div id="eventDialog_dialog">
+<div class="initially-hidden" id="eventDialog_dialog">
   Next mission:
   <select id="eventDialog_nextMission">
   </select>

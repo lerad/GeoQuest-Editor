@@ -531,9 +531,17 @@ $(document).ready(function() {
         height: 300
     });
 
-    // TODO: Ajax call to retrieve existing sound files
-
-    // TODO: implement
+    $("#playSoundCommandDialog_fileTree").fileTree({
+        root: 'sound/',
+        script: '/ajax/show_dir',
+        projectId: project_id,
+        expandSpeed: 300,
+        collapseSpeed: 300,
+        multiFolder: true
+    }, function(file) {
+        $("#playSoundCommandDialog_dialog").data("geoquest.file", file);
+        recomputeComPlaySound();
+    });
 
     $("#playSoundCommandDialog_createButton").click(function() {
        command = $("#playSoundCommandDialog_dialog").data("geoquest.command");
@@ -546,7 +554,7 @@ $(document).ready(function() {
 // Initialisation function of the dialog.
 // It is called everytime the dialog is openened
 function initComPlaySoundDialog() {
-    // TODO: Dependend on implementation
+    $("playSoundCommandDialog_dialog").data("geoquest.file", "");
     recomputeComPlaySound();
 }
 
@@ -554,9 +562,7 @@ function initComPlaySoundDialog() {
 // recomputes the command object, and its description
 function recomputeComPlaySound() {
     
-    // TODO: Dependend on implementation
-
-    file = "sound/implementThis.mp3";
+    file = $("#playSoundCommandDialog_dialog").data("geoquest.file");
 
     command_text = 'Play the sound "' +  file + '"';
     xml = '<comPlaySound file="' + file + '" />';
