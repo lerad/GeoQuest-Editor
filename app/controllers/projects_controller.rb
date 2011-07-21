@@ -21,12 +21,10 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def deploy
-    @project = Project.find(:first, :conditions => {:id => params[:project_id], :user_id => @current_user.id})
-
+  def create_zip_file
     adapter = ExistAdapter.new(@project.id)
     xmlfile = adapter.do_request('doc("game.xml")')[0];
-    
+
     # Do deployment
     if xmlfile.nil?
       render :text => "xmlfile is nil", :status => 500
@@ -62,11 +60,80 @@ class ProjectsController < ApplicationController
             end
           }
         end
-  
+
      }
 
     # Move tmp_ file to final file
     FileUtils.mv(path_tmp.to_s, path_final.to_s)
+  end
+
+  def create_repository_entry
+
+    adapter = ExistAdapter.new(params[:project_id])
+    hotspot_request = 'doc("game.xml")//hotspot'
+    hotspots = adapter.do_request(hotspot_request)
+
+    lat = 0.0
+    long = 0.0
+
+    # Compute average hotspot position 
+    if hotspots.size > 0
+      hotspots.each do | hotspot|
+        lat += Float(hotspot.attribute("latitude").to_s)
+        long += Float(hotspot.attribute("longitude").to_s)
+      end
+      lat /= hotspots.size
+      long /= hotspots.size
+    end
+
+    template = ERB.new <<-EOF
+
+          let $newGame := <game
+              name="<%= @project.name %>"
+              xmlformat="5"
+              file="<%= @project.id %>"
+              lastmodified="<%= Time.now.to_i %>"
+              latitude="<%= lat %>" 
+              longitude="<%= long %>">
+         <hotspots>
+          <% hotspots.each do |hotspot| %>
+            <hotspot latitude="<%= hotspot.attribute("latitude").to_s %>"
+                     longitude="<%= hotspot.attribute("longitude").to_s %>"
+                     radius="<%= hotspot.attribute("radius").to_s %>">
+            </hotspot>
+
+          <% end %>
+         </hotspots>
+         </game>
+      let $repository := doc("repository.xml")/repositories/repository[@name="<%= @current_user.name %>"]
+      return update insert $newGame into $repository
+  EOF
+
+
+  command = template.result(binding)
+  adapter = ExistAdapter.new("global")
+  result = adapter.do_request(command)
+
+  end
+
+  def delete_repository_entry
+    template = ERB.new <<-EOF
+    let $game := doc("repository.xml")//game[@file="<%= params[:project_id] %>"]
+    return update delete $game
+EOF
+
+    command = template.result(binding)
+    adapter = ExistAdapter.new("global")
+    adapter.do_request(command)
+
+  end
+
+  def deploy
+    @project = Project.find(:first, :conditions => {:id => params[:project_id], :user_id => @current_user.id})
+
+    create_zip_file
+    delete_repository_entry if @project.is_deployed
+    create_repository_entry
 
 
     @project.is_deployed = true

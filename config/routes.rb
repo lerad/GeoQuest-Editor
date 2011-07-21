@@ -40,6 +40,7 @@ GeoquestEditor::Application.routes.draw do
 
   match '/register' => "users#new", :as => "register"
 
+  match '/repository/repolist.php' => "repository#repolist"
   match '/repository/:name' => "repository#show"
   match '/repository/:name/gamelist.php' => "repository#gamelist"
   match '/repository/:name/games/:file.zip' => "repository#download"

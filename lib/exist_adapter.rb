@@ -13,7 +13,7 @@ include REXML
     @collection = collection.to_s
    end
 
-    RESTURL = "http://localhost:8080/exist/rest/db/geoquest/"
+   RESTURL = "http://localhost:8080/exist/rest/db/geoquest/"
 
    def upload_data_as_filename(data, filename)
     url = URI.parse(RESTURL + @collection + '/' + filename)

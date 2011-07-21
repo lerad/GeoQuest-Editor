@@ -1,3 +1,5 @@
+require 'exist_adapter'
+
 class RepositoryController < ApplicationController
 
 def show
@@ -11,6 +13,12 @@ def gamelist
   @repo_user = User.find_by_name(params[:name])
   @deployed_projects = Project.where(:user_id => @repo_user.id, :is_deployed => true)
   render :content_type => "text/xml", :layout => false
+end
+
+def repolist
+  adapter = ExistAdapter.new("global")
+  repository = adapter.do_request('doc("repository.xml")')[0]
+  render :content_type => "text/xml", :text => repository.to_s
 end
 
 def download
