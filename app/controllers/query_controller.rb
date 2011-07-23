@@ -81,6 +81,73 @@ class QueryController < ApplicationController
     render :content_type => "text/html", :text => text
   end
 
+def get_folder_as_hash(current_path)
+
+
+    folder = {
+        "data" => {
+          "title" => current_path.split("/").last,
+          "icon" => "folder"
+        },
+        "metadata" => {"path" => current_path, "type" => "folder"},
+        "state" => "open",
+        "children" => []
+    }
+
+    path_public = Rails.root.join("public", "projects", params[:project_id].to_s).to_s
+    Dir.chdir(path_public.to_s + current_path)
+
+    sub_folders = []
+    contents = []
+
+    Dir.glob("*") {|x|
+      file_path = current_path + "/" + File.basename(x).to_s;
+      if File.directory?(x) then
+        sub_folders += [get_folder_as_hash(file_path)]
+        Dir.chdir(path_public.to_s + current_path) # Jump back after recursion
+      else
+         file = {
+            "data" => {
+                "title" => File.basename(x).to_s,
+                "icon" => "/images/file.gif"
+            },
+            "metadata" => {"path" => file_path, "type" => "file"}
+         }
+         contents += [file]
+      end
+    }
+
+  folder["children"] += sub_folders
+  folder["children"] += contents
+
+    if folder["children"].size == 0
+      folder.delete("children")
+      folder.delete("state")
+    end
+
+    return folder
+end
+
+def show_images
+
+    path = params[:path].to_s
+    if not path.match("^/drawable")
+      render :status => 500, :text => "Path has to start with /drawable"
+      return
+    end
+
+    if params[:path].scan("../").size > 0
+      render :status => 500, :text => "Going up ('../')is forbidden"
+      return
+    end
+
+    directory = get_folder_as_hash(params[:path])
+
+    json_data = ActiveSupport::JSON.encode(directory)
+
+    render :content_type => "application/json", :text => json_data
+  end
+
   def get_mission_as_hash(mission)
     name = mission.attributes['type'] + "_" + mission.attributes['id']
     name = mission.attributes['name'] unless mission.attributes['name'].nil?

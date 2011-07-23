@@ -1,3 +1,18 @@
+#imageFileTree {
+    max-width: 200pt
+}
+
+#imagePreviewContainer {
+    position: absolute;
+    left : 220pt;
+    top : 60pt;
+}
+
+#imagePreview {
+    max-height: 200pt;
+    
+}
+
 .failure {
     color : red;
     font-weight: bold;
