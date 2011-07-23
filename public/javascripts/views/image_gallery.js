@@ -65,15 +65,18 @@ $("#imageFileTree").bind("select_node.jstree", function(event, data) {
        $("#imagePreview").attr("src","/projects/" + project_id + selected_file);
    }
    else {
+       $("#targetFolder").val(selected_file);
+       $("#imageUploadFolder").text("Folder: " + selected_file);
        $("#imagePreview").attr("src", "/images/empty.gif");
    }
 });
-/*
-$("#imageFileTree").delegate("a","click",function (e) {
-  e.preventDefault();
-  alert(e.toSource());
-  // do stuff
-});
-*/
 
+
+});
+
+
+// Image Actions
+
+$(document).ready(function() {
+ $("#imageActions").accordion();
 });

@@ -7,9 +7,11 @@
   var project_id = <%= @project.id %>;
 </script>
 
+<%= javascript_include_tag 'jquery/jquery.ui'  %>
 <%= javascript_include_tag 'jquery/jquery.jstree' %>
 <%= javascript_include_tag 'views/image_gallery'  %>
 
+<%= stylesheet_link_tag 'jquery.ui'  %>
 
 
 
@@ -23,20 +25,34 @@
 </div>
 
 
-
-<!--
-<form id="fileUploadForm" method="post"
+<div id="imageActions">
+    <h3><a href="#">Upload new File</a></h3>
+    <div>
+      <form id="fileUploadForm" method="post"
                           action="/projects/<%= @project.id %>/image_gallery/uploadFile"
                           enctype="multipart/form-data">
+         <input id="fileUpload" name="uploadedFile"  type="file" /> <br />
+         <input type="hidden" id="targetFolder" name="target_folder" value="<%= @target_folder %>" />
+         <p id="imageUploadFolder">Folder: <%= @target_folder %></p>
+          Select a folder in the tree above. <br />
+         <input id="fileUploadSubmit" type="submit" value="Upload" />
+         <input type="hidden" name="authenticity_token" id="authenticity_token" value="<%= form_authenticity_token %>" />
+
+      </form> <br />
+
+    </div>
+    <h3><a href="#">Copy file from other project</a></h3>
+    <div>Second content</div>
+</div>
+<!--
+
 Folder: <select name="folder">
   <% @directories.each do |directory| %>
      <option value="<%= directory  %>"><%= directory %></option>
   <% end %>
    </select>
 <br />
- File: <input id="fileUpload" name="uploadedFile"  type="file" /> <br />
-   <input id="fileUploadSubmit" type="submit" value="Upload" />
-   <input type="hidden" name="authenticity_token" id="authenticity_token" value="<%= form_authenticity_token %>" />
+ File: 
 </form>
 
 -->

@@ -13,6 +13,10 @@
     
 }
 
+#imageActions {
+    margin-top: 20pt;
+}
+
 .failure {
     color : red;
     font-weight: bold;
