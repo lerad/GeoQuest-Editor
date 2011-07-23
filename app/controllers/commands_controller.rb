@@ -6,6 +6,7 @@ require 'commands/mission_commands'
 require 'commands/question_commands'
 require 'commands/xmlfile_commands'
 require 'commands/mission_visualization_commands'
+require 'commands/file_commands'
 
 class CommandsController < ApplicationController
 
@@ -66,6 +67,8 @@ class CommandsController < ApplicationController
        cmd = MoveHotspotVisualizationCommand.new(params);
       when "CreateNewEventCommand"
        cmd = CreateNewEventCommand.new(params);
+      when "DeleteFileCommand"
+       cmd = DeleteFileCommand.new(params);
     else
         logger.warn "Unsupported command: " + params[:command]
     end

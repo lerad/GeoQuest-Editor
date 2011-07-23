@@ -7,8 +7,10 @@
   var project_id = <%= @project.id %>;
 </script>
 
+
 <%= javascript_include_tag 'jquery/jquery.ui'  %>
-<%= javascript_include_tag 'jquery/jquery.jstree' %>
+<%= javascript_include_tag 'commands/command'  %>
+<%= javascript_include_tag 'commands/image_gallery'  %>
 <%= javascript_include_tag 'views/image_gallery'  %>
 
 <%= stylesheet_link_tag 'jquery.ui'  %>
@@ -18,11 +20,13 @@
 <div class="content">
 <h1>Image Gallery</h1>
 
+
 <div id="imageFileTree">
 </div>
 <div id="imagePreviewContainer">
   <img src="/images/empty.gif" id="imagePreview" />
 </div>
+
 
 
 <div id="imageActions">

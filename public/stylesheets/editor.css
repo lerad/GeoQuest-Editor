@@ -1,5 +1,7 @@
 #imageFileTree {
-    max-width: 200pt
+    max-width: 200pt;
+    max-height: 200pt;
+    overflow: auto;
 }
 
 #imagePreviewContainer {
@@ -14,7 +16,8 @@
 }
 
 #imageActions {
-    margin-top: 20pt;
+    position: absolute;
+    top: 260pt;
 }
 
 .failure {

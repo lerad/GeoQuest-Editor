@@ -20,42 +20,21 @@ $.jstree._themes = "/images/jstree/themes/";
           return {"project_id" : project_id, "path" : path};
         }
         }
-    }
-  
+    },
+    "contextmenu" : {
+        "items" : {
+        "ccp" : false,
+        "create" : false,
+        "remove" : false,
+        "delete" : {
+            "label" : "Delete",
+            "action" : function(n) {
+                deleteImageFile(n.data("jstree").path);
+                }
 
-/*    "contextmenu" : {
-    "items" : function(n) {
-      var nodeData = getNodeDataAsObject(n);
-      var items = {
-      "ccp" : false,
-      "create" : false,
-      "remove" : false,
-      "rename" : {
-          "label" : "Rename Mission",
-          "action" : function(n) {$("#imageFileTree").jstree("rename",n)}
-      },
-      "delete" : {
-        "label" : "Delete Mission",
-        "action" : function(n) {deleteMission(getNodeDataAsObject(n).mission_id); }
-      },
-      "add_mission" : {
-        "label" : "Add Mission",
-        "submenu" : {
-          "MapOverview" : {
-            "label" : "MapOverview",
-            "action" : function(n) { addMission(getNodeDataAsObject(n).mission_id, "MapOverview") }
-          },
-          "QuestionAndAnswer" : {
-            "label" : "QuestionAndAnswer",
-            "action" : function(n) { addMission(getNodeDataAsObject(n).mission_id, "QuestionAndAnswer") }
-          },
-          "NPCTalk" : {
-            "label" : "NPCTalk",
-            "action" : function(n) { addMission(getNodeDataAsObject(n).mission_id, "NPCTalk") }
-          }
-
+            }
         }
-      }*/
+    }
     });
     
 $("#imageFileTree").bind("select_node.jstree", function(event, data) {
@@ -80,3 +59,12 @@ $("#imageFileTree").bind("select_node.jstree", function(event, data) {
 $(document).ready(function() {
  $("#imageActions").accordion();
 });
+
+
+function deleteImageFile(path) {
+    //TODO: Usage search with AJAX
+    cmd = new DeleteImageCommand();
+    cmd.setParameter("project_id", project_id);
+    cmd.setParameter("path", path);
+    cmd.execute();
+}
