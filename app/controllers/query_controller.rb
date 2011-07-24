@@ -89,7 +89,7 @@ def get_folder_as_hash(current_path)
           "title" => current_path.split("/").last,
           "icon" => "folder"
         },
-        "metadata" => {"path" => current_path, "type" => "folder"},
+        "metadata" => {"path" => current_path, "type" => "folder", "name" => current_path.split("/").last},
         "state" => "open",
         "children" => []
     }
@@ -111,7 +111,7 @@ def get_folder_as_hash(current_path)
                 "title" => File.basename(x).to_s,
                 "icon" => "/images/file.gif"
             },
-            "metadata" => {"path" => file_path, "type" => "file"}
+            "metadata" => {"path" => file_path, "type" => "file", "name" => File.basename(x).to_s}
          }
          contents += [file]
       end
