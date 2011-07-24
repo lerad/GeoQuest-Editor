@@ -1,6 +1,8 @@
 require 'queries/query'
 require 'queries/file_queries'
 require 'exist_adapter'
+require 'missions/mission_type_manager'
+
 #require 'cgi'
 
 class QueryController < ApplicationController
@@ -519,6 +521,18 @@ EOF
 
 
     render  :text => json_data, :content_type => "application/json"
+  end
+
+  # Queries if an specific image is used
+  def is_image_used
+    image_path = params[:image]
+    project_id = params[:project_id]
+
+    manager = MissionTypeManager.new()
+    result = manager.query_image_usage(project_id, image_path)
+    Rails.logger.info(result.to_s);
+    json_data = ActiveSupport::JSON.encode(result)
+    render :text => json_data, :content_type => "application/json"
   end
 
 end

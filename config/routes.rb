@@ -34,6 +34,8 @@ GeoquestEditor::Application.routes.draw do
   match '/ajax/get_next_event_id' => "query#get_next_event_id", :as => "ajax/get_next_event_id"
   match '/ajax/show_mission_interconnections' => "query#show_mission_interconnections", :as => "ajax/show_mission_interconnections"
   match '/ajax/show_images' => "query#show_images", :as => "ajax/show_images"
+  match '/ajax/is_image_used' => "query#is_image_used", :as => "ajax/is_image_used"
+
 
   match '/login' => "sessions#new", :as => "login"
   match '/logout' => "sessions#destroy", :as => "logout"
