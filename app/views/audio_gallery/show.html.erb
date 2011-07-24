@@ -3,31 +3,75 @@
 <%= render 'shared/mission_navigation' %>
 <%= render 'shared/editor_control' %>
 
-<%= javascript_include_tag 'jquery/jquery.form' %>
-
 <script>
   var project_id = <%= @project.id %>;
 </script>
+
+
+<%= javascript_include_tag 'jquery/jquery.ui'  %>
+<%= javascript_include_tag 'commands/command'  %>
+<%= javascript_include_tag 'commands/audio_gallery'  %>
+<%= javascript_include_tag 'views/audio_gallery'  %>
+<%= javascript_include_tag 'other/niftyplayer.js' %>
+
+<%= stylesheet_link_tag 'jquery.ui'  %>
+
 
 <div class="content">
 <h1>Audio Gallery</h1>
 
 
+<div id="audioFileTree">
+</div>
+<div id="audioPreviewContainer">
+  <!-- I would like to use the audio tag here, but firefox does not support mp3 :( -->
+	<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
+                codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0"
+                width="165"
+                height="37"
+                id="audioPlayer" align="">
+		 <param name=movie value="/flash/niftyplayer.swf" />
+		 <param name=quality value=high />
+		 <param name=bgcolor value=#FFFFFF />
+		 <embed src="/flash/niftyplayer.swf"
+                        quality=high
+                        bgcolor=#FFFFFF
+                        width="165"
+                        height="37"
+                        name="audioPlayer"
+                        align=""
+                        type="application/x-shockwave-flash"
+                        swLiveConnect="true"
+                        pluginspage="http://www.macromedia.com/go/getflashplayer">
+		</embed>
+	</object>
 
-<form id="fileUploadForm" method="post"
+</div>
+
+
+
+<div id="audioActions">
+    <h3><a href="#">Upload new File</a></h3>
+    <div>
+      <form id="fileUploadForm" method="post"
                           action="/projects/<%= @project.id %>/audio_gallery/uploadFile"
                           enctype="multipart/form-data">
-Folder: <select name="folder">
-  <% @directories.each do |directory| %>
-     <option value="<%= directory  %>"><%= directory %></option>
-  <% end %>
-   </select>
-<br />
- File: <input id="fileUpload" name="uploadedFile"  type="file" /> <br />
-   <input id="fileUploadSubmit" type="submit" value="Upload" />
-   <input type="hidden" name="authenticity_token" id="authenticity_token" value="<%= form_authenticity_token %>" />
-</form>
+         <input id="fileUpload" name="uploadedFile"  type="file" /> <br />
+         <input type="hidden" id="targetFolder" name="target_folder" value="<%= @target_folder %>" />
+         <p id="audioUploadFolder">Folder: <%= @target_folder %></p>
+          Select a folder in the tree above. <br />
+         <input id="fileUploadSubmit" type="submit" value="Upload" />
+         <input type="hidden" name="authenticity_token" id="authenticity_token" value="<%= form_authenticity_token %>" />
 
+      </form> <br />
+
+    </div>
+    <h3><a href="#">Copy file from other project</a></h3>
+    <div>
+      <div id="allProjectsAudioFileTree">
+      </div>
+    </div>
+</div>
 
 
 </div>

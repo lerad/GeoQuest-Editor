@@ -1,4 +1,4 @@
-function DeleteImageCommand() {
+function DeleteAudioCommand() {
 
     this.setParameter("command", "DeleteFileCommand");
 
@@ -7,21 +7,21 @@ function DeleteImageCommand() {
     }
 
     this.onSuccess = function() {
-        $("#imageFileTree").jstree("refresh");
+        $("#audioFileTree").jstree("refresh");
     }
 }
 
-DeleteImageCommand.prototype = new Command();
+DeleteAudioCommand.prototype = new Command();
 
 
-function MoveImageCommand() {
+function MoveAudioCommand() {
     this.setParameter("command", "MoveFileCommand");
     this.updateGui = function()  {}
 }
-MoveImageCommand.prototype = new Command();
+MoveAudioCommand.prototype = new Command();
 
-function ImportImageCommand() {
+function ImportAudioCommand() {
     this.setParameter("command", "ImportFileCommand");
     this.updateGui = function()  {}
 }
-ImportImageCommand.prototype = new Command();
+ImportAudioCommand.prototype = new Command();

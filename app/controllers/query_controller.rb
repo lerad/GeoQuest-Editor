@@ -188,6 +188,54 @@ def show_images
     render :content_type => "application/json", :text => json_data
   end
 
+def show_audio
+
+  # Show images of a project
+  if params.has_key?(:project_id)
+    path = params[:path].to_s
+    if not path.match("^sound")
+      render :status => 500, :text => "Path has to start with sound"
+      return
+    end
+
+    if params[:path].scan("../").size > 0
+      render :status => 500, :text => "Going up ('../')is forbidden"
+      return
+    end
+
+    directory = get_folder_as_hash(params[:path], params[:project_id])
+
+    json_data = ActiveSupport::JSON.encode(directory)
+  # Show images of the current user, except no_project_id
+  elsif params.has_key?(:no_project_id)
+    projects = Project.find_all_by_user_id(@current_user.id)
+    projects_data = []
+    projects.each do |project|
+      next if project.id == params[:no_project_id].to_i
+      project_data = {
+        "data" => {
+          "title" => project.name,
+          "icon" => "folder"
+        },
+        "metadata" => {
+          "name" => project.name,
+          "id" => project.id,
+          "type" => "project"
+        },
+        "state" => "open",
+        "children" => []
+      }
+      project_data["children"] += [get_folder_as_hash("sound", project.id)]
+      projects_data += [project_data]
+    end
+    json_data = ActiveSupport::JSON.encode(projects_data)
+  else
+    render :text => "Error. Either project_id or no_project_id has to be given", :status => 500
+    return
+  end
+    render :content_type => "application/json", :text => json_data
+  end
+
   def get_mission_as_hash(mission)
     name = mission.attributes['type'] + "_" + mission.attributes['id']
     name = mission.attributes['name'] unless mission.attributes['name'].nil?
@@ -572,5 +620,17 @@ EOF
     json_data = ActiveSupport::JSON.encode(result)
     render :text => json_data, :content_type => "application/json"
   end
+
+  # Queries if an specific audio file is used
+  # TODO: Implement
+  def is_audio_used
+    audio_path = params[:audio]
+    project_id = params[:project_id]
+
+    result = []
+    json_data = ActiveSupport::JSON.encode(result)
+    render :text => json_data, :content_type => "application/json"
+  end
+
 
 end

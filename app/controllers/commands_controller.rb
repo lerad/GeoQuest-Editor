@@ -69,10 +69,10 @@ class CommandsController < ApplicationController
        cmd = CreateNewEventCommand.new(params);
       when "DeleteFileCommand"
        cmd = DeleteFileCommand.new(params);
-      when "MoveImageCommand"
-       cmd = MoveImageCommand.new(params);
-    when "ImportImageCommand"
-      cmd = ImportImageCommand.new(params);
+      when "MoveFileCommand"
+       cmd = MoveFileCommand.new(params);
+    when "ImportFileCommand"
+      cmd = ImportFileCommand.new(params);
     else
         logger.warn "Unsupported command: " + params[:command]
     end

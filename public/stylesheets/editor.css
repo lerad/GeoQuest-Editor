@@ -20,6 +20,23 @@
     top: 260pt;
 }
 
+#audioFileTree {
+    max-width: 200pt;
+    max-height: 200pt;
+    overflow: auto;
+}
+
+#audioPreviewContainer {
+    position: absolute;
+    left : 220pt;
+    top : 60pt;
+}
+
+#audioActions {
+    position: absolute;
+    top: 260pt;
+}
+
 .failure {
     color : red;
     font-weight: bold;

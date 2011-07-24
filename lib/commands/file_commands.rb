@@ -18,10 +18,10 @@ class DeleteFileCommand < Command
 
 end
 
-class MoveImageCommand < Command
+class MoveFileCommand < Command
   def initialize(params)
     super(params)
-    @type = "MoveImageCommand"
+    @type = "MoveFileCommand"
 
     @command = nil
 
@@ -31,18 +31,16 @@ class MoveImageCommand < Command
     path_from = Rails.root.join("public", "projects", @params[:project_id].to_s, @params[:from]).to_s
     path_to = Rails.root.join("public", "projects", @params[:project_id].to_s, @params[:to]).to_s
 
-    Rails.logger.info("path_from: " + path_from)
-    Rails.logger.info("path_to: " + path_to)
     FileUtils.mv(path_from, path_to)
     Rails.logger.info("Move: " + @params[:from] + " to " + @params[:to])
   end
 
 end
 
-class ImportImageCommand < Command
+class ImportFileCommand < Command
   def initialize(params)
     super(params)
-    @type = "ImportImageCommand"
+    @type = "ImportFileCommand"
     @command = nil
   end
 
