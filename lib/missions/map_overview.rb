@@ -29,7 +29,7 @@ EOF
       if results.size > 1
         comment = "In hotspots "
       else
-        comment = "In hotspot"
+        comment = "In hotspot "
       end
       hotspots = XPath.match(result, "./hotspot")
       hotspots.each do |hotspot|
