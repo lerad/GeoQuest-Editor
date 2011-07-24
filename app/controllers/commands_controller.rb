@@ -71,6 +71,8 @@ class CommandsController < ApplicationController
        cmd = DeleteFileCommand.new(params);
       when "MoveImageCommand"
        cmd = MoveImageCommand.new(params);
+    when "ImportImageCommand"
+      cmd = ImportImageCommand.new(params);
     else
         logger.warn "Unsupported command: " + params[:command]
     end
@@ -79,6 +81,7 @@ class CommandsController < ApplicationController
       render :text => "Command successfull done"
     rescue Exception => e
       msg = "Error: " + e.to_s
+      Rails.logger.error(msg)
       render :text => msg, :status => 500
     end
   end

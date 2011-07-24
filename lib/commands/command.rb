@@ -13,15 +13,14 @@ class Command
   end
 
   def execute()
-    Rails.logger.info "Execute " + @type + " in project "  + @params["project_id"] + ":"
-    Rails.logger.info "----------------------------------------"
-    Rails.logger.info @command unless @command.nil?
+      Rails.logger.info "Execute " + @type + " in project "  + @params["project_id"] + ":"
+      Rails.logger.info "----------------------------------------"
+      Rails.logger.info @command unless @command.nil?
 
-    @adapter.do_request(@command) unless @command.nil?
-    self.on_execute();
+      @adapter.do_request(@command) unless @command.nil?
+      self.on_execute();
 
-    Rails.logger.info "----------------------------------------"
-
+      Rails.logger.info "----------------------------------------"
 
   end
 

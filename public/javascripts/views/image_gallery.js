@@ -9,7 +9,9 @@ $.jstree._themes = "/images/jstree/themes/";
       "animation" : 100
     },
     "crrm" : {
+
         "move" : {
+            "always_copy" : "multitree",
         "check_move" : function(m) {
                 if(!m.np.data("jstree")) return false;
                 if(m.np.data("jstree").type == "folder") return true;
@@ -18,11 +20,17 @@ $.jstree._themes = "/images/jstree/themes/";
         }
     },
     "sort" : function(a,b) {
+
+
+        if(!$(a).data("jstree")) return 1;
+        if(!$(b).data("jstree")) return 1;
+
         // Folder first:
         type_a = $(a).data("jstree").type;
         type_b = $(b).data("jstree").type;
         name_a = $(a).data("jstree").name;
         name_b = $(b).data("jstree").name;
+
         if(type_a == "folder" && type_b == "file") return -1;
         if(type_a == "file" && type_b == "folder") return 1;
         if(name_a < name_b) return -1;
@@ -31,15 +39,9 @@ $.jstree._themes = "/images/jstree/themes/";
     "json_data" : {
         "ajax" : {
         "url" : "/ajax/show_images",
-        "data" : function(n) {
-          path = "drawable";
-          if(n.data) {
-              var nodeData = eval (n.data("jstree"));
-              path = nodeData.path;
-          }
-          return {"project_id" : project_id, "path" : path};
+        "data" : {"project_id" : project_id, "path" : "drawable"}
         }
-        }
+        
     },
     "contextmenu" : {
         "items" : {
@@ -72,19 +74,35 @@ $("#imageFileTree").bind("select_node.jstree", function(event, data) {
 
 $("#imageFileTree").bind("move_node.jstree", function(event, data) {
     /*
-     * data.rslt.o: Object
+     * data.rslt.o: Object (In case of a copy: The new node)
      * data.rslt.np: New Parent
      */
+
     from = data.rslt.o.data("jstree").path;
     to = data.rslt.np.data("jstree").path + "/" + data.rslt.o.data("jstree").name
     data.rslt.o.data("jstree").path = to  // Save new path
-    if(from != to) {
-      cmd = new MoveImageCommand();
-      cmd.setParameter("project_id", project_id);
-      cmd.setParameter("from", from);
-      cmd.setParameter("to", to);
-      cmd.execute();
-  }
+
+    // Move in the same project
+    if(data.rslt.o.data("jstree").project_id == project_id) {
+        if(from != to) {
+            cmd = new MoveImageCommand();
+            cmd.setParameter("project_id", project_id);
+            cmd.setParameter("from", from);
+            cmd.setParameter("to", to);
+            cmd.execute();
+        }
+    }
+    // Copy from another project
+    else {
+        from_project_id = data.rslt.o.data("jstree").project_id;
+        data.rslt.o.data("jstree").project_id = project_id; // Import
+        cmd = new ImportImageCommand();
+        cmd.setParameter("project_id", project_id);
+        cmd.setParameter("from", from);
+        cmd.setParameter("from_project_id", from_project_id);
+        cmd.setParameter("to", to);
+        cmd.execute();
+    }
 
 });
 
@@ -92,6 +110,10 @@ $("#imageFileTree").bind("rename_node.jstree", function(event, data) {
     from = data.rslt.obj.data("jstree").path;
     to = data.rslt.obj.parents("li").data("jstree").path + "/" + data.rslt.name;
 
+    // Update metadata:
+    data.rslt.obj.data("jstree").path = to;
+    data.rslt.obj.data("jstree").name = data.rslt.name;
+    
     cmd = new MoveImageCommand();
     cmd.setParameter("project_id", project_id);
     cmd.setParameter("from", from);
@@ -109,6 +131,50 @@ $(document).ready(function() {
  $("#imageActions").accordion();
 });
 
+$(document).ready(function() {
+    $("#allProjectsImageFileTree").jstree({
+    "plugins" : ["themes", "json_data", "dnd", "crrm", "ui", "sort"],
+    "core"  : {
+      "animation" : 100
+    },
+    "crrm" : {
+        "move" : {
+             "check_move" : function(m) {return false;} // Do not move in this tree
+            }
+    },
+    "sort" : function(a,b) {
+        // Folder first:
+        type_a = $(a).data("jstree").type;
+        type_b = $(b).data("jstree").type;
+        name_a = $(a).data("jstree").name;
+        name_b = $(b).data("jstree").name;
+        if(type_a == "folder" && type_b == "file") return -1;
+        if(type_a == "file" && type_b == "folder") return 1;
+        if(name_a < name_b) return -1;
+        else return 1;
+    },
+    "json_data" : {
+        "ajax" : {
+        "url" : "/ajax/show_images",
+        "data" : {"no_project_id" : project_id}
+        }
+    }
+});
+
+    $("#allProjectsImageFileTree").bind("select_node.jstree", function(event, data) {
+   selected_file = data.rslt.obj.data("jstree").path;
+   selected_type = data.rslt.obj.data("jstree").type;
+   selected_project_id = data.rslt.obj.data("jstree").project_id;
+
+   if(selected_type == "file") {
+       $("#imagePreview").attr("src","/projects/" + selected_project_id + "/" + selected_file);
+   }
+   else {
+       $("#imagePreview").attr("src", "/images/empty.gif");
+   }
+});
+
+});
 
 function deleteImageFile(path) {
 

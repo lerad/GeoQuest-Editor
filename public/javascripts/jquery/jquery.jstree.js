@@ -784,7 +784,7 @@
 				this.__rollback();
 				var o = false;
 				if(is_copy) {
-					o = obj.o.clone();
+					o = obj.o.clone(true);
 					o.find("*[id]").andSelf().each(function () {
 						if(this.id) { this.id = "copy_" + this.id; }
 					});

@@ -1,9 +1,11 @@
 require 'exist_adapter'
 require 'missions/mission_type_manager'
 
+
 #require 'cgi'
 
 class QueryController < ApplicationController
+before_filter :authenticate
 
   def execute
     query = nil
@@ -81,7 +83,7 @@ class QueryController < ApplicationController
     render :content_type => "text/html", :text => text
   end
 
-def get_folder_as_hash(current_path)
+def get_folder_as_hash(current_path, project_id)
 
 
     folder = {
@@ -89,12 +91,17 @@ def get_folder_as_hash(current_path)
           "title" => current_path.split("/").last,
           "icon" => "folder"
         },
-        "metadata" => {"path" => current_path, "type" => "folder", "name" => current_path.split("/").last},
+        "metadata" => {
+          "path" => current_path,
+          "type" => "folder",
+          "name" => current_path.split("/").last,
+          "project_id" => project_id
+        },
         "state" => "open",
         "children" => []
     }
 
-    full_path = Rails.root.join("public", "projects", params[:project_id].to_s, current_path).to_s
+    full_path = Rails.root.join("public", "projects", project_id.to_s, current_path).to_s
     Dir.chdir(full_path)
 
     sub_folders = []
@@ -103,7 +110,7 @@ def get_folder_as_hash(current_path)
     Dir.glob("*") {|x|
       file_path = current_path + "/" + File.basename(x).to_s;
       if File.directory?(x) then
-        sub_folders += [get_folder_as_hash(file_path)]
+        sub_folders += [get_folder_as_hash(file_path, project_id)]
         Dir.chdir(full_path) # Jump back after recursion
       else
          file = {
@@ -111,7 +118,12 @@ def get_folder_as_hash(current_path)
                 "title" => File.basename(x).to_s,
                 "icon" => "/images/file.gif"
             },
-            "metadata" => {"path" => file_path, "type" => "file", "name" => File.basename(x).to_s}
+            "metadata" => {
+              "path" => file_path,
+              "type" => "file",
+              "name" => File.basename(x).to_s,
+              "project_id" => project_id
+              }
          }
          contents += [file]
       end
@@ -130,6 +142,8 @@ end
 
 def show_images
 
+  # Show images of a project
+  if params.has_key?(:project_id)
     path = params[:path].to_s
     if not path.match("^drawable")
       render :status => 500, :text => "Path has to start with drawable"
@@ -141,10 +155,36 @@ def show_images
       return
     end
 
-    directory = get_folder_as_hash(params[:path])
+    directory = get_folder_as_hash(params[:path], params[:project_id])
 
     json_data = ActiveSupport::JSON.encode(directory)
-
+  # Show images of the current user, except no_project_id
+  elsif params.has_key?(:no_project_id)
+    projects = Project.find_all_by_user_id(@current_user.id)
+    projects_data = []
+    projects.each do |project|
+      next if project.id == params[:no_project_id].to_i
+      project_data = {
+        "data" => {
+          "title" => project.name,
+          "icon" => "folder"
+        },
+        "metadata" => {
+          "name" => project.name,
+          "id" => project.id,
+          "type" => "project"
+        },
+        "state" => "open",
+        "children" => []
+      }
+      project_data["children"] += [get_folder_as_hash("drawable", project.id)]
+      projects_data += [project_data]
+    end
+    json_data = ActiveSupport::JSON.encode(projects_data)
+  else
+    render :text => "Error. Either project_id or no_project_id has to be given", :status => 500
+    return
+  end
     render :content_type => "application/json", :text => json_data
   end
 

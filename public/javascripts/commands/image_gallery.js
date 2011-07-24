@@ -15,13 +15,13 @@ DeleteImageCommand.prototype = new Command();
 
 
 function MoveImageCommand() {
-
     this.setParameter("command", "MoveImageCommand");
-
-    this.updateGui = function()  {
-
-    }
-
+    this.updateGui = function()  {}
 }
-
 MoveImageCommand.prototype = new Command();
+
+function ImportImageCommand() {
+    this.setParameter("command", "ImportImageCommand");
+    this.updateGui = function()  {}
+}
+ImportImageCommand.prototype = new Command();
