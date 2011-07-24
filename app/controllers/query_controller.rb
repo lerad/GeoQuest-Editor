@@ -1,5 +1,3 @@
-require 'queries/query'
-require 'queries/file_queries'
 require 'exist_adapter'
 require 'missions/mission_type_manager'
 
@@ -96,8 +94,8 @@ def get_folder_as_hash(current_path)
         "children" => []
     }
 
-    path_public = Rails.root.join("public", "projects", params[:project_id].to_s).to_s
-    Dir.chdir(path_public.to_s + current_path)
+    full_path = Rails.root.join("public", "projects", params[:project_id].to_s, current_path).to_s
+    Dir.chdir(full_path)
 
     sub_folders = []
     contents = []
@@ -106,7 +104,7 @@ def get_folder_as_hash(current_path)
       file_path = current_path + "/" + File.basename(x).to_s;
       if File.directory?(x) then
         sub_folders += [get_folder_as_hash(file_path)]
-        Dir.chdir(path_public.to_s + current_path) # Jump back after recursion
+        Dir.chdir(full_path) # Jump back after recursion
       else
          file = {
             "data" => {
@@ -133,8 +131,8 @@ end
 def show_images
 
     path = params[:path].to_s
-    if not path.match("^/drawable")
-      render :status => 500, :text => "Path has to start with /drawable"
+    if not path.match("^drawable")
+      render :status => 500, :text => "Path has to start with drawable"
       return
     end
 

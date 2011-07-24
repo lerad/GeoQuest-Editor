@@ -23,8 +23,7 @@ class ImageGalleryController < ApplicationController
 
   def uploadFile
       name = params[:uploadedFile].original_filename
-      directory = Rails.root.join("public/projects", params[:project_id]).to_s
-      directory += params[:target_folder].to_s
+      directory = Rails.root.join("public/projects", params[:project_id], params[:target_folder]).to_s
       Rails.logger.warn(directory)
       
       # Directory should end with a "/"

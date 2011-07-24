@@ -32,7 +32,7 @@ $.jstree._themes = "/images/jstree/themes/";
         "ajax" : {
         "url" : "/ajax/show_images",
         "data" : function(n) {
-          path = "/drawable";
+          path = "drawable";
           if(n.data) {
               var nodeData = eval (n.data("jstree"));
               path = nodeData.path;
@@ -61,7 +61,7 @@ $("#imageFileTree").bind("select_node.jstree", function(event, data) {
    selected_file = data.rslt.obj.data("jstree").path;
    selected_type = data.rslt.obj.data("jstree").type;
    if(selected_type == "file") {
-       $("#imagePreview").attr("src","/projects/" + project_id + selected_file);
+       $("#imagePreview").attr("src","/projects/" + project_id + "/" + selected_file);
    }
    else {
        $("#targetFolder").val(selected_file);
@@ -111,9 +111,43 @@ $(document).ready(function() {
 
 
 function deleteImageFile(path) {
-    //TODO: Usage search with AJAX
-    cmd = new DeleteImageCommand();
-    cmd.setParameter("project_id", project_id);
-    cmd.setParameter("path", path);
-    cmd.execute();
+
+    $.ajax({
+        url: "/ajax/is_image_used",
+        data : {
+            "project_id" : project_id,
+            "image" : path
+        },
+        success : function(data) {
+            if(data.length > 0) {
+                text = "The image is used in at least one mission.\n" +
+                       "Should it really be deleted?\n\n" +
+                       "Missions:\n";
+                for (var i=0; i < data.length; i++) {
+                  text += data[i].name;
+                  if(data[i].comment != "") text += " (" + data[i].comment + ")";
+                  text += "\n";
+                }
+                var really = confirm(text);
+                if (really) {
+                    cmd = new DeleteImageCommand();
+                    cmd.setParameter("project_id", project_id);
+                    cmd.setParameter("path", path);
+                    cmd.execute();
+                }
+            }
+            // No usages, simply delete
+            else {
+                cmd = new DeleteImageCommand();
+                cmd.setParameter("project_id", project_id);
+                cmd.setParameter("path", path);
+                cmd.execute();
+            }
+        },
+        error : function() {
+            alert("Something has gone wrong");
+        }
+    });
+
+
 }
