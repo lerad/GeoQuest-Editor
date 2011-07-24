@@ -12,3 +12,16 @@ function DeleteImageCommand() {
 }
 
 DeleteImageCommand.prototype = new Command();
+
+
+function MoveImageCommand() {
+
+    this.setParameter("command", "MoveImageCommand");
+
+    this.updateGui = function()  {
+
+    }
+
+}
+
+MoveImageCommand.prototype = new Command();

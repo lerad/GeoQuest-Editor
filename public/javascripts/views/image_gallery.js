@@ -80,7 +80,11 @@ $("#imageFileTree").bind("move_node.jstree", function(event, data) {
   from = data.rslt.o.data("jstree").path;
   to = data.rslt.np.data("jstree").path + "/" + data.rslt.o.data("jstree").name
   if(from != to) {
-      alert("Move " + from + " to " + to);
+      cmd = new MoveImageCommand();
+      cmd.setParameter("project_id", project_id);
+      cmd.setParameter("from", from);
+      cmd.setParameter("to", to);
+      cmd.execute();
   }
 
 });
