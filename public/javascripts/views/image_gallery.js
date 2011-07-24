@@ -8,6 +8,15 @@ $.jstree._themes = "/images/jstree/themes/";
     "core"  : {
       "animation" : 100
     },
+    "crrm" : {
+        "move" : {
+        "check_move" : function(m) {
+                if(!m.np.data("jstree")) return false;
+                if(m.np.data("jstree").type == "folder") return true;
+                else return false;
+            }
+        }
+    },
     "sort" : function(a,b) {
         // Folder first:
         type_a = $(a).data("jstree").type;
@@ -62,24 +71,14 @@ $("#imageFileTree").bind("select_node.jstree", function(event, data) {
 });
 
 $("#imageFileTree").bind("move_node.jstree", function(event, data) {
-   /*
-        data.rslt contains:
-        .o - the node being moved
-        .r - the reference node in the move
-        .ot - the origin tree instance
-        .rt - the reference tree instance
-        .p - the position to move to (may be a string - "last", "first", etc)
-        .cp - the calculated position to move to (always a number)
-        .np - the new parent
-        .oc - the original node (if there was a copy)
-        .cy - boolen indicating if the move was a copy
-        .cr - same as np, but if a root node is created this is -1
-        .op - the former parent
-        .or - the node that was previously in the position of the moved node
-   */
-  from = data.rslt.o.data("jstree").path;
-  to = data.rslt.np.data("jstree").path + "/" + data.rslt.o.data("jstree").name
-  if(from != to) {
+    /*
+     * data.rslt.o: Object
+     * data.rslt.np: New Parent
+     */
+    from = data.rslt.o.data("jstree").path;
+    to = data.rslt.np.data("jstree").path + "/" + data.rslt.o.data("jstree").name
+    data.rslt.o.data("jstree").path = to  // Save new path
+    if(from != to) {
       cmd = new MoveImageCommand();
       cmd.setParameter("project_id", project_id);
       cmd.setParameter("from", from);
@@ -88,6 +87,18 @@ $("#imageFileTree").bind("move_node.jstree", function(event, data) {
   }
 
 });
+
+$("#imageFileTree").bind("rename_node.jstree", function(event, data) {
+    from = data.rslt.obj.data("jstree").path;
+    to = data.rslt.obj.parents("li").data("jstree").path + "/" + data.rslt.name;
+
+    cmd = new MoveImageCommand();
+    cmd.setParameter("project_id", project_id);
+    cmd.setParameter("from", from);
+    cmd.setParameter("to", to);
+    cmd.execute();
+});
+
 
 });
 

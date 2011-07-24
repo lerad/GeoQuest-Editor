@@ -35,6 +35,7 @@ function Command() {
             return;
         // By default show error (maybe do something more silent later)
         alert("Error during AJAX: " + errorThrown);
+        document.location.reload();
     }
 
 
