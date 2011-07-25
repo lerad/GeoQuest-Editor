@@ -5,7 +5,7 @@ require "missions/start_and_exit_screen"
 require "missions/question_and_answer"
 require "exist_adapter"
 
-class MissionTypeManager
+class AllMissionOperations
 
   def initialize
   @object_map = {

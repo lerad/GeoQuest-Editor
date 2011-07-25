@@ -614,7 +614,7 @@ EOF
     image_path = params[:image]
     project_id = params[:project_id]
 
-    manager = MissionTypeManager.new()
+    manager = AllMissionOperations.new()
     result = manager.query_image_usage(project_id, image_path)
     Rails.logger.info(result.to_s);
     json_data = ActiveSupport::JSON.encode(result)
