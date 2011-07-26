@@ -1,18 +1,6 @@
 require 'commands/command'
 require 'missions/all_mission_operations'
 
-ERB.new <<-EOF
-      <mission type="WebPage"
-         id="<%= id %>"
-         name="WebPage_<%= id %>"
-         url="http://www.example.com"
-         cancel="success">
-</mission>
-EOF
-
-
-
-
 class AddSubmissionCommand < Command
   def initialize(params)
     super(params)
@@ -21,7 +9,7 @@ class AddSubmissionCommand < Command
     id = params["submission_id"]
 
     manager = AllMissionOperations.new()
-    template = manager.get_mission_type_template(params["submission_type"])
+    template = ERB.new manager.get_mission_type_template(params["submission_type"])
     node = template.result(binding)
 
     template = ERB.new <<-EOF
@@ -44,7 +32,7 @@ class AddMissionCommand < Command
     id = params["new_mission_id"]
 
     manager = AllMissionOperations.new()
-    template = manager.get_mission_type_template(params["new_mission_type"])
+    template = ERB.new manager.get_mission_type_template(params["new_mission_type"])
     node = template.result(binding)
 
     template = ERB.new <<-EOF

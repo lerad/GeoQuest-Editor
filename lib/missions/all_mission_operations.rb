@@ -3,6 +3,7 @@ require "missions/map_overview"
 require "missions/npc_talk"
 require "missions/start_and_exit_screen"
 require "missions/question_and_answer"
+require "missions/webpage"
 require "exist_adapter"
 
 class AllMissionOperations
@@ -12,7 +13,8 @@ class AllMissionOperations
     "MapOverview" => MapOverview.new(),
     "NPCTalk" => NPCTalk.new(),
     "QuestionAndAnswer" => QuestionAndAnswer.new(),
-    "StartAndExitScreen" => StartAndExitScreen.new()
+    "StartAndExitScreen" => StartAndExitScreen.new(),
+    "WebPage" => WebPage.new()
   }
 
   end

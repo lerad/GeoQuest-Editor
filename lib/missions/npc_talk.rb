@@ -10,7 +10,7 @@ class NPCTalk < Mission
   end
 
   def get_template
- return ERB.new <<-EOF
+ return <<-EOF
 <mission type="NPCTalk"
          id="<%= id %>"
          name="NPCTalk_<%= id %>"

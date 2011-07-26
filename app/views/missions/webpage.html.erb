@@ -1,0 +1,47 @@
+<script type="text/javascript">
+var mission_id = "<%= @mission.attributes['id'] %>";
+var project_id = "<%= @project.id %>";
+</script>
+
+<%= render 'shared/header' %>
+<%= render 'shared/mission_navigation' %>
+<%= render 'shared/editor_control' %>
+
+<%= javascript_include_tag 'commands/command' %>
+<%= javascript_include_tag 'commands/webpage' %>
+<%= javascript_include_tag 'jquery/jquery.ui' %>
+<%= javascript_include_tag 'jquery/jquery.jeditable'  %>
+<%= javascript_include_tag 'jquery/jquery.form' %>
+<%= javascript_include_tag 'views/webpage' %>
+
+<%= stylesheet_link_tag 'views/webpage'  %>
+
+
+
+<div class="content">
+
+<h3><%= @mission.attributes["name"] %></h3>
+
+<div id="urlLabel">URL:</div>
+<div id="urlEdit" class="edit"><%= @mission.attributes["url"] %></div>
+
+<div id="buttonLabel">Button Text:</div>
+<div id="buttonEdit" class="edit"><%= @mission.attributes["buttontext"] %></div>
+
+<br />
+Upload default HTML document: <br />
+<p id="uploadResult"></p>
+<form id="fileUploadForm" method="post"
+                          action="/commands/execute"
+                          enctype="multipart/form-data">
+         <input id="fileUpload" name="uploadedFile"  type="file" /> <br />
+         <input type="hidden" name="target_dir" value="html" />
+         <input type="hidden" name="name" value="<%= @mission.attributes["id"] %>.html" />
+         <input type="hidden" name="authenticity_token" id="authenticity_token" value="<%= form_authenticity_token %>" />
+         <input type="hidden" name="project_id" value="<%= @project.id %>" />
+         <input type="hidden" name="command" value="UploadFileCommand" />
+         <input id="fileUploadSubmit" type="submit" value="Upload" />
+
+      </form>
+
+</div>

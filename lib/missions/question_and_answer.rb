@@ -10,7 +10,7 @@ class QuestionAndAnswer < Mission
   end
 
   def get_template
-    return  ERB.new  <<-EOF
+    return  <<-EOF
 <mission type="QuestionAndAnswer"
          id="<%= id %>"
          name="QuestionAndAnswer_<%= id %>"

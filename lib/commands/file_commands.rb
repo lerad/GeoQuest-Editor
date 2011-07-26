@@ -53,3 +53,19 @@ class ImportFileCommand < Command
   end
 
 end
+
+
+class UploadFileCommand < Command
+  def initialize(params)
+    super(params)
+    @type = "UploadFileCommand"
+    @command = nil
+  end
+
+  def on_execute
+    path = Rails.root.join("public", "projects", @params[:project_id], @params[:target_dir])
+    UploadedFile.save(@params[:name], path, @params[:uploadedFile])
+    Rails.logger.info("Upload new File to " + path.to_s + " in project " + @params[:project_id])
+  end
+
+end

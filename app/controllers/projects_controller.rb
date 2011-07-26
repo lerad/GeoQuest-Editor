@@ -159,6 +159,7 @@ EOF
       Dir.mkdir(projekt_path + "/drawable")
       Dir.mkdir(projekt_path + "/drawable/npcs")
       Dir.mkdir(projekt_path + "/drawable/hotspots")
+      Dir.mkdir(projekt_path + "/html")
       Dir.mkdir(projekt_path + "/sound")
 
       # Upload game.xml to Exists

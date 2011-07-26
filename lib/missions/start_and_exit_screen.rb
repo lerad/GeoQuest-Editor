@@ -10,7 +10,7 @@ class StartAndExitScreen < Mission
   end
 
   def get_template
-    return ERB.new <<-EOF
+    return  <<-EOF
     <mission cancel="no"
              id="<%= id %>"
              image=""

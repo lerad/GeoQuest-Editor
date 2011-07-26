@@ -73,8 +73,12 @@ class CommandsController < ApplicationController
        cmd = MoveFileCommand.new(params);
     when "ImportFileCommand"
       cmd = ImportFileCommand.new(params);
+    when "UploadFileCommand"
+      cmd = UploadFileCommand.new(params);
     else
-        logger.warn "Unsupported command: " + params[:command]
+        logger.error "Unsupported command: " + params[:command]
+        render :text => "Unsupported command: " + params[:command]
+        return
     end
     begin
       cmd.execute unless cmd.nil?

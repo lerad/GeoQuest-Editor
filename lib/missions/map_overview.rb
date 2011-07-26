@@ -10,7 +10,7 @@ class MapOverview < Mission
   end
 
   def get_template
-    ERB.new <<-EOF
+    return <<-EOF
 <mission type="MapOverview"
          id="<%= id %>"
          name="MapOverview_<%= id %>"
