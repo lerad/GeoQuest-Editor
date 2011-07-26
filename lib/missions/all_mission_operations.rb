@@ -24,6 +24,10 @@ class AllMissionOperations
     end
   end
 
+  def get_mission_type_properties(type)
+    return @object_map[type].get_properties();
+  end
+
   # Checks if there are any missions which use this image
   # Returns an array of all missions (id, name, type, comment) which use this
   # Image

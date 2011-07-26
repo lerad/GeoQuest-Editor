@@ -1,10 +1,13 @@
 require 'missions/mission'
 
 class NPCTalk < Mission
-  @properties = {
+  def get_properties
+   return {
     "name" => "NPCTalk",
-    "has_submissions" => false
+    "has_submissions" => false,
+    "icon" => "/images/icons/NPCTalk.gif"
   }
+  end
 
   def query_image_usage(adapter, image_path)
     template = ERB.new <<-EOF

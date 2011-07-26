@@ -239,18 +239,21 @@ def show_audio
   def get_mission_as_hash(mission)
     name = mission.attributes['type'] + "_" + mission.attributes['id']
     name = mission.attributes['name'] unless mission.attributes['name'].nil?
+    type = mission.attributes['type']
 
+    manager = AllMissionOperations.new
+    image = manager.get_mission_type_properties(type)["icon"]
     mission_data = {
       "data" => {
         "title" => name,
-        "icon" => "mission",
+        "icon" => image,
         "attr" => {
           "href" => project_mission_path(params[:project_id], mission.attributes['id'])
         }
       },
       "metadata" => {
         "mission_id" => mission.attributes['id'],
-        "type" => mission.attributes['type']
+        "type" => type
       },
     }
     if(REXML::XPath.match(mission, './mission').length > 0) # Mission has submissions
@@ -281,7 +284,7 @@ def show_audio
       game = {
         "data" => {
           "title" => "Game",
-          "icon" => "game",
+          "icon" => "/images/icons/Game.gif",
           "attr" => {
             "href" => project_path(params[:project_id])
           }

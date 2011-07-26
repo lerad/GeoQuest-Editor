@@ -1,10 +1,13 @@
 require 'missions/mission'
 
 class MapOverview < Mission
-  @properties = {
+  def get_properties
+    return {
     "name" => "MapOverview",
-    "has_submissions" => true
+    "has_submissions" => true,
+    "icon" => "/images/icons/MapOverview.gif"
   }
+  end
 
   def query_image_usage(adapter, image_path)
     # Query Hotspots:

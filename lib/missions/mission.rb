@@ -1,13 +1,12 @@
 class Mission
 
-  @properties = nil
 
   def get_properties
-    return @properties
+    raise "get_properties is not implemented"
   end
 
   def query_image_usage(adapter, image_path)
-    raise "query_image_usage is not implemented for " + @properties["name"]
+    raise "query_image_usage is not implemented for " + get_properties()["name"]
   end
 
 end

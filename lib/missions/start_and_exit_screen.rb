@@ -1,10 +1,13 @@
 require 'missions/mission'
 
 class StartAndExitScreen < Mission
-  @properties = {
-    "name" => "StartAndExitScreen",
-    "has_submissions" => false
-  }
+  def get_properties
+    return {
+      "name" => "StartAndExitScreen",
+      "has_submissions" => false,
+      "icon" => "/images/icons/StartAndExitScreen.gif"
+    }
+  end
 
   def query_image_usage(adapter, image_path)
     template = ERB.new <<-EOF
