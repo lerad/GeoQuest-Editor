@@ -45,6 +45,8 @@ class MissionsController < ApplicationController
     render 'start_and_exit_screen' if (mission_type == 'StartAndExitScreen')
     render 'webpage' if (mission_type == 'WebPage')
     render 'qr_tag_reading' if (mission_type == 'QRTagReading')
+    render 'image_capture' if (mission_type == 'ImageCapture')
+    render 'audio_record' if (mission_type == 'AudioRecord')
   end
 
 end

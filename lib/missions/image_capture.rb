@@ -1,20 +1,19 @@
 require 'missions/mission'
 
-class QRTagReading < Mission
+class ImageCapture < Mission
   def get_properties
    return {
-    "name" => "QRTagReading",
+    "name" => "ImageCapture",
     "has_submissions" => false,
-    "icon" => "/images/icons/QRTagReading.png"
+    "icon" => "/images/icons/ImageCapture.gif"
   }
   end
 
   def get_template
  return <<-EOF
-      <mission type="QRTagReading"
+      <mission type="ImageCapture"
          id="<%= id %>"
-         name="QRTagReading_<%= id %>"
-         mode="treasure"
+         name="ImageCapture_<%= id %>"
          cancel="success">
 </mission>
 EOF
@@ -22,7 +21,7 @@ EOF
 
   def query_image_usage(adapter, image_path)
    template = ERB.new <<-EOF
-    doc("game.xml")//mission[@type="QRTagReading"][@initial_image="<%= image_path %>"]
+    doc("game.xml")//mission[@type="ImageCapture"][@initial_image="<%= image_path %>"]
 EOF
     query = template.result(binding)
     results = adapter.do_request(query)
@@ -31,7 +30,7 @@ EOF
       usages += [{
         "id" => result.attributes["id"],
         "name" => result.attributes["name"],
-        "type" => "QRTagReading",
+        "type" => "ImageCapture",
         "comment" => ""
       }]
     end
