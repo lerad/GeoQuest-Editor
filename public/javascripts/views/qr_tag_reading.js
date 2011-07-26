@@ -1,0 +1,44 @@
+$(document).ready(function() {
+   $("#editTaskDescription").editable(onTaskDescriptionChange, { placeholder: "Click to add a text (optional)" });
+   $("#editEndButtonText").editable(onEndButtonChange, { placeholder: "Click to add a text (optional)" });
+
+});
+
+var imageSelector = new ImageSelector(null);
+
+$(document).ready(function() {
+
+    imageSelector.setCallback(function(file) {
+        $("#initialImage").attr("src", "/projects/" + project_id + "/" + file);
+        var cmd = new UpdateAttributeInMissionCommand();
+        cmd.setParameter("project_id", project_id);
+        cmd.setParameter("mission_id", mission_id);
+        cmd.setParameter("attribute", "initial_image");
+        cmd.setParameter("value", file);
+        cmd.execute();
+    });
+
+    $("#buttonChangeImage").click(function() {
+       imageSelector.show();
+    });
+});
+
+function onTaskDescriptionChange(value, settings) {
+    cmd = new UpdateAttributeInMissionCommand();
+    cmd.setParameter("project_id", project_id);
+    cmd.setParameter("mission_id", mission_id);
+    cmd.setParameter("attribute", "taskdescription");
+    cmd.setParameter("value", value);
+    cmd.execute();
+    return value;
+}
+
+function onEndButtonChange(value, settings) {
+    cmd = new UpdateAttributeInMissionCommand();
+    cmd.setParameter("project_id", project_id);
+    cmd.setParameter("mission_id", mission_id);
+    cmd.setParameter("attribute", "endbuttontext");
+    cmd.setParameter("value", value);
+    cmd.execute();
+    return value;
+}

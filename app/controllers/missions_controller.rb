@@ -44,6 +44,7 @@ class MissionsController < ApplicationController
     render 'map_overview' if (mission_type == 'MapOverview')
     render 'start_and_exit_screen' if (mission_type == 'StartAndExitScreen')
     render 'webpage' if (mission_type == 'WebPage')
+    render 'qr_tag_reading' if (mission_type == 'QRTagReading')
   end
 
 end
