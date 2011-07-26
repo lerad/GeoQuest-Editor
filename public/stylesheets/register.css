@@ -1,8 +1,17 @@
 div.register-field {
-    border: medium dotted;
+    /* Position */
     margin-left: auto;
     margin-right: auto;
     margin-top: 50pt;
     padding: 20pt;
-    width: 200pt;
+    width: 220pt;
+
+    /* Layout */
+    border-style: solid;
+    border-width: 1pt;
+    background-color: #85B2D6;
+    -webkit-border-radius: 5pt;
+    -moz-border-radius: 5pt;
+    border-radius: 5pt;
+
 }

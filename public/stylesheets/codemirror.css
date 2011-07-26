@@ -2,6 +2,9 @@
   line-height: 1em;
   font-family: monospace;
   position: absolute;
+  background-color: #D6EDFF;
+  border: solid 1pt black;
+  padding: 5pt;
   right: 0pt;
   left: 0pt;
 }
@@ -13,7 +16,7 @@
 
 .CodeMirror-gutter {
   position: absolute; left: 0; top: 0;
-  background-color: #f7f7f7;
+  background-color: transparent;
   border-right: 1px solid #eee;
   min-width: 2em;
   height: 100%;

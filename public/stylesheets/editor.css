@@ -1,41 +1,4 @@
-#imageFileTree {
-    max-width: 200pt;
-    max-height: 200pt;
-    overflow: auto;
-}
 
-#imagePreviewContainer {
-    position: absolute;
-    left : 220pt;
-    top : 60pt;
-}
-
-#imagePreview {
-    max-height: 200pt;
-    
-}
-
-#imageActions {
-    position: absolute;
-    top: 260pt;
-}
-
-#audioFileTree {
-    max-width: 200pt;
-    max-height: 200pt;
-    overflow: auto;
-}
-
-#audioPreviewContainer {
-    position: absolute;
-    left : 220pt;
-    top : 60pt;
-}
-
-#audioActions {
-    position: absolute;
-    top: 260pt;
-}
 
 .failure {
     color : red;
@@ -47,14 +10,6 @@
     font-weight: bold;
 }
 
-.file-tree {
-    float: left;
-    width: 130pt;
-}
-.preview {
-  float: left;
-  margin-left: 20pt;
-}
 
 .header {
     position: absolute;
@@ -69,43 +24,78 @@
     margin-right: 0pt;
     right: 210pt;
     left: 220pt;
-    top: 120pt;
+    top: 80pt;
 }
 
+/**
+ Right Navigation bar
+ */
 #control {
+    /* Position */
     position: absolute;
     right: 10pt;
-    top : 120pt;
-    border-style: dotted;
+    top : 80pt;
     width: 150pt;
     min-height: 450pt;
     padding: 20pt;
+
+    /* Layout */
+    border-style: solid;
+    border-width: 1pt;
+    background-color: #85B2D6;
+    -webkit-border-radius: 5pt;
+    -moz-border-radius: 5pt;
+    border-radius: 5pt;
 }
 
 body {
   padding: 0px;
   margin: 0px;
+  background-color: #DBEFFF;
 }
 
 #caption {
-    min-height: 120pt;
-    color: black;
     text-decoration: none;
-    margin-left: 40px;
+    margin-left: 10px;
+    font-family: times, Times New Roman, times-roman, georgia, serif;
+    font-size: 48px;
+    line-height: 40px;
+    letter-spacing: -1px;
+    color: #2E4D66;
+    font-weight: 100;
+
 }
 
 #navigation {
+    /* Position */
     position: absolute;
     left: 10pt;
-    top: 120pt;
-    border-style: dotted;
-    width: 160pt;
+    top: 80pt;
+    width: 150pt;
     height: 450pt;
     padding: 20pt;
+
+    /* Layout */
+        /* Layout */
+    border-style: solid;
+    border-width: 1pt;
+    background-color: #85B2D6;
+    -webkit-border-radius: 5pt;
+    -moz-border-radius: 5pt;
+    border-radius: 5pt;
 }
 
+.editor_link {
+    text-decoration: none;
+    color: black;
+    font-size: 11pt;
+}
 
-
+.editor_link:hover {
+    text-decoration: underline;
+    color: black;
+    font-size: 11pt;
+}
 
 .navigation_link {
     text-decoration: none;
@@ -132,55 +122,6 @@ body {
     font-size: 11pt;
 }
 
-.npcTalkSpeakerCell {
-    vertical-align: top;
-}
-
-.npcTalkCell {
-    font-size: 10pt;
-    border-bottom-width: 1pt;
-    border-bottom-style: solid;
-}
-
-.answerCell {
-    width: 40%;
-    font-size: 10pt;
-    border-bottom-width: 1pt;
-    border-bottom-style: solid;
-}
-
-.mission-box {
-  display: table-cell;
-  position: absolute;
-  border: solid;
-  padding: 5pt;
-  min-width: 30pt;
-  max-width: 200pt;
-  min-height: 20pt;
-  text-align: center;
-  vertical-align: middle;
-  -webkit-border-radius: 7pt;
-  -moz-border-radius: 7pt;
-  border-radius: 7pt;
-  z-index: 20;
-}
-
-.hotspot-box {
-  display: table-cell;
-  position: absolute;
-  background-color: chartreuse;
-  border: solid;
-  padding: 5pt;
-  min-width: 30pt;
-  max-width: 200pt;
-  min-height: 20pt;
-  text-align: center;
-  vertical-align: middle;
-  -webkit-border-radius: 7pt;
-  -moz-border-radius: 7pt;
-  border-radius: 7pt;
-  z-index: 20;
-}
 
 .initially-hidden {
     display: none;

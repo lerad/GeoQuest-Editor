@@ -1,4 +1,5 @@
 require 'exist_adapter'
+require 'fileutils'
 
 class UsersController < ApplicationController
 
@@ -14,6 +15,8 @@ class UsersController < ApplicationController
   end
 
   def create_user_repository
+
+    # Create repository in XML Database
         template = ERB.new <<-EOF
       let $newRepository := <repository name="<%= @user.name %>">
          </repository>
@@ -25,6 +28,10 @@ class UsersController < ApplicationController
     adapter = ExistAdapter.new("global")
     adapter.do_request(command)
 
+    # Create repository folder:
+    repo_dir = Rails.root.join("data", "repository", @user.id.to_s).to_s
+    FileUtils.mkdir(repo_dir)
+    
   end
 
   def create

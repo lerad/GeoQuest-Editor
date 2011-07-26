@@ -1,18 +1,18 @@
 <%= stylesheet_link_tag 'repository'  %>
 <div class="repository">
-  <h3>Repository of <%= @repo_user.name %> </h3>
+  <h4>Repository of <%= @repo_user.name %> </h4>
 
 Deployed Games:
 
 <ul>
   <% @deployed_projects.each do |project| %>
-  <li> <a href="/repository/<%= @repo_user.name %>/games/<%= project.id %>.zip"><%=  project.name %></a> </li>
+  <li> <a class="editor_link" href="/repositories/<%= @repo_user.name %>/games/<%= project.id %>.zip"><%=  project.name %></a> </li>
   <% end %>
 
 </ul>
 
 <br />
-
-For Android devices there is also an <a href="/repository/<%= @repo_user.name %>/gamelist.php">gamelist.php</a>
-
+<!--
+For Android devices there is also an <a class="editor_link" href="/repository/<%= @repo_user.name %>/gamelist.php">gamelist.php</a>
+-->
 </div>

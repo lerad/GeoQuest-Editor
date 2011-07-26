@@ -12,6 +12,8 @@ var project_id = "<%= @project.id %>";
 
 <%= stylesheet_link_tag 'jquery.ui'  %>
 <%= stylesheet_link_tag 'jqueryFileTree'  %>
+<%= stylesheet_link_tag 'shared/image_select' %>
+<%= stylesheet_link_tag 'views/npc_talk' %>
 
 <%= render 'shared/header' %>
 
@@ -21,7 +23,7 @@ var project_id = "<%= @project.id %>";
 
 <div class="content">
 
-  <h4>Dialog</h4>
+  <h3><%= @mission.attributes["name"] %></h3>
 
  Charimage: <br />
 

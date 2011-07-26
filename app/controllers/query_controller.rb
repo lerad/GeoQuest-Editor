@@ -1,5 +1,5 @@
 require 'exist_adapter'
-require 'missions/mission_type_manager'
+require 'missions/all_mission_operations'
 
 
 #require 'cgi'

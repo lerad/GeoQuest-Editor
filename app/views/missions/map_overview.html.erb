@@ -23,7 +23,7 @@
 <%= stylesheet_link_tag 'jquery.ui'  %>
 <%= stylesheet_link_tag 'jqueryFileTree'  %>
 <%= stylesheet_link_tag 'jquery.contextMenu'  %>
-
+<%= stylesheet_link_tag 'shared/image_select' %>
 
 
 <ul id="mapMenu" class="contextMenu">
@@ -48,6 +48,7 @@
 
 
 <div class="content">
+  <h3><%= @mission.attributes["name"] %></h3>
   <div id="map_canvas" style="width: 100%; height: 400pt"></div>
 
 </div>

@@ -8,7 +8,8 @@ var project_id = "<%= @project.id %>";
 <%= render 'shared/mission_navigation' %>
 <%= render 'shared/editor_control' %>
 
-<%= stylesheet_link_tag 'jquery.ui.css' %>
+<%= stylesheet_link_tag 'jquery.ui' %>
+<%= stylesheet_link_tag 'views/question_and_answer' %>
 
 <%= javascript_include_tag "jquery/jquery.ui" %>
 <%= javascript_include_tag "jquery/jquery.jeditable" %>
@@ -27,6 +28,9 @@ correctAnswersNeeded="0"
 
 
 <div class="content">
+
+<h3><%= @mission.attributes["name"] %></h3>
+
 
 Shuffle Questions:
 <input type="checkbox" <%=

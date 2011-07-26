@@ -1,0 +1,21 @@
+#imageFileTree {
+    max-width: 200pt;
+    height: 200pt;
+    overflow: auto;
+}
+
+#imagePreviewContainer {
+    position: absolute;
+    left : 220pt;
+    top : 60pt;
+}
+
+#imagePreview {
+    max-height: 200pt;
+
+}
+
+#imageActions {
+    position: absolute;
+    top: 260pt;
+}

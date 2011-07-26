@@ -1,0 +1,9 @@
+.npcTalkSpeakerCell {
+    vertical-align: top;
+}
+
+.npcTalkCell {
+    font-size: 10pt;
+    border-bottom-width: 1pt;
+    border-bottom-style: solid;
+}

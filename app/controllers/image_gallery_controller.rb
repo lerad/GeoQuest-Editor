@@ -12,7 +12,7 @@ class ImageGalleryController < ApplicationController
       mission_query = 'doc("game.xml")/game/mission'
       adapter = ExistAdapter.new(params[:project_id])
       if params[:target_folder].nil?
-        @target_folder = "/drawable"
+        @target_folder = "drawable"
       else
         @target_folder = params[:target_folder]
       end

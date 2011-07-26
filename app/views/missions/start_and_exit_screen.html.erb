@@ -21,6 +21,7 @@ var project_id = "<%= @project.id %>";
 
 <%= stylesheet_link_tag 'jqueryFileTree'  %>
 <%= stylesheet_link_tag 'jquery.ui' %>
+<%= stylesheet_link_tag 'shared/image_select' %>
 
 
 
@@ -30,7 +31,8 @@ var project_id = "<%= @project.id %>";
 
 <div class="content">
 
-  <h4>Start screen</h4>
+<h3><%= @mission.attributes["name"] %></h3>
+
 
 
 <img id="startScreenImage" alt="Startscreen" src="/projects/<%= @project.id%>/<%= @mission.attributes['image'] %>" />
