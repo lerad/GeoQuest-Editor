@@ -9,7 +9,8 @@ $(document).ready(function() {
     $("#eventDialog_dialog").dialog({
         autoOpen: false,
         width: 500,
-        height: 500
+        height: 500,
+        modal: true
     });
 
 
