@@ -1,5 +1,13 @@
+<%= stylesheet_link_tag 'register' %>
+
+
+<h1 id="register-caption">GeoQuest Editor</h1>
+
 <div class="register-field">
+
 <p class="notice"><%= notice  %></p>
 
 <%= render 'form' %>
+
+<%= link_to 'Back', login_path, :class => "editor_link" %>
 </div>

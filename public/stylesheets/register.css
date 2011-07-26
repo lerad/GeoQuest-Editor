@@ -9,9 +9,20 @@ div.register-field {
     /* Layout */
     border-style: solid;
     border-width: 1pt;
-    background-color: #85B2D6;
+    background-color: #AECDE6;
     -webkit-border-radius: 5pt;
     -moz-border-radius: 5pt;
     border-radius: 5pt;
 
+}
+
+#register-caption {
+    text-decoration: none;
+    font-family: times, Times New Roman, times-roman, georgia, serif;
+    font-size: 48px;
+    line-height: 40px;
+    letter-spacing: -1px;
+    color: #2E4D66;
+    font-weight: 100;
+    text-align: center;
 }
