@@ -5,6 +5,10 @@ class Mission
     raise "get_properties is not implemented"
   end
 
+  def get_template
+    raise "get_template is not implemented for " + get_properties()["name"]
+  end
+
   def query_image_usage(adapter, image_path)
     raise "query_image_usage is not implemented for " + get_properties()["name"]
   end

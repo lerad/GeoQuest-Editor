@@ -9,6 +9,17 @@ class StartAndExitScreen < Mission
     }
   end
 
+  def get_template
+    return ERB.new <<-EOF
+    <mission cancel="no"
+             id="<%= id %>"
+             image=""
+             name="StartAndExitScreen_<%= id %>"
+             type="StartAndExitScreen">
+</mission>
+EOF
+  end
+
   def query_image_usage(adapter, image_path)
     template = ERB.new <<-EOF
     doc("game.xml")//mission[@type="StartAndExitScreen"][@image="<%= image_path %>"]

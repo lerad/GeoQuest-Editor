@@ -338,7 +338,9 @@ def show_audio
        render :status => 500, :text => "An error has occured"
      end
 
+
      new_id_value += 1
+
      new_id = "m" + new_id_value.to_s
      query = "doc(\"game.xml\")//mission[@id=\"" + new_id + "\"]"
      result = adapter.do_request(query);

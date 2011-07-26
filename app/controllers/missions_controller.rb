@@ -4,14 +4,22 @@ class MissionsController < ApplicationController
 
   def show
 
+    @project = Project.find(:first, :conditions => {:id => params[:project_id], :user_id => @current_user.id})
+
     mission_query = 'doc("game.xml")//mission[@id="' + params[:id] + '"]'
     adapter = ExistAdapter.new(params[:project_id])
     @mission = adapter.do_request(mission_query).first()
 
+    # Might happen, if current mission is deleted and the user presses reload
+
+    if @mission.nil?
+      redirect_to project_path(@project.id)
+      return
+    end
+
     mission_query = 'doc("game.xml")/game/mission'
     @missions = adapter.do_request(mission_query);
 
-    @project = Project.find(:first, :conditions => {:id => params[:project_id], :user_id => @current_user.id})
 
     mission_type = @mission.attributes['type']
 

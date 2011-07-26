@@ -25,6 +25,10 @@ class AllMissionOperations
     return properties
   end
 
+  def get_mission_type_template(type)
+    return @object_map[type].get_template();
+  end
+
   def get_mission_type_properties(type)
     return @object_map[type].get_properties();
   end

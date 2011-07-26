@@ -9,6 +9,17 @@ class NPCTalk < Mission
   }
   end
 
+  def get_template
+ return ERB.new <<-EOF
+<mission type="NPCTalk"
+         id="<%= id %>"
+         name="NPCTalk_<%= id %>"
+         charImage=""
+         cancel="success">
+</mission>
+EOF
+  end
+
   def query_image_usage(adapter, image_path)
     template = ERB.new <<-EOF
     doc("game.xml")//mission[@type="NPCTalk"][@charImage="<%= image_path %>"]

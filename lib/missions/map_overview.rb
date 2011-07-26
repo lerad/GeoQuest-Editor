@@ -9,6 +9,18 @@ class MapOverview < Mission
   }
   end
 
+  def get_template
+    ERB.new <<-EOF
+<mission type="MapOverview"
+         id="<%= id %>"
+         name="MapOverview_<%= id %>"
+         cancel="success"
+         mapkind="satellite">
+<hotspots />
+</mission>
+EOF
+  end
+
   def query_image_usage(adapter, image_path)
     # Query Hotspots:
     template = ERB.new <<-EOF
