@@ -54,6 +54,14 @@ function getNodeDataAsObject(node) {
 
 $(document).ready(function() {
 
+result = $.ajax({
+    url : "/ajax/show_mission_types",
+    dataType : 'json',
+    async : false
+});
+
+data = $.parseJSON(result.responseText);
+
 $.jstree._themes = "/images/jstree/themes/";
 
   mission_tree = $("#missionTree").jstree({
@@ -91,26 +99,21 @@ $.jstree._themes = "/images/jstree/themes/";
       },
       "add_mission" : {
         "label" : "Add Mission",
-        "submenu" : {
-          "MapOverview" : {
-            "label" : "MapOverview",
-            "action" : function(n) { addMission(getNodeDataAsObject(n).mission_id, "MapOverview") }
-          },
-          "QuestionAndAnswer" : {
-            "label" : "QuestionAndAnswer",
-            "action" : function(n) { addMission(getNodeDataAsObject(n).mission_id, "QuestionAndAnswer") }
-          },
-          "NPCTalk" : {
-            "label" : "NPCTalk",
-            "action" : function(n) { addMission(getNodeDataAsObject(n).mission_id, "NPCTalk") }
-          }
-
-        }
+        "submenu" : {}
       }
     }
 
-    // Only allow submissions for these two types:
-    if ((nodeData.type != "root") && (nodeData.type != "MapOverview")) {
+    for (missionName in data) {
+        mission = data[missionName];
+        var type = mission.name;
+        items.add_mission.submenu[mission.name] = {
+            "label" : mission.name,
+            "action" : getAddMissionCallback(type)
+        }
+    }
+
+    // Only allow submissions for these missions that support them
+    if ((nodeData.type != "root") && (data[nodeData.type].has_submissions == false)) {
       items.add_mission = false;
     }
 
@@ -136,3 +139,7 @@ $.jstree._themes = "/images/jstree/themes/";
 
 
 });
+
+function getAddMissionCallback(type) {
+  return function(n) { addMission(getNodeDataAsObject(n).mission_id, type); }
+}

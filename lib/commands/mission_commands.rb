@@ -7,6 +7,7 @@ require 'commands/command'
       mission_template = ERB.new <<-EOF
 <mission type="MapOverview"
          id="<%= id %>"
+         name="MapOverview_<%= id %>"
          cancel="success"
          mapkind="satellite">
 <hotspots />
@@ -16,6 +17,7 @@ EOF
       mission_template = ERB.new <<-EOF
 <mission type="QuestionAndAnswer"
          id="<%= id %>"
+         name="QuestionAndAnswer_<%= id %>"
          questions="0"
          correctAnswersNeeded="0"
          shuffle="false"
@@ -26,7 +28,17 @@ EOF
       mission_template = ERB.new <<-EOF
 <mission type="NPCTalk"
          id="<%= id %>"
+         name="NPCTalk_<%= id %>"
          charImage=""
+         cancel="success">
+</mission>
+EOF
+    when "WebPage"
+      mission_template = ERB.new <<-EOF
+      <mission type="WebPage"
+         id="<%= id %>"
+         name="WebPage_<%= id %>"
+         url="http://www.example.com"
          cancel="success">
 </mission>
 EOF

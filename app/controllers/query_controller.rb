@@ -635,5 +635,11 @@ EOF
     render :text => json_data, :content_type => "application/json"
   end
 
+  def show_mission_types
+    all_missions = AllMissionOperations.new()
+    properties = all_missions.get_all_mission_properties()
+    json_data = ActiveSupport::JSON.encode(properties)
+    render :text => json_data, :content_type => "application/json"
+  end
 
 end

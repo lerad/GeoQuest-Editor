@@ -54,6 +54,7 @@
 #vakata-contextmenu.jstree-default-context li.jstree-contextmenu-disabled a:hover { color:silver; background:transparent; border:0; padding:1px 4px; }
 #vakata-contextmenu.jstree-default-context li.vakata-separator { background:white; border-top:1px solid #e0e0e0; margin:0; }
 #vakata-contextmenu.jstree-default-context li ul { margin-left:-4px; }
+#vakata-contextmenu.jstree-default-context li ins { width: 0pt; } /* Otherwise this breaks the layout with to large entries */
 
 /* IE6 BEGIN */
 .jstree-default li, 

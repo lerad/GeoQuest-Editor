@@ -22,6 +22,7 @@ class AllMissionOperations
     @object_map.each do |key, value|
       properties[key] = value.get_properties()
     end
+    return properties
   end
 
   def get_mission_type_properties(type)
