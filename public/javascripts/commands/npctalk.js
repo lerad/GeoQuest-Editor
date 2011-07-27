@@ -104,7 +104,7 @@ function ChangeCharImageCommand() {
     // As this command does not need specific Xml commands
     // UpdateAttributeInMission is a generic Command
     this.setParameter("command", "UpdateAttributeInMission");
-    this.setParameter("attribute", "charImage");
+    this.setParameter("attribute", "charimage");
 
     this.updateGui = function()  {
         var image = "/projects/" + this.getParameter("project_id") + "/" + this.getParameter("image");

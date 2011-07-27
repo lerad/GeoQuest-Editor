@@ -32,10 +32,18 @@ class ProjectsController < ApplicationController
       return
     end
 
-    path_tmp = Rails.root.join("data", "repository", @current_user.id.to_s, "tmp_" + @project.id.to_s + ".zip");
-    path_final = Rails.root.join("data", "repository", @current_user.id.to_s,  @project.id.to_s + ".zip");
+    path_tmp = Rails.root.join("data", "repository", @current_user.id.to_s, "tmp_" + @project.id.to_s + ".zip")
+    path_final = Rails.root.join("data", "repository", @current_user.id.to_s,  @project.id.to_s + ".zip")
+    path_repo = Rails.root.join("data", "repository", @current_user.id.to_s)
     path_public = Rails.root.join("public", "projects", @project.id.to_s)
 
+    # Clean potential tmp files in repo:
+    Dir.chdir(path_repo.to_s)
+    FileUtils.rm_rf("drawable") if Dir.exists?("drawable")
+    FileUtils.rm_rf("sound") if Dir.exists?("sound")
+    FileUtils.rm_rf("html") if Dir.exists?("html")
+    FileUtils.rm_f(path_final) if File.exists?(path_final)
+    
     Zip::ZipFile.open(path_tmp, Zip::ZipFile::CREATE) {|zipfile|
 
         zipfile.get_output_stream("game.xml") { |f| f.write(xmlfile) }
@@ -148,12 +156,7 @@ EOF
     @project.user = @current_user
   end
 
-  def create
-    @project = Project.new (params[:project])
-    @project.user = @current_user
-    if @project.save
-
-      # Create folders on server:
+  def create_project_directory
       projekt_path = Rails.root.join("public", "projects", @project.id.to_s).to_s
       Dir.mkdir(projekt_path)
       Dir.mkdir(projekt_path + "/drawable")
@@ -161,13 +164,64 @@ EOF
       Dir.mkdir(projekt_path + "/drawable/hotspots")
       Dir.mkdir(projekt_path + "/html")
       Dir.mkdir(projekt_path + "/sound")
+  end
 
-      # Upload game.xml to Exists
-      adapter = ExistAdapter.new(@project.id)
+  def upload_skeleton_game_xml(adapter)
       game_skeleton_path = Rails.root.join("data", "skeleton.xml");
       adapter.upload_file_as_filename(game_skeleton_path, "game.xml")
+  end
 
-      # Upload visualization.xml to Exists
+  def create_temporary_file(params)
+   name = Time.now.nsec.to_s + "_game.zip"
+   UploadedFile.save(name, Dir.tmpdir,  params[:existing_project_file])
+   return Dir.tmpdir + "/" + name
+  end
+
+  def extract_archive(file_name)
+      dest_path = Rails.root.join("public", "projects", @project.id.to_s).to_s
+
+      Zip::ZipFile.open(file_name) do |zipfile|
+        zipfile.each do |entry|
+          next if entry.name == "game.xml" # Do not extract game.xml
+          file_path = File.join(dest_path, entry.name)
+          FileUtils.mkdir_p(File.dirname(file_path))
+          zipfile.extract(entry, file_path)
+        end
+      end
+  end
+
+  def upload_game_xml(adapter, file_name)
+    Zip::ZipFile.open(file_name) do |zipfile|
+      game_xml = zipfile.read("game.xml")
+      adapter.upload_data_as_filename(game_xml, "game.xml")
+    end
+    game = adapter.do_request('doc("game.xml")/game').first
+    @project.name = game.attributes["name"]
+    @project.save
+  end
+
+  def create
+    Rails.logger.info("Create called...")
+    @project = Project.new (params[:project])
+    @project.user = @current_user
+    if @project.save
+      adapter = ExistAdapter.new(@project.id)
+
+      # New project
+      unless params.has_key?(:existing_project_file)
+        create_project_directory
+        upload_skeleton_game_xml(adapter)
+      # From existing project
+      else
+        Rails.logger.info("Create from existing file")
+        file_name = create_temporary_file(params)
+        create_project_directory
+        extract_archive(file_name)
+        upload_game_xml(adapter, file_name)
+        FileUtils.rm(file_name)
+      end
+
+      # Upload editor.xml to Exists
       editor_data_path = Rails.root.join("data", "editor.xml");
       adapter.upload_file_as_filename(editor_data_path, "editor.xml")
 

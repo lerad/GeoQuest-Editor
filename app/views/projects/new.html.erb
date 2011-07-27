@@ -7,7 +7,17 @@
 <%= render 'shared/editor_control' %>
 
 <div class="content">
+<b>Create new project</b>
 <%= render 'form' %>
+
+<br />
+<b>Create project from existing project</b>
+<form action="/projects" method="POST" enctype="multipart/form-data">
+  <input type="file" name="existing_project_file" /><br />
+  <input type="submit" value="Create project" />
+  <input type="hidden"  name="authenticity_token" value="<%= form_authenticity_token %>" />
+</form>
+
 
 </div>
 

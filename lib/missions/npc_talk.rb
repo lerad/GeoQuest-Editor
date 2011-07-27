@@ -14,7 +14,7 @@ class NPCTalk < Mission
 <mission type="NPCTalk"
          id="<%= id %>"
          name="NPCTalk_<%= id %>"
-         charImage=""
+         charimage=""
          cancel="success">
 </mission>
 EOF
@@ -22,7 +22,7 @@ EOF
 
   def query_image_usage(adapter, image_path)
     template = ERB.new <<-EOF
-    doc("game.xml")//mission[@type="NPCTalk"][@charImage="<%= image_path %>"]
+    doc("game.xml")//mission[@type="NPCTalk"][@charimage="<%= image_path %>"]
 EOF
     query = template.result(binding)
     results = adapter.do_request(query)
