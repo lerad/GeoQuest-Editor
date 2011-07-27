@@ -36,10 +36,34 @@ Initial image: <br />
 
 <br />
 <br />
+<form>
 <div id="labelTaskDescription">Description of the task:</div>
 <div id="editTaskDescription"><%= @mission.attributes['taskdescription'] %></div>
 
 <div id="labelEndButtonText">Text of the endbutton:</div>
 <div id="editEndButtonText"><%= @mission.attributes['endbuttontext'] %></div>
 
+<br />
+Mode: <br />
+<input type="radio" id="treasureRadio" name="mode" value="treasure" <%= "checked" if @mission.attributes["mode"] == "treasure" %> /> Treasure <br />
+<input type="radio" id="productRadio" name="mode" value="product" <%= "checked" if @mission.attributes["mode"] == "product" %>/> Product <br />
+<div id="treasureAttributes" class="<%= "hidden" if @mission.attributes["mode"] == "product"  %>">
+  <br />
+  <div id="labelFeedBackText">Text if a tag is found:</div>
+  <div id="editFeedBackText"><%= @mission.attributes['feedbacktext'] %></div>
+</div>
+<div id="productAttributes" class="<%= "hidden" if @mission.attributes["mode"] == "treasure"  %>">
+  <br />
+  <div id="labelExpectedContent">The value of the correct tag:</div>
+  <div id="editExpectedContent"><%= @mission.attributes['expected_content'] %></div>
+
+  <div id="labelIfRight">Text if the correct tag is found:</div>
+  <div id="editIfRight"><%= @mission.attributes['if_right'] %></div>
+  
+  <div id="labelIfWrong">Text if a wrong tag is found:</div>
+  <div id="editIfWrong"><%= @mission.attributes['if_wrong'] %></div>
+</div>
+
+
+</form>
 </div>

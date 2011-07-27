@@ -1,9 +1,36 @@
 #labelTaskDescription {
     float: left;
-    padding-right: 5pt;
+    padding-right: 8pt;
 }
 
 #labelEndButtonText {
     float: left;
-    padding-right: 5pt;
+    padding-right: 8pt;
 }
+
+#labelFeedBackText {
+    float: left;
+    padding-right: 8pt;
+}
+
+#labelExpectedContent {
+    float: left;
+    padding-right: 8pt;
+}
+
+#labelIfRight {
+    float: left;
+    padding-right: 8pt;
+}
+
+#labelIfWrong {
+    float: left;
+    padding-right: 8pt;
+}
+
+
+
+
+
+
+
