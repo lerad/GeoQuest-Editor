@@ -17,14 +17,31 @@
     left: 10pt;
 }
 
+#leftFoldIn {
+    position: absolute;
+    bottom: 10pt;
+    left: 10pt;
+    cursor: pointer;
+}
+
+#rightFoldIn {
+    position: absolute;
+    bottom: 10pt;
+    right: 10pt;
+    cursor: pointer;
+}
+
+
 .content {
     position: absolute;
     vertical-align: top;
     margin-left: 0pt; /* to the left side, cmp #navigation */
     margin-right: 0pt;
     right: 210pt;
-    left: 220pt;
+    left: 210pt;
     top: 80pt;
+    min-height: 800pt;
+    overflow: hidden;
 }
 
 /**
@@ -46,6 +63,8 @@
     -webkit-border-radius: 5pt;
     -moz-border-radius: 5pt;
     border-radius: 5pt;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 body {
@@ -82,6 +101,8 @@ body {
     -webkit-border-radius: 5pt;
     -moz-border-radius: 5pt;
     border-radius: 5pt;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .editor_link {

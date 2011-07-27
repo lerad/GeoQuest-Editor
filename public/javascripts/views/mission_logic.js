@@ -1,8 +1,9 @@
+
+
 /*****************************************************
  *  Event Dialog
  *  Used to create new Events
  *****************************************************/
-
 
 // Initialize Event Dialog:
 $(document).ready(function() {
@@ -777,5 +778,16 @@ $(document).ready(function() {
         }
     });
 
+
+});
+
+
+$(document).ready(function(){
+    $("#leftFoldIn").bind("geoquest.resize", function() {
+        jsPlumb.repaintEverything();
+    });
+    $("#rightFoldIn").bind("geoquest.resize", function() {
+        jsPlumb.repaintEverything();
+    });
 
 });

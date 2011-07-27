@@ -66,6 +66,9 @@ function initializeMapContextMenu() {
     });
 }
 
+function deleteMapContextMenu() {
+    $("#map_canvas").destroyContextMenu();
+}
 
 $(document).ready(function() {
     initializeMap();
@@ -232,3 +235,16 @@ function createHotspot(pos) {
 }
 
 
+
+$(document).ready(function() {
+    $("#leftFoldIn").bind("geoquest.resize", function() { 
+        google.maps.event.trigger(map, 'resize');
+        deleteMapContextMenu(); 
+        initializeMapContextMenu();
+    });
+    $("#rightFoldIn").bind("geoquest.resize", function() {
+        google.maps.event.trigger(map, 'resize');
+        deleteMapContextMenu();
+        initializeMapContextMenu();
+    });
+})
