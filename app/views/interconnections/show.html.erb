@@ -16,6 +16,7 @@
 <%= javascript_include_tag "jquery/jquery.fileTree"  %>
 <%= javascript_include_tag 'commands/command'  %>
 <%= javascript_include_tag 'commands/mission_logic'  %>
+<%= javascript_include_tag 'views/event_dialog' %>
 <%= javascript_include_tag 'views/mission_logic'  %>
 
 <script>
@@ -49,126 +50,15 @@
   </li>
 </ul>
 
-<div class="initially-hidden" id="missionRequirementDialog_dialog">
-  Mission: <select id="missionRequirementDialog_mission"></select> <br/><br />
-
-  Requirement is true if the mission is in one of the following states: <br />
-  New:  <input type="checkbox" class="missionRequirementDialog-checkbox" id="missionRequirementDialog_new" /> <br />
-  Failed:  <input type="checkbox" class="missionRequirementDialog-checkbox" id="missionRequirementDialog_fail" /> <br />
-  Successfull:  <input type="checkbox" class="missionRequirementDialog-checkbox" id="missionRequirementDialog_success" /> <br />
-  Running: <input type="checkbox" class="missionRequirementDialog-checkbox" id="missionRequirementDialog_running" /> <br />
-  <br />
-
-  <b>Requirement:</b> <br />
-  <p id="missionRequirementDialog_requirement"></p>
-
-  <br />
-  <input type="button" value="create requirement" id="missionRequirementDialog_createButton" />
-</div>
-
-
-<div class="initially-hidden" id="inHotspotRangeRequirementDialog_dialog">
-  Hotspot: <select id="inHotspotRangeRequirementDialog_hotspot"></select> <br/><br />
-  <b>Requirement:</b> <br />
-  <p id="inHotspotRangeRequirementDialog_requirement"></p>
-
-  <br />
-  <input type="button" value="create requirement" id="inHotspotRangeRequirementDialog_createButton" />
-</div>
-
-<div class="initially-hidden" id="outHotspotRangeRequirementDialog_dialog">
-  Hotspot: <select id="outHotspotRangeRequirementDialog_hotspot"></select> <br/><br />
-  <b>Requirement:</b> <br />
-  <p id="outHotspotRangeRequirementDialog_requirement"></p>
-
-  <br />
-  <input type="button" value="create requirement" id="outHotspotRangeRequirementDialog_createButton" />
-</div>
-
-<div class="initially-hidden" id="attributeRequirementDialog_dialog">
-  Attribute: <input type="text" id="attributeRequirementDialog_attribute" /> <br/><br />
-  Needed value: <input type="text" id="attributeRequirementDialog_value" /> <br /> <br  />
-  <b>Requirement:</b> <br />
-  <p id="attributeRequirementDialog_requirement"></p>
-
-  <br />
-  <input type="button" value="create requirement" id="attributeRequirementDialog_createButton" />
-</div>
-
-
-
-<div class="initially-hidden" id="attributeCommandDialog_dialog">
-  Attribute: <input type="text" id="attributeCommandDialog_attribute" /> <br /><br />
-  Set to value: <input type="text" id="attributeCommandDialog_value" /> <br /> <br  />
-  <b>Command:</b> <br />
-  <p id="attributeCommandDialog_command"></p>
-
-  <br />
-  <input type="button" value="create command" id="attributeCommandDialog_createButton" />
-</div>
-
-<div class="initially-hidden" id="playSoundCommandDialog_dialog">
-  Sound:
-  <div id="playSoundCommandDialog_fileTree"></div>
-  <br/><br />
-  <b>Command:</b> <br />
-  <p id="playSoundCommandDialog_command"></p>
-
-  <br />
-  <input type="button" value="create command" id="playSoundCommandDialog_createButton" />
-</div>
-
-<div class="initially-hidden" id="messageCommandDialog_dialog">
-  Message: <br />
-  <textarea id="messageCommandDialog_message" cols="20" rows="5">
-  </textarea>
-  <br/><br />
-  <b>Command:</b> <br />
-  <p id="messageCommandDialog_command"></p>
-
-  <br />
-  <input type="button" value="create command" id="messageCommandDialog_createButton" />
-</div>
-
-
 <div class="initially-hidden" id="eventDialog_dialog">
-  Next mission:
-  <select id="eventDialog_nextMission">
-  </select>
-  <br />
-  <br />
-  <b>Requirements</b>
-  <br />
-  <ul id="eventDialog_requirements">
-    <li id="eventDialog_addRequirementListEntry">
-     <select id="eventDialog_addRequirementType">
-        <option value="reqMissionStatus">State of another mission</option>
-        <option value="reqInRange">In range of an hotspot</option>
-        <option value="reqOutRange">Out of range of an hotspot</option>
-        <option value="reqAttribute">Value of an attribute</option>
-     </select>
-     <a href="#" id="eventDialog_addRequirement">add requirement</a>
-    </li>
-  </ul>
-  <br />
-  <br />
-  <b>Commands</b>
-  <br />
-  <ul id="eventDialog_actions">
-    <li id="eventDialog_addCommandListEntry">
-     <select id="eventDialog_addCommandType">
-        <option value="comMessage">Show a message</option>
-        <option value="comAttribute">Set an attribute</option>
-        <option value="comPlaySound">Play a sound</option>
-     </select>
-     <a href="#" id="eventDialog_addCommand">add command</a>
-    </li>
-  </ul>
-  <br />
+  <div id="eventDialog_event"></div>
   <br />
   <input type="button" id="eventDialog_createButton" value="create event" />
 
 </div>
+
+
+<%= render 'event_dialog' %>
 
 <div class="content">
 <h3>Mission interconnection</h3>
