@@ -28,6 +28,7 @@ function CreateNewEventCommand() {
     this.updateGui = function() {
     }
 
+
     _this = this; // Save object, because onSuccess is not called on the object
 
     this.onSuccess = function() {

@@ -86,7 +86,7 @@ function addJsplumbConnection( from, event) {
   anchors = ["TopLeft", "TopCenter", "TopRight", "LeftMiddle", "RightMiddle",
              "BottomLeft", "BottomCenter", "BottomRight"];
 
-  jsPlumb.connect({
+  connection = jsPlumb.connect({
       source: (from.id + "-box"),
       target: (event.next_mission + "-box"),
       paintStyle: style,
@@ -99,8 +99,12 @@ function addJsplumbConnection( from, event) {
       labelStyle : {fillStyle:"rgba(255,255,255, 0.8)", color:"black",borderWidth:10}
 
 } );
+    connection.event = event;
+    connection.bind('click', openEditEventDialog);
+}
 
-
+function openEditEventDialog(con) {
+    alert(con.event.toSource());
 }
 
 function createNewEvent(type, element) {
