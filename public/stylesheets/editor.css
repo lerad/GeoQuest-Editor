@@ -129,6 +129,10 @@ body {
     font-size: 11pt;
 }
 
+.label {
+    float: left;
+    padding-right: 8pt;
+}
 
 .editor_link {
     text-decoration: none;

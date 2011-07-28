@@ -1,3 +1,6 @@
+<script>
+  var project_id = "<%= @project.id %>";
+</script>
 
 
 <%= render 'shared/header' %>
@@ -5,32 +8,18 @@
 <%= render 'shared/mission_navigation' %>
 <%= render 'shared/editor_control' %>
 
-<script>
-  var project_id = "<%= @project.id %>";
-
-  function deployGame() {
-
-    var my_url = "/projects/" + project_id + "/deploy";
-    $.ajax({
-     url: my_url,
-     success: function() {
-       $("#messageField").addClass("success");
-       $("#messageField").removeClass("failure");
-       $("#messageField").text("Deployment was successful");
-     },
-     error: function() {
-       $("#messageField").addClass("failure");
-       $("#messageField").removeClass("success");
-       $("#messageField").text("Deployment failed");
-     }
-   });
-
-  }
+<%= javascript_include_tag 'commands/command.js'  %>
+<%= javascript_include_tag 'commands/project.js'  %>
+<%= javascript_include_tag 'jquery/jquery.jeditable'  %>
+<%= javascript_include_tag 'views/project'  %>
 
 
-</script>
 
 <div class="content">
+
+  <div class="label">Name: </div>
+  <div id="editName"><%= @project.name %></div> <br />
+
 <p id="messageField"></p>
 
 <input type="button" value="Deploy into repository" onclick="deployGame()" />

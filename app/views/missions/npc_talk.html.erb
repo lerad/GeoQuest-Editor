@@ -25,16 +25,16 @@ var project_id = "<%= @project.id %>";
 
   <h3><%= @mission.attributes["name"] %></h3>
 
- Charimage: <br />
+ Image of the character: <br />
 
- <img id="charImage" alt="Charakterbild" src="/projects/<%= @project.id%>/<%= @mission.attributes['charimage'] %>" />
+ <img id="charImage" alt="" src="/projects/<%= @project.id%>/<%= @mission.attributes['charimage'] %>" />
  <br /><input type="button" value="Change image" id="changeCharacterImageButton" />
 
  <br />
 
    <table id="npcTalkTable" class="npcTalkTable">
      <tr class="npcTalkHeader">
-       <td> Sprecher </td>
+       <td> Speaker </td>
        <td> Text </td>
        <td> </td>
      </tr>
@@ -56,12 +56,11 @@ var project_id = "<%= @project.id %>";
 
      <tr>
        <td class="npcTalkSpeakerCell">
-         <input type="text" id="speaker" value="Erzähler" size="10" />
+         <input type="text" id="speaker" value="" size="10" />
        </td>
        <td>
-         <!-- <input type="text" id="text" value="Text" /> -->
          <textarea id="text" cols="60" rows="4"  style="width: 100%"></textarea> <br />
-         <input type="button" value="Neuen Dialogeintrag hinzufügen" onclick="addDialogEntry()"/>
+         <input type="button" value="Add dialog item" onclick="addDialogEntry()"/>
        </td>
        <td></td>
      </tr>

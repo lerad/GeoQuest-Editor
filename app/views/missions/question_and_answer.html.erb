@@ -113,12 +113,12 @@ Shuffle Questions:
 <h3><a href="#"><%= XPath.first(question, "./questiontext").text %></a></h3>
 <div>
 
-  Frage: <div class="editable-question"><%= XPath.first(question, "./questiontext").text %></div> <br />
-  <input type="button" onclick="deleteQuestion()" value="Frage löschen" />
+  Question: <div class="editable-question"><%= XPath.first(question, "./questiontext").text %></div> <br />
+  <input type="button" onclick="deleteQuestion()" value="Delete question" />
   <br />
 
   <table class="answerTable">
-  <tr><td>Antwort</td><td>Reaktion</td></tr>
+  <tr><td>Answer</td><td>Reaktion</td></tr>
 <% XPath.each(question, "./answer") do |answer| %>
   <tr>
     <td class="answerCell">
@@ -133,14 +133,14 @@ Shuffle Questions:
   </tr>
 <% end %>
 </table>
-<p>Neue Antwort</p>
+<p>New Answer</p>
 <textarea class="newAnswerTextfield" cols="30" rows="4"></textarea>
-<p>Text, wenn diese Antwort gewählt wird</p>
+<p>Text, if this answer is choosen</p>
 <textarea class="newOnChooseTextfield" cols="30" rows="4"></textarea>
 
 <br />
 
-<input type="button" value="Antwort hinzufügen" onclick="addAnswer()" />
+<input type="button" value="Add answer" onclick="addAnswer()" />
 </div>
 
 <% end %>
@@ -148,8 +148,8 @@ Shuffle Questions:
 
 
 <hr />
-Neue Frage: <br />
+New question: <br />
 <textarea cols="30" rows="4" id="newQuestionText"></textarea>
 
-<input type="button" value="Neue Frage hinzufügen" onclick="addQuestion()"/>
+<input type="button" value="Add question" onclick="addQuestion()"/>
 </div>

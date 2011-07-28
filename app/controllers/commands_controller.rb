@@ -7,6 +7,7 @@ require 'commands/question_commands'
 require 'commands/xmlfile_commands'
 require 'commands/mission_visualization_commands'
 require 'commands/file_commands'
+require 'commands/project_commands'
 
 class CommandsController < ApplicationController
 
@@ -75,6 +76,8 @@ class CommandsController < ApplicationController
       cmd = ImportFileCommand.new(params);
     when "UploadFileCommand"
       cmd = UploadFileCommand.new(params);
+    when "ChangeProjectNameCommand"
+      cmd = ChangeProjectNameCommand.new(params);
     else
         logger.error "Unsupported command: " + params[:command]
         render :text => "Unsupported command: " + params[:command]
