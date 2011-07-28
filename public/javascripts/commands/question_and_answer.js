@@ -9,10 +9,9 @@ function AddQuestionAndAnswerIntro() {
     this.updateGui = function()  {
         var tdTextarea = $("#introPlace");
         tdTextarea.children().remove();
-        var newTextArea = $(document.createElement('textarea'));
+        var newTextArea = $(document.createElement('input'));
         newTextArea.attr("id","intro")
-                   .attr("cols","30")
-                   .attr("rows","3");
+                   .attr("type", "text");
         tdTextarea.append(newTextArea);
         
         var newUpdateButton = $(document.createElement('input'))
@@ -49,10 +48,9 @@ function AddQuestionAndAnswerOutroSuccess() {
     this.updateGui = function()  {
         var tdTextarea = $("#outroSuccessPlace");
         tdTextarea.children().remove();
-        var newTextArea = $(document.createElement('textarea'));
+        var newTextArea = $(document.createElement('input'));
         newTextArea.attr("id","outroSuccess")
-                   .attr("cols","30")
-                   .attr("rows","3");
+                   .attr("type", "text");
         tdTextarea.append(newTextArea);
 
         var newUpdateButton = $(document.createElement('input'))
@@ -272,18 +270,18 @@ function AddQuestionCommand() {
      var newQuestionHtml = '\
             <h3><a href="#">' + this.getParameter("text") +  '</a></h3> \
             <div> \
-                Frage: <div class="editable-question">' + this.getParameter("text") + '</div> <br /> \
+                Question: <div class="editable-question">' + this.getParameter("text") + '</div> <br /> \
                 <input type="button" onclick="deleteQuestion()" value="Frage löschen" /> \
                 <br /> \
                 <table class="answerTable"> \
-                    <tr><td>Antwort</td><td>Reaktion</td></tr> \
+                    <tr><td>Answer</td><td>Reaction</td></tr> \
                 </table> \
-                <p>Neue Antwort</p> \
-                <textarea class="newAnswerTextfield" cols="30" rows="4"></textarea> \
-                <p>Text, wenn diese Antwort gewählt wird</p> \
-                <textarea class="newOnChooseTextfield" cols="30" rows="4"></textarea> \
+                <p>New Answer</p> \
+                <input type="text" class="newAnswerTextfield"></input> \
+                <p>Text, if this answer is chosen</p> \
+                <input class="newOnChooseTextfield"></input> \
                 <br /> \
-                <input type="button" value="Antwort hinzufügen" onclick="addAnswer()" /> \
+                <input type="button" value="Add answer" onclick="addAnswer()" /> \
             </div>';
 
 

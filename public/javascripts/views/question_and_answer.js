@@ -122,8 +122,8 @@ function addQuestion() {
 function addAnswer() {
 
  var question_index = $('#accordion').accordion('option', 'active');
- var answer =  $("div.ui-accordion-content-active > textarea.newAnswerTextfield").val();
- var onChoose = $("div.ui-accordion-content-active > textarea.newOnChooseTextfield").val();
+ var answer =  $("div.ui-accordion-content-active > input.newAnswerTextfield").val();
+ var onChoose = $("div.ui-accordion-content-active > input.newOnChooseTextfield").val();
 
  var cmd = new AddAnswerCommand();
  cmd.setParameter("mission_id", mission_id);

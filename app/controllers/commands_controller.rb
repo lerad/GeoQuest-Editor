@@ -11,73 +11,48 @@ require 'commands/project_commands'
 
 class CommandsController < ApplicationController
 
+  def initialize()
+    @commands = {
+        "AddHotspotCommand" => AddHotspotCommand,
+        "MoveHotspotCommand" => MoveHotspotCommand,
+        "AddDialogEntryCommand" => AddDialogEntryCommand,
+        "DeleteDialogEntryCommand" => DeleteDialogEntryCommand,
+        "MoveDialogEntryUpCommand" => MoveDialogEntryUpCommand,
+        "MoveDialogEntryDownCommand" => MoveDialogEntryDownCommand,
+        "AddXmlNodeToMission" => AddXmlNodeToMission,
+        "UpdateXmlNodeContentInMission" => UpdateXmlNodeContentInMission,
+        "DeleteXmlNodeFromMission" => DeleteXmlNodeFromMission,
+        "DeleteHotspotCommand" => DeleteHotspotCommand,
+        "AddSubmissionCommand" => AddSubmissionCommand,
+        "AddMissionCommand" => AddMissionCommand,
+        "AddQuestionCommand" => AddQuestionCommand,
+        "AddAnswerCommand" => AddAnswerCommand,
+        "UpdateAttributeInMission" => UpdateAttributeInMission,
+        "UpdateQuestionTextCommand" => UpdateQuestionTextCommand,
+        "UpdateAnswerOnChooseTextCommand" => UpdateAnswerOnChooseTextCommand,
+        "UpdateAnswerTextCommand" => UpdateAnswerTextCommand,
+        "DeleteQuestionCommand" => DeleteQuestionCommand,
+        "DeleteAnswerCommand" => DeleteAnswerCommand,
+        "UpdateHotspotCommand" => UpdateHotspotCommand,
+        "UpdateXmlFileCommand" => UpdateXmlFileCommand,
+        "DeleteMissionCommand" => DeleteMissionCommand,
+        "MoveMissionVisualizationCommand" => MoveMissionVisualizationCommand,
+        "MoveHotspotVisualizationCommand" => MoveHotspotVisualizationCommand,
+        "CreateNewEventCommand" => CreateNewEventCommand,
+        "DeleteFileCommand" => DeleteFileCommand,
+        "MoveFileCommand" => MoveFileCommand,
+        "ImportFileCommand" => ImportFileCommand,
+        "UploadFileCommand" => UploadFileCommand,
+        "ChangeProjectNameCommand" => ChangeProjectNameCommand
+    }
+  end
+
   def execute
 
     cmd = nil
 
-    case params[:command]
-      when "AddHotspotCommand"
-        cmd = AddHotspotCommand.new(params)
-      when "MoveHotspotCommand"
-        cmd = MoveHotspotCommand.new(params)
-      when "AddDialogEntryCommand"
-        cmd = AddDialogEntryCommand.new(params)
-      when "DeleteDialogEntryCommand"
-        cmd = DeleteDialogEntryCommand.new(params)
-      when "MoveDialogEntryUpCommand"
-        cmd = MoveDialogEntryUpCommand.new(params)
-      when "MoveDialogEntryDownCommand"
-        cmd = MoveDialogEntryDownCommand.new(params)
-      when "AddXmlNodeToMission"
-        cmd = AddXmlNodeToMission.new(params)
-      when "UpdateXmlNodeContentInMission"
-        cmd = UpdateXmlNodeContentInMission.new(params)
-      when "DeleteXmlNodeFromMission"
-        cmd = DeleteXmlNodeFromMission.new(params)
-      when "DeleteHotspotCommand"
-        cmd = DeleteHotspotCommand.new(params)
-      when "AddSubmissionCommand"
-        cmd = AddSubmissionCommand.new(params)
-      when "AddMissionCommand"
-        cmd = AddMissionCommand.new(params)
-      when "AddQuestionCommand"
-        cmd = AddQuestionCommand.new(params)
-      when "AddAnswerCommand"
-        cmd = AddAnswerCommand.new(params)
-      when "UpdateAttributeInMission"
-        cmd = UpdateAttributeInMission.new(params)
-      when "UpdateQuestionTextCommand"
-        cmd = UpdateQuestionTextCommand.new(params)
-      when "UpdateAnswerOnChooseTextCommand"
-        cmd = UpdateAnswerOnChooseTextCommand.new(params)
-      when "UpdateAnswerTextCommand"
-       cmd = UpdateAnswerTextCommand.new(params)
-      when "DeleteQuestionCommand"
-       cmd = DeleteQuestionCommand.new(params)
-      when "DeleteAnswerCommand"
-       cmd = DeleteAnswerCommand.new(params)
-      when "UpdateHotspotCommand"
-       cmd = UpdateHotspotCommand.new(params)
-      when "UpdateXmlFileCommand"
-       cmd = UpdateXmlFileCommand.new(params)
-      when "DeleteMissionCommand"
-       cmd = DeleteMissionCommand.new(params);
-      when "MoveMissionVisualizationCommand"
-       cmd = MoveMissionVisualizationCommand.new(params);
-      when "MoveHotspotVisualizationCommand"
-       cmd = MoveHotspotVisualizationCommand.new(params);
-      when "CreateNewEventCommand"
-       cmd = CreateNewEventCommand.new(params);
-      when "DeleteFileCommand"
-       cmd = DeleteFileCommand.new(params);
-      when "MoveFileCommand"
-       cmd = MoveFileCommand.new(params);
-    when "ImportFileCommand"
-      cmd = ImportFileCommand.new(params);
-    when "UploadFileCommand"
-      cmd = UploadFileCommand.new(params);
-    when "ChangeProjectNameCommand"
-      cmd = ChangeProjectNameCommand.new(params);
+    if @commands.has_key?( params[:command] )
+        cmd = @commands[ params[:command] ].new(params)
     else
         logger.error "Unsupported command: " + params[:command]
         render :text => "Unsupported command: " + params[:command]
