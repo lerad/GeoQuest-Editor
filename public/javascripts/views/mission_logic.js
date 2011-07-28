@@ -35,7 +35,7 @@ $(document).ready(function() {
                event.id = data.next_event_id;
                cmd = new CreateNewEventCommand();
                cmd.setParameter("project_id", project_id);
-               cmd.setParameter("event_holder", event.holder_id);
+               cmd.setParameter("event_holder", event.holder);
                cmd.setParameter("event_holder_type", event.holder_type);
                cmd.setParameter("event", event);
                cmd.execute();
@@ -224,7 +224,6 @@ function addElements(data) {
 function initDialogLists(data) {
    $("#eventDialog_nextMission").addOption("none", "[none]");
    $.each(data.missions, function(mission_index, mission) {
-       $("#eventDialog_nextMission").addOption(mission.id, mission.name);
        $("#missionRequirementDialog_mission").addOption(mission.id, mission.name);
    });
 
@@ -254,7 +253,7 @@ $(document).ready(function() {
             alert("Something has gone wrong");
         }
     });
-
+     
 
 });
 

@@ -2,35 +2,24 @@
 
 // Gets a div id and initializes it, such that it shows an event
 function createEventDisplay(selector) {
-    
-}
+    // Copy event form into container
+    $(selector).append($("#event_description").contents().clone(true));
 
-function getEvent(id) {
-
-}
-
-function initEventDisplay(id, new_type, holder, holder_type) {
-
-}
-
-function loadEventDisplay(id, event) {
-
-}
-
-/** STUFF **/
-
-// Initialize Event Dialog:
-$(document).ready(function() {
-    $("#eventDialog_dialog").dialog({
-        autoOpen: false,
-        width: 500,
-        height: 500,
-        modal: true
+    $.ajax({
+        url: "/ajax/show_mission_interconnections",
+        data : {
+            "project_id" : project_id
+        },
+        success : function(data) {
+            $.each(data.missions, function(mission_index, mission) {
+                $(selector).find("#event_nextMission").addOption(mission.id, mission.name);
+            });
+        }
     });
+    
 
-
-    $("#eventDialog_addRequirement").click(function() {
-        var type = $("#eventDialog_addRequirementType").val();
+    $(selector).find("#event_addRequirement").click(function() {
+        var type = $(selector).find("#event_addRequirementType").val();
 
         var dialogId = {
             "reqMissionStatus" : "#missionRequirementDialog_dialog",
@@ -47,7 +36,7 @@ $(document).ready(function() {
 
         if (type in dialogId) {
             $(dialogId[type]).dialog("open");
-            initFunction[type]();
+            initFunction[type](selector);
         }
         else {
             alert("This requirement is not implemented yet");
@@ -55,8 +44,8 @@ $(document).ready(function() {
 
     });
 
-    $("#eventDialog_addCommand").click(function() {
-        var type = $("#eventDialog_addCommandType").val();
+    $(selector).find("#event_addCommand").click(function() {
+        var type = $(selector).find("#event_addCommandType").val();
 
         var dialogId = {
             "comMessage" : "#messageCommandDialog_dialog",
@@ -72,7 +61,7 @@ $(document).ready(function() {
 
         if (type in dialogId) {
             $(dialogId[type]).dialog("open");
-            initFunction[type]();
+            initFunction[type](selector);
         }
         else {
             alert("This command is not implemented yet");
@@ -80,74 +69,57 @@ $(document).ready(function() {
 
     });
 
+}
 
-    // Create the new event
-    $("#eventDialog_createButton").click(function() {
-
-        $("#eventDialog_dialog").dialog("close");
-
-        nextMission = $("#eventDialog_nextMission").val();
-        requirements = $("#eventDialog_dialog").data("geoquest.requirements");
-        commands = $("#eventDialog_dialog").data("geoquest.commands");
-        type = $("#eventDialog_dialog").data("geoquest.event_type");
+function getEvent(selector) {
+        nextMission = $(selector).find("#event_nextMission").val();
+        requirements = $(selector).data("geoquest.requirements");
+        commands = $(selector).data("geoquest.commands");
+        type = $(selector).data("geoquest.event_type");
 
         event = {
             "next_mission" : nextMission,
             "requirements" : requirements,
             "commands" : commands,
-            "type" : type
+            "type" : type,
+            "holder" : $(selector).data("geoquest.event_holder"),
+            "holder_type" : $(selector).data("geoquest.event_holder_type")
         };
-
-       $.ajax({
-           url: "/ajax/get_next_event_id",
-           data : {
-               "project_id" : project_id
-           },
-           success : function(data) {
-               event.id = data.next_event_id;
-               cmd = new CreateNewEventCommand();
-               cmd.setParameter("project_id", project_id);
-               cmd.setParameter("event_holder", $("#eventDialog_dialog").data("geoquest.object"));
-               cmd.setParameter("event_holder_type", $("#eventDialog_dialog").data("geoquest.type"));
-               cmd.setParameter("event", event);
-               cmd.execute();
-           },
-           error : function() {
-               alert("Could not determine next event id");
-           }
-       });
-
-
-
-    });
-
-});
-
-// Initialisation function of the dialog.
-// It is called everytime the dialog is openened
-function initEventDialog(type) {
-    $("#eventDialog_event").append($("#event_description").contents().clone());
-    $("#eventDialog_dialog").data("geoquest.event_type", type);
-    $("#eventDialog_dialog").data("geoquest.requirements", []);
-    $("#eventDialog_dialog").data("geoquest.commands", []);
-    $("#eventDialog_nextMission").selectOptions("none", true);
-    $(".event-dialog-dynamic-content").remove();
+        return event;
 }
 
+function initEventDisplay(selector, new_type, holder, holder_type) {
+    $(selector).data("geoquest.event_type", new_type);
+    $(selector).data("geoquest.requirements", []);
+    $(selector).data("geoquest.commands", []);
+    $(selector).data("geoquest.event_holder", holder);
+    $(selector).data("geoquest.event_holder_type", holder_type);
+    $(selector).find("#event_nextMission").selectOptions("none", true);
+    $(selector).find(".event-dialog-dynamic-content").remove();
+}
+
+function loadEventDisplay(selector, event) {
+    /* TODO: implement */
+}
+
+
+
 // Adds a new requirement to the dialog
-function addRequirementToEventDialog(requirement) {
-     $("#eventDialog_dialog").data("geoquest.requirements").push(requirement);
+function addRequirementToEventDialog(selector, requirement) {
+     $(selector).data("geoquest.requirements").push(requirement);
      newElement = $("<li></li>").text(requirement.description)
                                 .addClass("event-dialog-dynamic-content")
-     $("#eventDialog_addRequirementListEntry").before(newElement);
+     $(selector).find("#event_addRequirementListEntry").before(newElement);
+     $(selector).trigger("geoquest.event_change");
 }
 
 // Adds a new command to the dialog
-function addCommandToEventDialog(command) {
-     $("#eventDialog_dialog").data("geoquest.commands").push(command);
+function addCommandToEventDialog(selector, command) {
+     $(selector).data("geoquest.commands").push(command);
      newElement = $("<li></li>").text(command.description)
                                 .addClass("event-dialog-dynamic-content")
-     $("#eventDialog_addCommandListEntry").before(newElement);
+     $(selector).find("#event_addCommandListEntry").before(newElement);
+     $(selector).trigger("geoquest.event_change");
 }
 
 /*****************************************************
@@ -169,19 +141,22 @@ $(document).ready(function() {
 
     $("#missionRequirementDialog_createButton").click(function() {
        requirement = $("#missionRequirementDialog_dialog").data("geoquest.requirement");
+       selector = $("#missionRequirementDialog_dialog").data("geoquest.selector");
+       
        $("#missionRequirementDialog_dialog").dialog("close");
-       addRequirementToEventDialog(requirement);
+       addRequirementToEventDialog(selector, requirement);
     });
 
 });
 
 // Initialisation function of the dialog.
 // It is called everytime the dialog is openened
-function initReqMissionStatusDialog() {
+function initReqMissionStatusDialog(selector) {
     $(".missionRequirementDialog-checkbox").attr("checked", false);
     // None does not exist in this list, but in this way the list is set back
     // to the first element
     $("#missionRequirementDialog_mission").selectOptions("none", true);
+    $("#missionRequirementDialog_dialog").data("geoquest.selector", selector);
     recomputeReqMissionStatus();
 }
 
@@ -263,8 +238,9 @@ $(document).ready(function() {
     $("#inHotspotRangeRequirementDialog_hotspot").change(recomputeReqInHotspotRange)
     $("#inHotspotRangeRequirementDialog_createButton").click(function() {
        requirement = $("#inHotspotRangeRequirementDialog_dialog").data("geoquest.requirement");
+       selector = $("#inHotspotRangeRequirementDialog_dialog").data("geoquest.selector");
        $("#inHotspotRangeRequirementDialog_dialog").dialog("close");
-       addRequirementToEventDialog(requirement);
+       addRequirementToEventDialog(selector, requirement);
     });
 
 });
@@ -295,8 +271,9 @@ function recomputeReqInHotspotRange() {
 
 // Initialisation function of the dialog.
 // It is called everytime the dialog is openened
-function initReqInHotspotRangeDialog() {
+function initReqInHotspotRangeDialog(selector) {
     $("#inHotspotRangeRequirementDialog_hotspot option:first-child").attr("selected", "selected");
+    $("#inHotspotRangeRequirementDialog_dialog").data("geoquest.selector", selector);
     recomputeReqInHotspotRange();
 }
 
@@ -319,16 +296,18 @@ $(document).ready(function()  {
     $("#outHotspotRangeRequirementDialog_hotspot").change(recomputeReqOutHotspotRange)
     $("#outHotspotRangeRequirementDialog_createButton").click(function() {
        requirement = $("#outHotspotRangeRequirementDialog_dialog").data("geoquest.requirement");
+       selector = $("#outHotspotRangeRequirementDialog_dialog").data("geoquest.selector");
        $("#outHotspotRangeRequirementDialog_dialog").dialog("close");
-       addRequirementToEventDialog(requirement);
+       addRequirementToEventDialog(selector, requirement);
     });
 
 });
 
 // Initialisation function of the dialog.
 // It is called everytime the dialog is openened
-function initReqOutHotspotRangeDialog() {
+function initReqOutHotspotRangeDialog(selector) {
     $("#outHotspotRangeRequirementDialog_hotspot option:first-child").attr("selected", "selected");
+    $("#outHotspotRangeRequirementDialog_dialog").data("geoquest.selector", selector);
     recomputeReqOutHotspotRange();
 }
 
@@ -380,17 +359,20 @@ $(document).ready(function() {
 
     $("#attributeRequirementDialog_createButton").click(function() {
        requirement = $("#attributeRequirementDialog_dialog").data("geoquest.requirement");
+       selector = $("#attributeRequirementDialog_dialog").data("geoquest.selector");
+
        $("#attributeRequirementDialog_dialog").dialog("close");
-       addRequirementToEventDialog(requirement);
+       addRequirementToEventDialog(selector, requirement);
     });
 
 });
 
 // Initialisation function of the dialog.
 // It is called everytime the dialog is openened
-function initReqAttributeDialog() {
+function initReqAttributeDialog(selector) {
     $("#attributeRequirementDialog_attribute").val("");
     $("#attributeRequirementDialog_value").val("");
+    $("#attributeRequirementDialog_dialog").data("geoquest.selector", selector);
     recomputeReqAttribute();
 }
 
@@ -438,16 +420,18 @@ $(document).ready(function() {
 
     $("#messageCommandDialog_createButton").click(function() {
        command = $("#messageCommandDialog_dialog").data("geoquest.command");
+       selector = $("#messageCommandDialog_dialog").data("geoquest.selector");
        $("#messageCommandDialog_dialog").dialog("close");
-       addCommandToEventDialog(command);
+       addCommandToEventDialog(selector, command);
     });
 
 });
 
 // Initialisation function of the dialog.
 // It is called everytime the dialog is openened
-function initComMessageDialog() {
+function initComMessageDialog(selector) {
     $("#messageCommandDialog_message").val("");
+    $("#messageCommandDialog_dialog").data("geoquest.selector", selector);
     recomputeComMessage();
 }
 
@@ -494,8 +478,9 @@ $(document).ready(function() {
 
     $("#attributeCommandDialog_createButton").click(function() {
        command = $("#attributeCommandDialog_dialog").data("geoquest.command");
+       selector = $("#attributeCommandDialog_dialog").data("geoquest.selector");
        $("#attributeCommandDialog_dialog").dialog("close");
-       addCommandToEventDialog(command);
+       addCommandToEventDialog(selector, command);
     });
 
 });
@@ -505,6 +490,7 @@ $(document).ready(function() {
 function initComAttributeDialog() {
     $("#attributeCommandDialog_attribute").val("");
     $("#attributeCommandDialog_value").val("");
+    $("#attributeCommandDialog_dialog").data("geoquest.selector", selector);
     recomputeComAttribute();
 }
 
@@ -548,6 +534,20 @@ $(document).ready(function() {
         height: 300
     });
 
+    $("#playSoundCommandDialog_createButton").click(function() {
+       command = $("#playSoundCommandDialog_dialog").data("geoquest.command");
+       selector = $("#playSoundCommandDialog_dialog").data("geoquest.selector");
+
+       $("#playSoundCommandDialog_dialog").dialog("close");
+       addCommandToEventDialog(selector, command);
+    });
+
+});
+
+// Initialisation function of the dialog.
+// It is called everytime the dialog is openened
+function initComPlaySoundDialog(selector) {
+
     $("#playSoundCommandDialog_fileTree").fileTree({
         root: 'sound/',
         script: '/ajax/show_dir',
@@ -560,18 +560,8 @@ $(document).ready(function() {
         recomputeComPlaySound();
     });
 
-    $("#playSoundCommandDialog_createButton").click(function() {
-       command = $("#playSoundCommandDialog_dialog").data("geoquest.command");
-       $("#playSoundCommandDialog_dialog").dialog("close");
-       addCommandToEventDialog(command);
-    });
-
-});
-
-// Initialisation function of the dialog.
-// It is called everytime the dialog is openened
-function initComPlaySoundDialog() {
-    $("playSoundCommandDialog_dialog").data("geoquest.file", "");
+    $("#playSoundCommandDialog_dialog").data("geoquest.file", "");
+    $("#playSoundCommandDialog_dialog").data("geoquest.selector", selector);
     recomputeComPlaySound();
 }
 
@@ -596,3 +586,4 @@ function recomputeComPlaySound() {
     $("#playSoundCommandDialog_command").text(command_text);
 
 }
+
