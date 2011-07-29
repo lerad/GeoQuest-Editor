@@ -124,7 +124,6 @@ function getRule(selector) {
 
 
         rule = {
-            "id" : id,
             "next_mission" : nextMission,
             "actions" : actions,
             "type" : type

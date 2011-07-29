@@ -138,18 +138,28 @@ class UpdateRuleCommand < Command
   def initialize(params)
     super(params)
     @type = "UpdateRuleCommand"
-=begin
-    template = ERB.new <<-EOF
-let $x := doc("editor.xml")//hotspot[@id="<%= params["hotspot_id"] %>"]/x
-let $y := doc("editor.xml")//hotspot[@id="<%= params["hotspot_id"] %>"]/y
 
-return (# exist:batch-transaction #) {
-  update value $x with "<%= params["x"] %>",
-  update value $y with "<%= params["y"] %>"
-}
+    rule = @params[:rule]
+
+    rule_template = ERB.new <<-EOF
+    <rule id="<%= rule["id"] %>">
+    <% if rule["actions"] != "" %>
+    <% rule["actions"].each do |index, action| %>
+      <action <% action.each do |key, value| %> <%= key %>="<%= value %>" <% end %> />
+    <% end %>
+    <% end %>
+    </rule>
 EOF
-=end
-    @command = nil
+
+    rule_xml = rule_template.result(binding);
+
+    template = ERB.new <<-EOF
+let $newRule := <%= rule_xml %>
+let $oldRule := doc("game.xml")//rule[@id="<%= rule[:id] %>"]
+return update replace $oldRule with $newRule
+EOF
+
+    @command = template.result(binding)
 
   end
 end
