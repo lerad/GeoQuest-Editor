@@ -90,7 +90,9 @@ function UpdateRuleCommand() {
 UpdateRuleCommand.prototype = new Command();
 
 
-
+/*
+ * TODO: The connection should be totally removed from this commands
+ */
 
 function DeleteRuleCommand() {
     this.setParameter("command", "DeleteRuleCommand");
@@ -110,6 +112,9 @@ function DeleteRuleCommand() {
         connection = _this.connection;
         if(connection != null) {
             jsPlumb.detach(connection.sourceId, connection.targetId);
+        }
+        if($("#listRulesDialog_rulesTree").jstree) {
+            $("#listRulesDialog_rulesTree").jstree('refresh');
         }
     }
 }

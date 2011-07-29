@@ -70,6 +70,35 @@ $(document).ready(function() {
 
 });
 
+$(document).ready(function() {
+   $("#listRulesDialog_dialog").dialog({
+      autoOpen: false,
+      width: 700,
+      height: 500,
+      modal: true
+   });
+
+   createRuleDisplay("#listRulesDialog_rule");
+
+    $("#listRulesDialog_updateButton").click(function() {
+        rule = getRule("#listRulesDialog_rule");
+        rule.id = $("#listRulesDialog_rule").data("geoquest.rule_id");
+        cmd = new UpdateRuleCommand();
+        cmd.setParameter("project_id", project_id);
+        cmd.setParameter("rule", rule);
+        cmd.execute();
+    });
+
+    $("#listRulesDialog_deleteButton").click(function() {
+       rule_id = $("#listRulesDialog_rule").data("geoquest.rule_id");
+       cmd = new DeleteRuleCommand();
+       cmd.setParameter("project_id", project_id);
+       cmd.setParameter("rule_id", rule_id);
+       cmd.execute();
+       
+    });
+
+});
 
 $(document).ready(function() {
 
@@ -197,7 +226,59 @@ function createNewRule(type, element) {
 }
 
 function listRules(element) {
-    alert("List rules...")
+
+    initRuleDisplay("#listRulesDialog_rule", null);
+
+    title = "Edit rules of " + element.data("geoquest.object").name;
+    if($("#listRulesDialog_rulesTree").jstree != null) {
+        $("#listRulesDialog_rulesTree").jstree('destroy');
+    }
+
+    $("#listRulesDialog_rulesTree").jstree({
+      "plugins" : ["themes", "json_data", "ui"],
+      "core"  : {
+        "animation" : 100
+        },
+      "json_data" : {
+        "ajax" : {
+        "url" : "/ajax/show_mission_rules_as_tree",
+        "data" : {
+          "mission_id" : element.data("geoquest.object").id,
+          "project_id" : project_id
+          }
+        }
+    }
+    });
+
+    $("#listRulesDialog_rulesTree").bind("select_node.jstree", function (e, data) {
+          rule_id = data.rslt.obj.data("jstree").rule_id;
+          rule_type = data.rslt.obj.data("jstree").rule_type;
+          
+          $("#listRulesDialog_rule").data("geoquest.rule_id", rule_id);
+
+          $.ajax({
+                url : '/ajax/show_rule',
+                data : {
+                    "project_id" : project_id,
+                    "rule_id" : rule_id
+                },
+                success : function(data) {
+                data.type = rule_type;
+                loadRuleDisplay("#listRulesDialog_rule", data);
+            },
+        error : function() {
+            alert("Could not load rule with id " + con.rule.id);
+        }
+    });
+
+    });
+
+
+
+    
+    $("#listRulesDialog_dialog").dialog("option", "title", title)
+                        .dialog("open");
+    
 }
 
 function contextMenuCallback(action, element, pos) {

@@ -1,3 +1,19 @@
+#listRulesDialog_rulesTree {
+    position: absolute;
+    left: 0pt;
+    top: 20pt;
+    height: 100%;
+    width: 150pt;
+}
+
+#listRulesDialog_rulesContainer {
+    position: absolute;
+    left: 150pt;
+    top: 20pt;
+    right: 0pt;
+    height: 100%;
+}
+
 .mission-box {
   display: table-cell;
   position: absolute;

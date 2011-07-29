@@ -532,6 +532,65 @@ EOF
 
   end
 
+  def get_rules_as_hash(adapter, mission_id, type)
+    request = 'doc("game.xml")//mission[@id="' + mission_id.to_s + '"]/' + type + '/rule'
+
+    result = adapter.do_request(request)
+    if result.size == 0
+      return nil
+    else
+      result_array = []
+      result.each do |rule|
+        Rails.logger.info(rule.to_s)
+        title = "No ID"
+        id = nil
+        if rule.attributes.has_key?('id')
+          id = rule.attributes['id']
+          title = id
+        end
+        result_array += [{
+            "data" => {
+              "title" => title,
+              "icon" => "/images/file.gif"
+            },
+            "metadata" => {
+              "rule_id" => id,
+              "type" => type
+            },
+          }]
+      end
+      return result_array
+    end
+  end
+
+  def show_mission_rules_as_tree
+    adapter = ExistAdapter.new(params[:project_id])
+    events = ["onStart", "onEnd", "onLeave", "onTap", "onEnter"]
+    all_rules = []
+    events.each do |event|
+      rules = get_rules_as_hash(adapter, params[:mission_id], event)
+      if rules != nil
+        result_event = {
+        "data" => {
+          "title" => event,
+          "icon" => "folder"
+        },
+        "metadata" => {
+          "type" => event
+        },
+        "state" => "open",
+        "children" => []
+        }
+        result_event[:children] = rules
+        all_rules += [result_event]
+      end
+    end
+
+    json_data = ActiveSupport::JSON.encode(all_rules)
+
+    render  :text => json_data, :content_type => "application/json"
+  end
+
   # Is called via ajax
   # Creates a JSON object which contains
   # Information about the missions and hotspots,
@@ -546,54 +605,74 @@ EOF
     mission_list = {}
     hotspot_list = {}
 
-    # List all missions
-    mission_result = adapter.do_request('doc("game.xml")//mission')
     visualisation_result = adapter.do_request('doc("editor.xml")/editor/visualisation')
 
-    mission_result.each do |mission|
+    
+    # List the missions
+    if params.has_key?(:mission_id)
+      mission_result = adapter.do_request('doc("game.xml")//mission[@id="' + params[:mission_id] + '"]')
+    elsif params.has_key?(:hotspot_id)
+      mission_result = nil
+    else
+      mission_result = adapter.do_request('doc("game.xml")//mission')
+    end
 
-      on_end = list_rules(mission, "onEnd", :mission)
-      on_start = list_rules(mission, "onStart", :mission)
-      visualization = get_visualization(visualisation_result, mission.attribute("id").to_s, :mission)
+    if mission_result != nil
+      mission_result.each do |mission|
 
-      mission_data = {
-        "id" => mission.attribute("id").to_s,
-        "name" => mission.attribute("name").to_s,
-        "on_start" => on_start,
-        "on_end" => on_end,
-        "visualization" => visualization
-      }
+        on_end = list_rules(mission, "onEnd", :mission)
+        on_start = list_rules(mission, "onStart", :mission)
+        visualization = get_visualization(visualisation_result, mission.attribute("id").to_s, :mission)
 
-      mission_list[mission.attribute("id")] = mission_data
+        mission_data = {
+          "id" => mission.attribute("id").to_s,
+          "name" => mission.attribute("name").to_s,
+          "on_start" => on_start,
+          "on_end" => on_end,
+          "visualization" => visualization
+        }
+
+        mission_list[mission.attribute("id")] = mission_data
+      end
     end
 
     # List all hotspots
-    hotspot_result = adapter.do_request('doc("game.xml")//hotspot')
+    
 
-    hotspot_result.each do |hotspot|
+    if params.has_key?(:hotspot_id)
+      hotspot_result = adapter.do_request('doc("game.xml")//hotspot[@id="' + params[:hotspot_id] + '"]')
+    elsif params.has_key?(:mission_id)
+      hotspot_result = nil
+    else
+      hotspot_result = adapter.do_request('doc("game.xml")//hotspot')
+    end
 
-      on_enter = list_rules(hotspot, "onEnter", :hotspot)
-      on_leave = list_rules(hotspot, "onLeave", :hotspot)
-      on_tap = list_rules(hotspot, "onTap", :hotspot)
+    if hotspot_result != nil
+      hotspot_result.each do |hotspot|
 
-      visualization = get_visualization(visualisation_result, hotspot.attribute("id").to_s, :hotspot)
+        on_enter = list_rules(hotspot, "onEnter", :hotspot)
+        on_leave = list_rules(hotspot, "onLeave", :hotspot)
+        on_tap = list_rules(hotspot, "onTap", :hotspot)
 
-      name = hotspot.attribute("name").to_s
-      if name.nil? or name == ""
-        name = hotspot.attribute("id").to_s
+        visualization = get_visualization(visualisation_result, hotspot.attribute("id").to_s, :hotspot)
+
+        name = hotspot.attribute("name").to_s
+        if name.nil? or name == ""
+          name = hotspot.attribute("id").to_s
+        end
+
+        hotspot_data = {
+          "id" => hotspot.attribute("id").to_s,
+          "name" => name,
+          "on_leave" => on_leave,
+          "on_enter" => on_enter,
+          "on_tap" => on_tap,
+          "visualization" => visualization
+        }
+
+
+        hotspot_list[hotspot.attribute("id")] = hotspot_data
       end
-
-      hotspot_data = {
-        "id" => hotspot.attribute("id").to_s,
-        "name" => name,
-        "on_leave" => on_leave,
-        "on_enter" => on_enter,
-        "on_tap" => on_tap,
-        "visualization" => visualization
-      }
-
-
-      hotspot_list[hotspot.attribute("id")] = hotspot_data
     end
 
     data = {

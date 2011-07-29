@@ -27,7 +27,7 @@
 
 <ul class="initially-hidden" id="missionMenu">
   <li>
-    <a href="#listEvents">List all rule</a>
+    <a href="#listRules">List all rules</a>
   </li>
   <li>
     <a href="#addOnStart">new onStart rule</a>
@@ -39,7 +39,7 @@
 
 <ul class="initially-hidden" id="hotspotMenu">
   <li>
-    <a href="#listEvents">List all rules</a>
+    <a href="#listRules">List all rules</a>
   </li>
   <li>
     <a href="#addOnEnter">new onEnter rule</a>
@@ -64,6 +64,16 @@
   <br />
   <input type="button" id="editRuleDialog_updateButton" value="update rule" />
   <input type="button" id="editRuleDialog_deleteButton" value="delete rule" />
+</div>
+
+<div class="initially-hidden" id="listRulesDialog_dialog">
+  <div id="listRulesDialog_rulesTree"></div>
+  <div id="listRulesDialog_rulesContainer">
+    <div id="listRulesDialog_rule"></div>
+    <br />
+    <input type="button" id="listRulesDialog_updateButton" value="update rule" />
+    <input type="button" id="listRulesDialog_deleteButton" value="delete rule" />
+  </div>
 </div>
 
 <%= render 'event_dialog' %>
