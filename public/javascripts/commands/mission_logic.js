@@ -39,3 +39,22 @@ function CreateNewEventCommand() {
 }
 
 CreateNewEventCommand.prototype = new Command();
+
+
+function CreateNewRuleCommand() {
+    this.setParameter("command", "CreateNewRuleCommand");
+
+    this.updateGui = function() {
+    }
+
+
+    _this = this; // Save object, because onSuccess is not called on the object
+
+    this.onSuccess = function() {
+        from = _this.getParameter("rule_holder");
+        rule = _this.getParameter("rule");
+        addJsplumbConnection(from, rule);
+    }
+}
+
+CreateNewRuleCommand.prototype = new Command();

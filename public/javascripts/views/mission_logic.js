@@ -33,14 +33,12 @@ $(document).ready(function() {
            },
            success : function(data) {
                rule.id = data.next_rule_id;
-               alert("Create rule: " + rule.toSource());
                cmd = new CreateNewRuleCommand();
                cmd.setParameter("project_id", project_id);
                cmd.setParameter("rule_holder", rule.holder);
                cmd.setParameter("rule_holder_type", rule.holder_type);
                cmd.setParameter("rule", rule);
-               
-               // cmd.execute();
+               cmd.execute();
            },
            error : function() {
                alert("Could not determine next rule id");

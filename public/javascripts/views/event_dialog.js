@@ -10,12 +10,15 @@ $(document).ready(function() {
     });
 
     $("#startMissionDialog_createButton").click(function() {
+        id = $("#startMissionDialog_mission").val();
         action = {
             "type" : "StartMission",
-            "id" : $("#startMissionDialog_mission").val()
+            "id" : id
         }
         selector = $("#startMissionDialog_dialog").data("geoquest.selector");
         addActionToRuleDialog(selector, action);
+        $(selector).data("geoquest.next_mission", id);
+
         $("#startMissionDialog_dialog").dialog("close");
     });
 

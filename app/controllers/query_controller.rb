@@ -427,15 +427,7 @@ def show_audio
 
      new_id_value += 1
      new_id = "r" + new_id_value.to_s
-     query_template = ERB.new <<-EOF
-     (
-        doc("game.xml")//onEnd[@id="<%= new_id %>"] union
-        doc("game.xml")//onSuccess[@id="<%= new_id %>"] union
-        doc("game.xml")//onFail[@id="<%= new_id %>"] union
-        doc("game.xml")//onEnter[@id="<%= new_id %>"] union
-        doc("game.xml")//onTap[@id="<%= new_id %>"]
-     )
-    EOF
+     query_template = ERB.new 'doc("game.xml")//rule[@id="<%= new_id %>"]'
 
      query = query_template.result(binding)
 

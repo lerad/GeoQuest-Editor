@@ -86,3 +86,16 @@ EOF
 
   end
 end
+
+class CreateNewRuleCommand < Command
+  def initialize(params)
+    super(params)
+    @type = "CreateNewRuleCommand"
+
+    @command = nil
+
+    rule_holder = params["rule_holder"];
+    rule = params["rule"];
+  end
+end
+
