@@ -403,7 +403,7 @@ def show_audio
    render :content_type => "application/json", :text => json_data
   end
 
-  def get_next_event_id
+  def get_next_rule_id
 
    @project = Project.find(:first, :conditions => {:id => params[:project_id]})
    new_id_value = @project.max_event_id
@@ -426,7 +426,7 @@ def show_audio
      end
 
      new_id_value += 1
-     new_id = "e" + new_id_value.to_s
+     new_id = "r" + new_id_value.to_s
      query_template = ERB.new <<-EOF
      (
         doc("game.xml")//onEnd[@id="<%= new_id %>"] union
@@ -448,7 +448,7 @@ def show_audio
 
    template = ERB.new <<-EOF
    {
-     "next_event_id" : "<%= new_id %>"
+     "next_rule_id" : "<%= new_id %>"
    }
   EOF
    @project.max_event_id = new_id_value
@@ -465,27 +465,27 @@ EOF
   end
 
 
-  def list_events(element, event_type, event_holder)
+  def list_rules(element, event_type, event_holder)
 
 
-    events = []
+    rules = []
 
-    request = "./" + event_type
+    request = "./" + event_type + "/rule"
 
-    XPath.each(element, request) do |event|
-      comStartMission = XPath.first(event, "./comStartMission")
+    XPath.each(element, request) do |rule|
+      startMissionAction = XPath.first(rule, './action[@type="StartMission"]')
       next_mission_id = nil
-      next_mission_id = comStartMission.attribute("id").to_s unless comStartMission.nil?
-      event_id = event.attribute("id").to_s
-      event_data = {
-        "id" => event_id,
+      next_mission_id = startMissionAction.attribute("id").to_s unless startMissionAction.nil?
+      rule_id = rule.attribute("id").to_s
+      rule_data = {
+        "id" => rule_id,
         "next_mission" => next_mission_id,
         "type" => event_type
       }
-      events = events + [event_data]
+      rules = rules + [rule_data]
     end
 
-    return events
+    return rules
   end
 
   # Gets a reference to the whole visualisation element in editor.xml
@@ -560,16 +560,14 @@ EOF
 
     mission_result.each do |mission|
 
-      on_end = list_events(mission, "onEnd", :mission)
-      on_success = list_events(mission, "onSuccess", :mission)
-      on_fail = list_events(mission, "onFail", :mission)
+      on_end = list_rules(mission, "onEnd", :mission)
+      on_start = list_rules(mission, "onStart", :mission)
       visualization = get_visualization(visualisation_result, mission.attribute("id").to_s, :mission)
 
       mission_data = {
         "id" => mission.attribute("id").to_s,
         "name" => mission.attribute("name").to_s,
-        "on_success" => on_success,
-        "on_fail" => on_fail,
+        "on_start" => on_start,
         "on_end" => on_end,
         "visualization" => visualization
       }
@@ -582,8 +580,10 @@ EOF
 
     hotspot_result.each do |hotspot|
 
-      on_tap = list_events(hotspot, "onTap", :hotspot)
-      on_enter = list_events(hotspot, "onEnter", :hotspot)
+      on_enter = list_rules(hotspot, "onEnter", :hotspot)
+      on_leave = list_rules(hotspot, "onLeave", :hotspot)
+      on_tap = list_rules(hotspot, "onTap", :hotspot)
+
       visualization = get_visualization(visualisation_result, hotspot.attribute("id").to_s, :hotspot)
 
       name = hotspot.attribute("name").to_s
@@ -594,8 +594,9 @@ EOF
       hotspot_data = {
         "id" => hotspot.attribute("id").to_s,
         "name" => name,
-        "on_tap" => on_tap,
+        "on_leave" => on_leave,
         "on_enter" => on_enter,
+        "on_tap" => on_tap,
         "visualization" => visualization
       }
 

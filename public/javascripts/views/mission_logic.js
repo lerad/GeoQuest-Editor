@@ -101,6 +101,8 @@ function addJsplumbConnection( from, event) {
 } );
     connection.event = event;
     connection.bind('click', openEditEventDialog);
+    // connection.bind('mouseenter', function() { console.log("IN"); });
+    // connection.bind('mouseexit', function() { console.log("OUT"); });
 }
 
 function openEditEventDialog(con) {
@@ -150,6 +152,8 @@ function addElements(data) {
 
     // Add Mission elements:
     $.each(missions, function(mission_index, mission) {
+        if(mission.name == "")
+            mission.name = mission.id;
        var element = $('<div></div>')
                         .html("<p>" + mission.name + "</p>")
                         .addClass("mission-box")
@@ -210,15 +214,14 @@ function addElements(data) {
 
     // Add connections from Mission to Mission:
     $.each(missions, function(mission_index, mission) {
-       $.each(mission.on_success, function(event_index, event) {addJsplumbConnection( mission, event);});
+       $.each(mission.on_start, function(event_index, event) {addJsplumbConnection( mission, event);});
        $.each(mission.on_end, function(event_index, event) {addJsplumbConnection( mission, event);});
-       $.each(mission.on_fail, function(event_index, event) {addJsplumbConnection( mission, event);});
     });
 
     // Add connections from Hotspot to Mission:
     $.each(hotspots, function(hotspot_index, hotspot) {
        $.each(hotspot.on_enter, function(event_index, event) {addJsplumbConnection( hotspot, event);});
-       $.each(hotspot.on_tap, function(event_index, event) {addJsplumbConnection( hotspot, event);});
+       $.each(hotspot.on_leave, function(event_index, event) {addJsplumbConnection( hotspot, event);});
     });
 
 }

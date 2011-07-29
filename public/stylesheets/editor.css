@@ -40,8 +40,6 @@
     right: 210pt;
     left: 210pt;
     top: 80pt;
-    min-height: 800pt;
-    overflow: hidden;
 }
 
 /**
@@ -55,6 +53,7 @@
     width: 150pt;
     min-height: 450pt;
     padding: 20pt;
+    z-index: 100;
 
     /* Layout */
     border-style: solid;
@@ -93,6 +92,7 @@ body {
     width: 150pt;
     height: 450pt;
     padding: 20pt;
+    z-index: 100;
 
     /* Layout */
     border-style: solid;
