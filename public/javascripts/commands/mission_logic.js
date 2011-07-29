@@ -58,3 +58,31 @@ function CreateNewRuleCommand() {
 }
 
 CreateNewRuleCommand.prototype = new Command();
+
+
+
+
+function UpdateRuleCommand() {
+    this.setParameter("command", "UpdateRuleCommand");
+
+    this.updateGui = function() {
+    }
+
+
+    _this = this; // Save object, because onSuccess is not called on the object
+
+    this.preExecute = function() {
+        _this.connection = _this.getParameter("connection");
+        _this.setParameter("connection", "");   // This is not needed to send over the net
+    }
+
+    this.onSuccess = function() {
+        rule = _this.getParameter("rule");
+        connection = _this.connection;
+        from = connection.gq_from;
+        jsPlumb.detach(connection.sourceId, connection.targetId);
+        addJsplumbConnection(from, rule);
+    }
+}
+
+UpdateRuleCommand.prototype = new Command();

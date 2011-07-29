@@ -131,3 +131,25 @@ EOF
   end
 end
 
+
+
+
+class UpdateRuleCommand < Command
+  def initialize(params)
+    super(params)
+    @type = "UpdateRuleCommand"
+=begin
+    template = ERB.new <<-EOF
+let $x := doc("editor.xml")//hotspot[@id="<%= params["hotspot_id"] %>"]/x
+let $y := doc("editor.xml")//hotspot[@id="<%= params["hotspot_id"] %>"]/y
+
+return (# exist:batch-transaction #) {
+  update value $x with "<%= params["x"] %>",
+  update value $y with "<%= params["y"] %>"
+}
+EOF
+=end
+    @command = nil
+
+  end
+end

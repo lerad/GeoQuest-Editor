@@ -109,7 +109,6 @@ function getRule(selector) {
         actions = $(selector).data("geoquest.actions");
         type = $(selector).data("geoquest.rule_type");
 
-
         // if it is the first rule of the specified type
         // (aka: Must a new onXYZ Node be created)
 
@@ -125,6 +124,7 @@ function getRule(selector) {
 
 
         rule = {
+            "id" : id,
             "next_mission" : nextMission,
             "actions" : actions,
             "type" : type
@@ -172,6 +172,9 @@ function addActionToRuleDialog(selector, action) {
 }
 
 function deleteActionFromRuleDialog(selector, action_index) {
+    if($(selector).data("geoquest.actions")[action_index].type == "StartMission") {
+        $(selector).data("geoquest.next_mission", null);
+    }
     $(selector).data("geoquest.actions").splice(action_index, 1);
     $(selector).find("li").eq(action_index).remove();
 }

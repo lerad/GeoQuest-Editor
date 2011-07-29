@@ -82,8 +82,15 @@ $(document).ready(function() {
 
     $("#editRuleDialog_updateButton").click(function() {
         rule = getRule("#editRuleDialog_rule");
-        alert(rule.toSource());
-    })
+        connection = $("#editRuleDialog_dialog").data("geoquest.connection");
+        rule.id = connection.rule.id;
+        $("#editRuleDialog_dialog").dialog("close");
+        cmd = new UpdateRuleCommand();
+        cmd.setParameter("project_id", project_id);
+        cmd.setParameter("rule", rule);
+        cmd.setParameter("connection", connection);
+        cmd.execute();
+    });
 
     
 });
@@ -139,6 +146,7 @@ function addJsplumbConnection( from, rule) {
 
 } );
     connection.rule = rule;
+    connection.gq_from = from;
     connection.bind('click', openEditRuleDialog);
     // connection.bind('mouseenter', function() { console.log("IN"); });
     // connection.bind('mouseexit', function() { console.log("OUT"); });
@@ -154,8 +162,12 @@ function openEditRuleDialog(con) {
             "rule_id" : con.rule.id
         },
         success : function(data) {
+            data.type = con.rule.type;
             loadRuleDisplay("#editRuleDialog_rule", data);
-            $("#editRuleDialog_dialog").dialog("open");
+            var title = "Edit " + con.rule.type + " rule in " + con.gq_from.name;
+            $("#editRuleDialog_dialog").data("geoquest.connection", con);
+            $("#editRuleDialog_dialog").dialog("option", "title", title)
+                                       .dialog("open");
         },
         error : function() {
             alert("Could not load rule with id " + con.rule.id);

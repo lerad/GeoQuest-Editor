@@ -44,7 +44,8 @@ class CommandsController < ApplicationController
         "ImportFileCommand" => ImportFileCommand,
         "UploadFileCommand" => UploadFileCommand,
         "ChangeProjectNameCommand" => ChangeProjectNameCommand,
-        "CreateNewRuleCommand" => CreateNewRuleCommand
+        "CreateNewRuleCommand" => CreateNewRuleCommand,
+        "UpdateRuleCommand" => UpdateRuleCommand
     }
   end
 
