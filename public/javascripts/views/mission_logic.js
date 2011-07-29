@@ -1,17 +1,17 @@
 
 
 /*****************************************************
- *  Event Dialog
- *  Used to create new Events
+ *  Rule Dialog
+ *  Used to create new Rules
  *****************************************************/
 
 
-// Initialize Event Dialog:
+// Initialize Rule Dialog:
 $(document).ready(function() {
 
-    createEventDisplay("#eventDialog_event");
+    createRuleDisplay("#ruleDialog_rule");
 
-    $("#eventDialog_dialog").dialog({
+    $("#ruleDialog_dialog").dialog({
         autoOpen: false,
         width: 500,
         height: 500,
@@ -19,29 +19,31 @@ $(document).ready(function() {
     });
 
 
-    // Create the new event
-    $("#eventDialog_createButton").click(function() {
+    // Create the new rule
+    $("#ruleDialog_createButton").click(function() {
 
-        $("#eventDialog_dialog").dialog("close");
+        $("#ruleDialog_dialog").dialog("close");
 
-        event = getEvent("#eventDialog_event");
+        rule = getRule("#ruleDialog_rule");
 
         $.ajax({
-           url: "/ajax/get_next_event_id",
+           url: "/ajax/get_next_rule_id",
            data : {
                "project_id" : project_id
            },
            success : function(data) {
-               event.id = data.next_event_id;
-               cmd = new CreateNewEventCommand();
+               rule.id = data.next_rule_id;
+               alert("Create rule: " + rule.toSource());
+               cmd = new CreateNewRuleCommand();
                cmd.setParameter("project_id", project_id);
-               cmd.setParameter("event_holder", event.holder);
-               cmd.setParameter("event_holder_type", event.holder_type);
-               cmd.setParameter("event", event);
-               cmd.execute();
+               cmd.setParameter("rule_holder", rule.holder);
+               cmd.setParameter("rule_holder_type", rule.holder_type);
+               cmd.setParameter("rule", rule);
+               
+               // cmd.execute();
            },
            error : function() {
-               alert("Could not determine next event id");
+               alert("Could not determine next rule id");
            }
        });
 
@@ -51,10 +53,12 @@ $(document).ready(function() {
 
 });
 
+
+
 // Initialisation function of the dialog.
 // It is called everytime the dialog is openened
-function initEventDialog(type, holder, holder_type) {
-    initEventDisplay("#eventDialog_event", type, holder, holder_type);
+function initRuleDialog(type, holder, holder_type) {
+    initRuleDisplay("#ruleDialog_rule", type, holder, holder_type);
 }
 
 
@@ -66,10 +70,10 @@ function initEventDialog(type, holder, holder_type) {
  *********************************/
 
 // from can be either a mission or a hotspot description. It only has to have an id
-function addJsplumbConnection( from, event) {
+function addJsplumbConnection( from, rule) {
 
-  // Not all events are a Mission call:
-  if(event.next_mission == null) return;
+  // Not all rules are a Mission call:
+  if(rule.next_mission == null) return;
 
   style = {
     lineWidth: 3,
@@ -88,54 +92,54 @@ function addJsplumbConnection( from, event) {
 
   connection = jsPlumb.connect({
       source: (from.id + "-box"),
-      target: (event.next_mission + "-box"),
+      target: (rule.next_mission + "-box"),
       paintStyle: style,
       hoverPaintStyle: hoverStyle,
       overlays: my_overlays,
       endpoint: ["Dot", {radius: 1}],
-      label: event.type,
+      label: rule.type,
       connector: ["Bezier", {curviness: 30}],
       dynamicAnchors: anchors,
       labelStyle : {fillStyle:"rgba(255,255,255, 0.8)", color:"black",borderWidth:10}
 
 } );
-    connection.event = event;
-    connection.bind('click', openEditEventDialog);
+    connection.rule = rule;
+    connection.bind('click', openEditRuleDialog);
     // connection.bind('mouseenter', function() { console.log("IN"); });
     // connection.bind('mouseexit', function() { console.log("OUT"); });
 }
 
-function openEditEventDialog(con) {
-    alert(con.event.toSource());
+function openEditRuleDialog(con) {
+    alert(con.rule.toSource());
 }
 
-function createNewEvent(type, element) {
-    initEventDialog(type,
+function createNewRule(type, element) {
+    initRuleDialog(type,
                     element.data("geoquest.object"),
                     element.data("geoquest.type"));
-    var title = "Create new " + type + " event in " + element.data("geoquest.name");
-    $("#eventDialog_dialog").dialog("option", "title", title)
+    var title = "Create new " + type + " rule in " + element.data("geoquest.name");
+    $("#ruleDialog_dialog").dialog("option", "title", title)
                             .dialog("open");
 }
 
-function listEvents(element) {
-    alert("List events...")
+function listRules(element) {
+    alert("List rules...")
 }
 
 function contextMenuCallback(action, element, pos) {
     actionMapping = {
         "addOnEnd" : "onEnd",
-        "addOnFail" : "onFail",
-        "addOnSuccess" : "onSuccess",
+        "addOnStart" : "onStart",
         "addOnTap" : "onTap",
+        "addOnLeave" : "onLeave",
         "addOnEnter" : "onEnter"
     }
 
     if (action in actionMapping) {
-        createNewEvent(actionMapping[action], element);
+        createNewRule(actionMapping[action], element);
     }
-    else if (action == "listEvents") {
-        listEvents(element);
+    else if (action == "listRules") {
+        listRules(element);
     }
     else {
         alert("Error. Unknown action '" + action + "' in contextMenuCallback");
@@ -166,7 +170,7 @@ function addElements(data) {
                         .data("geoquest.mission", mission);
        $(".content").append(element)
        jsPlumb.draggable(element);
-       element.bind("drag", function(event, ui) {
+       element.bind("drag", function(rule, ui) {
         cmd = new MoveMissionVisualizationCommand();
         cmd.setParameter("project_id", project_id);
         cmd.setParameter("mission_id", mission.id);
@@ -196,7 +200,7 @@ function addElements(data) {
        $(".content").append(element);
        jsPlumb.draggable(element);
 
-       element.bind("drag", function(event, ui) {
+       element.bind("drag", function(rule, ui) {
         cmd = new MoveHotspotVisualizationCommand();
         cmd.setParameter("project_id", project_id);
         cmd.setParameter("hotspot_id", hotspot.id);
@@ -214,14 +218,14 @@ function addElements(data) {
 
     // Add connections from Mission to Mission:
     $.each(missions, function(mission_index, mission) {
-       $.each(mission.on_start, function(event_index, event) {addJsplumbConnection( mission, event);});
-       $.each(mission.on_end, function(event_index, event) {addJsplumbConnection( mission, event);});
+       $.each(mission.on_start, function(rule_index, rule) {addJsplumbConnection( mission, rule);});
+       $.each(mission.on_end, function(rule_index, rule) {addJsplumbConnection( mission, rule);});
     });
 
     // Add connections from Hotspot to Mission:
     $.each(hotspots, function(hotspot_index, hotspot) {
-       $.each(hotspot.on_enter, function(event_index, event) {addJsplumbConnection( hotspot, event);});
-       $.each(hotspot.on_leave, function(event_index, event) {addJsplumbConnection( hotspot, event);});
+       $.each(hotspot.on_enter, function(rule_index, rule) {addJsplumbConnection( hotspot, rule);});
+       $.each(hotspot.on_leave, function(rule_index, rule) {addJsplumbConnection( hotspot, rule);});
     });
 
 }
@@ -229,9 +233,9 @@ function addElements(data) {
 // Fills the lists in the dialogs
 // with the missions or hotspots
 function initDialogLists(data) {
-   $("#eventDialog_nextMission").addOption("none", "[none]");
+   $("#ruleDialog_nextMission").addOption("none", "[none]");
    $.each(data.missions, function(mission_index, mission) {
-       $("#missionRequirementDialog_mission").addOption(mission.id, mission.name);
+       $("#startMissionDialog_mission").addOption(mission.id, mission.name);
    });
 
    $.each(data.hotspots, function(hotspot_index, hotspot) {
