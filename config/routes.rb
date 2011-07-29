@@ -36,7 +36,7 @@ GeoquestEditor::Application.routes.draw do
   match '/ajax/show_images' => "query#show_images", :as => "ajax/show_images"
   match '/ajax/show_audio' => "query#show_audio", :as => "ajax/show_audio"
   match '/ajax/show_mission_types' => "query#show_mission_types", :as => "ajax/show_mission_types"
-
+  match '/ajax/show_rule' => "query#show_rule", :as => "ajax/show_rule"
   match '/ajax/is_image_used' => "query#is_image_used", :as => "ajax/is_image_used"
   match '/ajax/is_audio_used' => "query#is_audio_used", :as => "ajax/is_audio_used"
 

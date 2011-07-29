@@ -136,12 +136,15 @@ function initRuleDisplay(selector, new_type) {
     $(selector).data("geoquest.next_mission", null);
     $(selector).data("geoquest.rule_type", new_type);
     $(selector).data("geoquest.actions", []);
-    $(selector).find("#rule_nextMission").selectOptions("none", true);
     $(selector).find(".rule-dialog-dynamic-content").remove();
 }
 
 function loadRuleDisplay(selector, rule) {
-    /* TODO: implement */
+    initRuleDisplay(selector, rule.type);
+    $(selector).data("geoquest.next_mission", rule.next_mission);
+    $.each(rule.actions, function(index, value) {
+        addActionToRuleDialog(selector, value);
+    });
 }
 
 

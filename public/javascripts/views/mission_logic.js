@@ -1,5 +1,4 @@
 
-
 /*****************************************************
  *  Rule Dialog
  *  Used to create new Rules
@@ -27,8 +26,6 @@ $(document).ready(function() {
         rule = getRule("#ruleDialog_rule");
         holder = $("#ruleDialog_dialog").data("geoquest.holder");
         holder_type = $("#ruleDialog_dialog").data("geoquest.holder_type");
-
-
 
         type2property = {
             "onStart" : "on_start",
@@ -72,6 +69,24 @@ $(document).ready(function() {
 });
 
 
+$(document).ready(function() {
+
+   createRuleDisplay("#editRuleDialog_rule");
+
+    $("#editRuleDialog_dialog").dialog({
+        autoOpen: false,
+        width: 500,
+        height: 500,
+        modal: true
+    });
+
+    $("#editRuleDialog_updateButton").click(function() {
+        rule = getRule("#editRuleDialog_rule");
+        alert(rule.toSource());
+    })
+
+    
+});
 
 // Initialisation function of the dialog.
 // It is called everytime the dialog is openened
@@ -129,8 +144,23 @@ function addJsplumbConnection( from, rule) {
     // connection.bind('mouseexit', function() { console.log("OUT"); });
 }
 
+
+
 function openEditRuleDialog(con) {
-    alert(con.rule.toSource());
+    $.ajax({
+        url : '/ajax/show_rule',
+        data : {
+            "project_id" : project_id,
+            "rule_id" : con.rule.id
+        },
+        success : function(data) {
+            loadRuleDisplay("#editRuleDialog_rule", data);
+            $("#editRuleDialog_dialog").dialog("open");
+        },
+        error : function() {
+            alert("Could not load rule with id " + con.rule.id);
+        }
+    });
 }
 
 function createNewRule(type, element) {

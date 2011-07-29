@@ -637,4 +637,31 @@ EOF
     render :text => json_data, :content_type => "application/json"
   end
 
+  def show_rule
+    adapter = ExistAdapter.new(params[:project_id])
+    result = adapter.do_request('doc("game.xml")//rule[@id="' + params[:rule_id] + '"]').first();
+
+    startMissionAction = XPath.first(result, './action[@type="StartMission"]')
+    next_mission_id = nil
+    next_mission_id = startMissionAction.attribute("id").to_s unless startMissionAction.nil?
+
+    rule = {
+      :id => result.attributes['id'],
+      :next_mission => next_mission_id,
+      :actions => []
+    }
+
+    XPath.each(result, './action') do |actionElement|
+      action = {}
+      actionElement.attributes.each do |name, value|
+        action[name] = value
+      end
+      rule[:actions] += [action]
+    end
+
+    json_data = ActiveSupport::JSON.encode(rule)
+    render :text => json_data, :content_type => "application/json"
+
+  end
+
 end
