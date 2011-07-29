@@ -60,6 +60,7 @@ class CommandsController < ApplicationController
         return
     end
     begin
+      Rails.logger.info("Start execute: " + params[:command])
       cmd.execute unless cmd.nil?
       render :text => "Command successfull done"
     rescue Exception => e

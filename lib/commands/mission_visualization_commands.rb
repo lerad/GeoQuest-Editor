@@ -92,10 +92,41 @@ class CreateNewRuleCommand < Command
     super(params)
     @type = "CreateNewRuleCommand"
 
-    @command = nil
+=begin
 
-    rule_holder = params["rule_holder"];
-    rule = params["rule"];
+    rule = params["rule"]
+    rule_holder = rule["holder"]
+
+    # Todo: "if" into rule
+
+    if rule["first_one"] == "true"
+      Rails.logger.info("Create NEW on...")
+    else
+      Rails.logger.info("Do not create NEW on...")
+    end
+
+
+    rule_template = ERB.new <<-EOF
+    <rule id="<%= rule["id"] %>">
+    <% if rule["actions"] != "" %>
+    <% rule["actions"].each do |index, action| %>
+      <action <% action.each do |key, value| %> <%= key %>="<%= value %>" <% end %> />
+    <% end %>
+    <% end %>
+    </rule>
+EOF
+
+    rule_xml = rule_template.result(binding);
+
+    template = ERB.new <<-EOF
+let $newRule := <%= rule_xml %>
+let $ruleHolder := doc("game.xml")//<%= rule["holder_type"] %>[@id="<%= rule_holder["id"] %>"]/<%= rule["type"] %>
+return update insert $newRule into $ruleHolder
+EOF
+
+    @command = template.result(binding)
+=end
+   @command = nil
   end
 end
 

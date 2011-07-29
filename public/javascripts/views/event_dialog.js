@@ -44,7 +44,7 @@ function createRuleDisplay(selector) {
             "SetVariable" : createSetVariableAction,
             "SetHotspotVisibility" : createSetHotspotVisibilityAction,
             "EndGame" : createEndGameAction
-        }
+        };
 
         if (type in actions) {
             actions[type](selector);
@@ -104,17 +104,34 @@ function createSetHotspotVisibilityAction(selector) {
     
 }
 
-/* -------------- */
 function getRule(selector) {
         nextMission = $(selector).data("geoquest.next_mission");
         actions = $(selector).data("geoquest.actions");
         type = $(selector).data("geoquest.rule_type");
 
+        holder =  $(selector).data("geoquest.rule_holder");
+
+        // if it is the first rule of the specified type
+        // (aka: Must a new onXYZ Node be created)
+
+        type2property = {
+            "onStart" : "on_start",
+            "onEnd" : "on_end",
+            "onLeave" : "on_leave",
+            "onEnter" : "on_enter",
+            "onTap" : "on_tap"
+        };
+
+        prop_name = type2property[type];
+
+        first_one = (holder[prop_name].length == 0);
+
         rule = {
             "next_mission" : nextMission,
             "actions" : actions,
             "type" : type,
-            "holder" : $(selector).data("geoquest.rule_holder"),
+            "first_one" : first_one,
+            "holder" : holder,
             "holder_type" : $(selector).data("geoquest.rule_holder_type")
         };
         return rule;
@@ -139,7 +156,6 @@ function loadRuleDisplay(selector, rule) {
 // Adds a new action to the dialog
 function addActionToRuleDialog(selector, action) {
     // TODO: Compute description via external means
-    action.description = action.type;
      $(selector).data("geoquest.actions").push(action);
      img = $("<img></img>")
             .attr("src", "/images/delete.png")
@@ -152,7 +168,7 @@ function addActionToRuleDialog(selector, action) {
         deleteActionFromRuleDialog(selector, index);
      });
 
-    newElement = $("<li></li>").text(action.description)
+    newElement = $("<li></li>").text(action.type)
                                 .addClass("rule-dialog-dynamic-content")
                                 .append(img);
      $(selector).find("#rule_addActionListEntry").before(newElement);

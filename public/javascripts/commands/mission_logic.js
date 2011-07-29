@@ -51,8 +51,8 @@ function CreateNewRuleCommand() {
     _this = this; // Save object, because onSuccess is not called on the object
 
     this.onSuccess = function() {
-        from = _this.getParameter("rule_holder");
         rule = _this.getParameter("rule");
+        from = rule.holder;
         addJsplumbConnection(from, rule);
     }
 }

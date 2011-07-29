@@ -10,6 +10,8 @@ class AddXmlNodeToMission < Command
     super(params)
     @type = "AddXmlNodeToMission"
 
+    
+
     template = ERB.new <<-EOF
 let $newNode := <<%= params["node"] %>></<%= params["node"] %>>
 let $mission := doc("game.xml")//mission[@id="<%= params["mission_id"] %>"]

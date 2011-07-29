@@ -26,6 +26,17 @@ $(document).ready(function() {
 
         rule = getRule("#ruleDialog_rule");
 
+        type2property = {
+            "onStart" : "on_start",
+            "onEnd" : "on_end",
+            "onLeave" : "on_leave",
+            "onEnter" : "on_enter",
+            "onTap" : "on_tap"
+
+        };
+        prop_name = type2property[rule.type];
+        rule.holder[prop_name].push(rule) ;
+        
         $.ajax({
            url: "/ajax/get_next_rule_id",
            data : {
@@ -35,8 +46,6 @@ $(document).ready(function() {
                rule.id = data.next_rule_id;
                cmd = new CreateNewRuleCommand();
                cmd.setParameter("project_id", project_id);
-               cmd.setParameter("rule_holder", rule.holder);
-               cmd.setParameter("rule_holder_type", rule.holder_type);
                cmd.setParameter("rule", rule);
                cmd.execute();
            },
