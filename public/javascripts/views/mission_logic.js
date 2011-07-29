@@ -300,6 +300,8 @@ function addElements(data) {
     $.each(hotspots, function(hotspot_index, hotspot) {
        $.each(hotspot.on_enter, function(rule_index, rule) {addJsplumbConnection( hotspot, rule);});
        $.each(hotspot.on_leave, function(rule_index, rule) {addJsplumbConnection( hotspot, rule);});
+       $.each(hotspot.on_tap, function(rule_index, rule) {addJsplumbConnection( hotspot, rule);});
+
     });
 
 }
