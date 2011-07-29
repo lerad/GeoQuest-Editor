@@ -40,8 +40,6 @@ function Command() {
 
     this.makeAjaxCall = function()  {
 
-        alert("Begin ajax call");
-        alert(this.parameter.toSource());
         jQuery.ajax({
             url : "/commands/execute",
             success : this.onSuccess,
@@ -49,7 +47,6 @@ function Command() {
             data : this.parameter,
             type : "POST"
         });
-        alert("End ajax call...");
 
         
     }

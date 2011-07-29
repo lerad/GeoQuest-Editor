@@ -52,7 +52,7 @@ function CreateNewRuleCommand() {
 
     this.onSuccess = function() {
         rule = _this.getParameter("rule");
-        from = rule.holder;
+        from = _this.getParameter("holder");
         addJsplumbConnection(from, rule);
     }
 }

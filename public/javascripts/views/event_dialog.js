@@ -109,7 +109,6 @@ function getRule(selector) {
         actions = $(selector).data("geoquest.actions");
         type = $(selector).data("geoquest.rule_type");
 
-        holder =  $(selector).data("geoquest.rule_holder");
 
         // if it is the first rule of the specified type
         // (aka: Must a new onXYZ Node be created)
@@ -124,25 +123,19 @@ function getRule(selector) {
 
         prop_name = type2property[type];
 
-        first_one = (holder[prop_name].length == 0);
 
         rule = {
             "next_mission" : nextMission,
             "actions" : actions,
-            "type" : type,
-            "first_one" : first_one,
-            "holder" : holder,
-            "holder_type" : $(selector).data("geoquest.rule_holder_type")
+            "type" : type
         };
         return rule;
 }
 
-function initRuleDisplay(selector, new_type, holder, holder_type) {
+function initRuleDisplay(selector, new_type) {
     $(selector).data("geoquest.next_mission", null);
     $(selector).data("geoquest.rule_type", new_type);
     $(selector).data("geoquest.actions", []);
-    $(selector).data("geoquest.rule_holder", holder);
-    $(selector).data("geoquest.rule_holder_type", holder_type);
     $(selector).find("#rule_nextMission").selectOptions("none", true);
     $(selector).find(".rule-dialog-dynamic-content").remove();
 }

@@ -25,6 +25,9 @@ $(document).ready(function() {
         $("#ruleDialog_dialog").dialog("close");
 
         rule = getRule("#ruleDialog_rule");
+        holder = $("#ruleDialog_dialog").data("geoquest.holder");
+        holder_type = $("#ruleDialog_dialog").data("geoquest.holder_type");
+
 
         type2property = {
             "onStart" : "on_start",
@@ -35,7 +38,7 @@ $(document).ready(function() {
 
         };
         prop_name = type2property[rule.type];
-        rule.holder[prop_name].push(rule) ;
+        holder[prop_name].push(rule) ;
         
         $.ajax({
            url: "/ajax/get_next_rule_id",
@@ -47,6 +50,8 @@ $(document).ready(function() {
                cmd = new CreateNewRuleCommand();
                cmd.setParameter("project_id", project_id);
                cmd.setParameter("rule", rule);
+               cmd.setParameter("holder", holder);
+               cmd.setParameter("holder_type", holder_type);
                cmd.execute();
            },
            error : function() {
@@ -65,7 +70,9 @@ $(document).ready(function() {
 // Initialisation function of the dialog.
 // It is called everytime the dialog is openened
 function initRuleDialog(type, holder, holder_type) {
-    initRuleDisplay("#ruleDialog_rule", type, holder, holder_type);
+    $("#ruleDialog_dialog").data("geoquest.holder", holder);
+    $("#ruleDialog_dialog").data("geoquest.holder_type", holder_type);
+    initRuleDisplay("#ruleDialog_rule", type);
 }
 
 
