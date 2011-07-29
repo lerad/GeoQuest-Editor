@@ -66,6 +66,8 @@ $(document).ready(function() {
 
     });
 
+
+
 });
 
 
@@ -90,6 +92,16 @@ $(document).ready(function() {
         cmd.setParameter("rule", rule);
         cmd.setParameter("connection", connection);
         cmd.execute();
+    });
+
+    $("#editRuleDialog_deleteButton").click(function() {
+       connection = $("#editRuleDialog_dialog").data("geoquest.connection");
+       $("#editRuleDialog_dialog").dialog("close");
+       cmd = new DeleteRuleCommand();
+       cmd.setParameter("project_id", project_id);
+       cmd.setParameter("rule_id", connection.rule.id);
+       cmd.setParameter("connection", connection);
+       cmd.execute();
     });
 
     

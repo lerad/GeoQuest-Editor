@@ -132,6 +132,23 @@ EOF
 end
 
 
+class DeleteRuleCommand < Command
+  def initialize(params)
+    super(params)
+
+    @type = "DeleteRuleCommand"
+
+
+    template = ERB.new <<-EOF
+    let $node := doc("game.xml")//rule[@id="<%= params["rule_id"] %>"]
+    return update delete $node
+  EOF
+
+    @command = template.result(binding)
+
+  end
+end
+
 
 
 class UpdateRuleCommand < Command
