@@ -29,6 +29,7 @@ $(document).ready(function() {
         holder_type = $("#ruleDialog_dialog").data("geoquest.holder_type");
 
 
+
         type2property = {
             "onStart" : "on_start",
             "onEnd" : "on_end",
@@ -38,6 +39,11 @@ $(document).ready(function() {
 
         };
         prop_name = type2property[rule.type];
+        if(holder[prop_name].length == 0) {
+            rule.first_one = true;
+        } else {
+            rule.first_one = false;
+        }
         holder[prop_name].push(rule) ;
         
         $.ajax({
