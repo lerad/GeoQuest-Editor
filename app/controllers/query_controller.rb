@@ -720,6 +720,7 @@ EOF
     if (conditionXml.name == "if")
       # If has only one child element
       firstElement = XPath.first(conditionXml, "./*")
+      return nil if firstElement.nil? # No further subelements
       return getConditionAsHash(firstElement);
     else
       name = conditionXml.name
@@ -764,7 +765,7 @@ EOF
     next_mission_id = startMissionAction.attribute("id").to_s unless startMissionAction.nil?
 
     conditionXml = XPath.first(result, './if')
-    condition = {}
+    condition = nil
     condition = getConditionAsHash(conditionXml) unless conditionXml.nil?
 
 
