@@ -22,12 +22,17 @@ $(document).ready(function() {
     $("#ruleDialog_createButton").click(function() {
 
         $("#ruleDialog_dialog").dialog("close");
+        var rule = null;
+        try {
+            rule = getRule("#ruleDialog_rule");
+        } catch(msg) {
+            alert("Error during rule creation: " + msg);
+            return;
+        }
+        var holder = $("#ruleDialog_dialog").data("geoquest.holder");
+        var holder_type = $("#ruleDialog_dialog").data("geoquest.holder_type");
 
-        rule = getRule("#ruleDialog_rule");
-        holder = $("#ruleDialog_dialog").data("geoquest.holder");
-        holder_type = $("#ruleDialog_dialog").data("geoquest.holder_type");
-
-        type2property = {
+        var type2property = {
             "onStart" : "on_start",
             "onEnd" : "on_end",
             "onLeave" : "on_leave",
@@ -35,7 +40,7 @@ $(document).ready(function() {
             "onTap" : "on_tap"
 
         };
-        prop_name = type2property[rule.type];
+        var prop_name = type2property[rule.type];
         if(holder[prop_name].length == 0) {
             rule.first_one = true;
         } else {
@@ -64,6 +69,7 @@ $(document).ready(function() {
 
 
 
+
     });
 
 
@@ -81,12 +87,17 @@ $(document).ready(function() {
    createRuleDisplay("#listRulesDialog_rule");
 
     $("#listRulesDialog_updateButton").click(function() {
-        rule = getRule("#listRulesDialog_rule");
-        rule.id = $("#listRulesDialog_rule").data("geoquest.rule_id");
-        cmd = new UpdateRuleCommand();
-        cmd.setParameter("project_id", project_id);
-        cmd.setParameter("rule", rule);
-        cmd.execute();
+        try {
+            var rule = getRule("#listRulesDialog_rule");
+            rule.id = $("#listRulesDialog_rule").data("geoquest.rule_id");
+            cmd = new UpdateRuleCommand();
+            cmd.setParameter("project_id", project_id);
+            cmd.setParameter("rule", rule);
+            cmd.execute();
+        }
+        catch(msg) {
+            alert("Error during update: " + msg);
+        }
     });
 
     $("#listRulesDialog_deleteButton").click(function() {
@@ -112,15 +123,19 @@ $(document).ready(function() {
     });
 
     $("#editRuleDialog_updateButton").click(function() {
-        rule = getRule("#editRuleDialog_rule");
-        connection = $("#editRuleDialog_dialog").data("geoquest.connection");
-        rule.id = connection.rule.id;
-        $("#editRuleDialog_dialog").dialog("close");
-        cmd = new UpdateRuleCommand();
-        cmd.setParameter("project_id", project_id);
-        cmd.setParameter("rule", rule);
-        cmd.setParameter("connection", connection);
-        cmd.execute();
+        try {
+            var rule = getRule("#editRuleDialog_rule");
+            var connection = $("#editRuleDialog_dialog").data("geoquest.connection");
+            rule.id = connection.rule.id;
+            $("#editRuleDialog_dialog").dialog("close");
+            cmd = new UpdateRuleCommand();
+            cmd.setParameter("project_id", project_id);
+            cmd.setParameter("rule", rule);
+            cmd.setParameter("connection", connection);
+            cmd.execute();
+        } catch(msg) {
+            alert("Error during update: " + msg);
+        }
     });
 
     $("#editRuleDialog_deleteButton").click(function() {

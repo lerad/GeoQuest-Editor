@@ -105,14 +105,14 @@ function createSetHotspotVisibilityAction(selector) {
 }
 
 function getRule(selector) {
-        nextMission = $(selector).data("geoquest.next_mission");
-        actions = $(selector).data("geoquest.actions");
-        type = $(selector).data("geoquest.rule_type");
-
+        var nextMission = $(selector).data("geoquest.next_mission");
+        var actions = $(selector).data("geoquest.actions");
+        var type = $(selector).data("geoquest.rule_type");
+        var conditionText =  $(selector).find("#rule_condition").val()
         // if it is the first rule of the specified type
         // (aka: Must a new onXYZ Node be created)
 
-        type2property = {
+        var type2property = {
             "onStart" : "on_start",
             "onEnd" : "on_end",
             "onLeave" : "on_leave",
@@ -122,8 +122,16 @@ function getRule(selector) {
 
         prop_name = type2property[type];
 
+        var condition = {};
+        if(conditionText != "") {
+            var myLexer = new Lexer();
+            var myParser = new Parser();
+            var myToken = myLexer.getToken(conditionText);
+            condition = myParser.parse(myToken);
+        }
 
-        rule = {
+        var rule = {
+            "condition" : condition,
             "next_mission" : nextMission,
             "actions" : actions,
             "type" : type
@@ -189,7 +197,7 @@ function getRuleConditionText(condition) {
    if (condition.token == "missionState") {
        var mission = condition.data.id;
        var state = condition.data.state;
-       if (state == "failed") return "IsFailed(" + mission + ")";
+       if (state == "fail") return "IsFailed(" + mission + ")";
        if (state == "new") return "IsNew(" + mission + ")";
        if (state == "success") return "IsSuccess(" + mission + ")";
        if (state == "running") return "IsRunning(" + mission + ")";

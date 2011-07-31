@@ -233,10 +233,9 @@ function Parser() {
         if(!condition.token.type) {
             return condition;
         }
-        for(i = 0; i< condition.children.length; i++) {
+        for(var i = 0; i< condition.children.length; i++) {
             condition.children[i] = this.toAjaxTree(condition.children[i]);
         }
-
 
 
         if (condition.token.type == TokenType.IsFailed) {

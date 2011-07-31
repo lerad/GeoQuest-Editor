@@ -87,7 +87,28 @@ EOF
   end
 end
 
+  def createConditionXml(condition)
+    if (condition[:token] == "var")
+      return "<var>" + condition[:data][:name]["0"] + "</var>\n"
+    end
+    if (condition[:token] == "num")
+      return "<num>" + condition[:data][:value]["0"] + "</num>\n"
+    end
+    if (condition[:token] == "missionState")
+      id = condition[:data][:mission]
+      state = condition[:data][:state]
+      return '<missionState id="' + id + '" state="' + state + '" />' + "\n"
+    end
+    text = "<" + condition[:token] + ">\n"
+    condition[:children].each do |index, child|
+      text += createConditionXml(child)
+    end
+    text += "</" + condition[:token] + ">\n"
+    return text
+  end
+
 class CreateNewRuleCommand < Command
+
   def initialize(params)
     super(params)
     @type = "CreateNewRuleCommand"
@@ -96,13 +117,16 @@ class CreateNewRuleCommand < Command
     rule = @params[:rule]
     rule_holder = @params[:holder]
 
-    # Todo: "if" into rule
-
-
-
 
     rule_template = ERB.new <<-EOF
     <rule id="<%= rule["id"] %>">
+    <% if rule[:condition] %>
+      <% unless rule[:condition].empty? %>
+        <if>
+          <%= createConditionXml(rule[:condition]) %>
+        </if>
+      <% end %>
+    <% end %>
     <% if rule["actions"] != "" %>
     <% rule["actions"].each do |index, action| %>
       <action <% action.each do |key, value| %> <%= key %>="<%= value %>" <% end %> />
@@ -160,6 +184,13 @@ class UpdateRuleCommand < Command
 
     rule_template = ERB.new <<-EOF
     <rule id="<%= rule["id"] %>">
+    <% if rule[:condition] %>
+      <% unless rule[:condition].empty? %>
+        <if>
+          <%= createConditionXml(rule[:condition]) %>
+        </if>
+      <% end %>
+    <% end %>
     <% if rule["actions"] != "" %>
     <% rule["actions"].each do |index, action| %>
       <action <% action.each do |key, value| %> <%= key %>="<%= value %>" <% end %> />
