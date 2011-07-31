@@ -716,6 +716,45 @@ EOF
     render :text => json_data, :content_type => "application/json"
   end
 
+  def getConditionAsHash(conditionXml)
+    if (conditionXml.name == "if")
+      # If has only one child element
+      firstElement = XPath.first(conditionXml, "./*")
+      return getConditionAsHash(firstElement);
+    else
+      name = conditionXml.name
+      element = {
+        :token => name,
+        :children => []
+      }
+      conditionXml.each do |sub_element|
+        next if sub_element.node_type == :text
+        element[:children] += [ getConditionAsHash(sub_element) ]
+      end
+
+      if name == "missionState"
+        id = conditionXml.attributes['id']
+        state = conditionXml.attributes['state']
+        element[:data] = {
+          :id => id,
+          :state => state
+        }
+      elsif name == "var"
+        var_name = conditionXml.text().strip();
+        element[:data] = {
+          :name => var_name
+        }
+      elsif name == "num"
+        value = conditionXml.text().strip().to_f();
+        element[:data] = {
+          :value => value
+        }
+      end
+
+      return element
+    end
+  end
+
   def show_rule
     adapter = ExistAdapter.new(params[:project_id])
     result = adapter.do_request('doc("game.xml")//rule[@id="' + params[:rule_id] + '"]').first();
@@ -724,7 +763,13 @@ EOF
     next_mission_id = nil
     next_mission_id = startMissionAction.attribute("id").to_s unless startMissionAction.nil?
 
+    conditionXml = XPath.first(result, './if')
+    condition = {}
+    condition = getConditionAsHash(conditionXml) unless conditionXml.nil?
+
+
     rule = {
+      :condition => condition, 
       :id => result.attributes['id'],
       :next_mission => next_mission_id,
       :actions => []
