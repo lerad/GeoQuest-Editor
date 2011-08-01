@@ -11,6 +11,8 @@ require 'commands/project_commands'
 
 class CommandsController < ApplicationController
 
+  before_filter :authenticate
+
   def initialize()
     @commands = {
         "AddHotspotCommand" => AddHotspotCommand,
@@ -51,17 +53,21 @@ class CommandsController < ApplicationController
   end
 
   def execute
+    @project = Project.find(:first, :conditions => {:id => params[:project_id], :user_id => @current_user.id})
+    if @project.nil?
+      Rails.logger.info("Invalid project id for command: " + params[:project_id]  + " or the project is not owned by the user with id " + @current_user.id)
+      raise "Invalid project id"
+    end
 
     cmd = nil
-
-    if @commands.has_key?( params[:command] )
-        cmd = @commands[ params[:command] ].new(params)
-    else
-        logger.error "Unsupported command: " + params[:command]
-        render :text => "Unsupported command: " + params[:command]
-        return
-    end
     begin
+      if @commands.has_key?( params[:command] )
+          cmd = @commands[ params[:command] ].new(params)
+      else
+          logger.error "Unsupported command: " + params[:command]
+          render :text => "Unsupported command: " + params[:command]
+          return
+      end
       Rails.logger.info("Start execute: " + params[:command])
       cmd.execute unless cmd.nil?
       render :text => "Command successfull done"

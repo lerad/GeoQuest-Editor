@@ -4,14 +4,13 @@
   </h1>
 </div>
 
-<%= javascript_include_tag 'jquery/jquery'  %>
-
 
 <%= render 'shared/mission_navigation' %>
 <%= render 'shared/editor_control' %>
 
 <%= javascript_include_tag 'jquery/jquery.contextMenu'  %>
 <%= stylesheet_link_tag 'jquery.contextMenu'  %>
+<%= stylesheet_link_tag 'views/project' %>
 
 <ul id="projectMenu" class="contextMenu">
   <li>
@@ -68,9 +67,22 @@
 
 
 
-  <ul>
+  <ul id="project_list">
+    <% unless @last_modified.nil? %>
+    <li class="title-as-tooltip"
+        title="The last modified project"
+        id="<%= @last_modified.id %>"
+        name="<%= @last_modified.name %>" >
+        <%= link_to @last_modified.name, @last_modified, :class => 'editor_link last_modified_link' %>
+    </li>
+    <% end %>
 
     <% @projects.each do |project| %>
+      <%
+      unless @last_modified.nil?
+        next if @last_modified.id == project.id
+      end
+      %>
       <li class="projectEntry" id="<%= project.id %>" name="<%= project.name %>"> <%= link_to project.name, project, :class => 'editor_link' %> </li>
     <% end  %>
 

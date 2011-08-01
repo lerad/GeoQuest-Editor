@@ -1,7 +1,9 @@
 class Command
   def initialize(params)
     @params = params
-    #TODO:   Check if the user owns the project
+
+    @project = Project.find(:first, :conditions => {:id => params[:project_id] })
+
     
     @adapter = ExistAdapter.new(params["project_id"])
     @command = "";
@@ -13,6 +15,9 @@ class Command
   end
 
   def execute()
+      @project.last_modified = Time.now
+      @project.save
+
       Rails.logger.info "Execute " + @type + " in project "  + @params["project_id"] + ":"
       Rails.logger.info "----------------------------------------"
       Rails.logger.info @command unless @command.nil?

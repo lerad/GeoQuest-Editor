@@ -1,0 +1,7 @@
+.last_modified_link {
+    font-style: italic;
+}
+
+#project_list > li {
+    display: table;
+}
