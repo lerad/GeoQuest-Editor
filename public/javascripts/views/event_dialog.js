@@ -14,7 +14,7 @@ $(document).ready(function() {
         action = {
             "type" : "StartMission",
             "id" : id
-        }
+        };
         selector = $("#startMissionDialog_dialog").data("geoquest.selector");
         addActionToRuleDialog(selector, action);
         $(selector).data("geoquest.next_mission", id);
@@ -109,7 +109,7 @@ function getRule(selector) {
         var nextMission = $(selector).data("geoquest.next_mission");
         var actions = $(selector).data("geoquest.actions");
         var type = $(selector).data("geoquest.rule_type");
-        var conditionText =  $(selector).find("#rule_condition").val()
+        var conditionText =  $(selector).find("#rule_condition").val();
         // if it is the first rule of the specified type
         // (aka: Must a new onXYZ Node be created)
 
@@ -216,20 +216,20 @@ function getRuleConditionText(condition) {
 function addActionToRuleDialog(selector, action) {
     // TODO: Compute description via external means
      $(selector).data("geoquest.actions").push(action);
-     img = $("<img></img>")
+     var img = $("<img></img>")
             .attr("src", "/images/delete.png")
             .css("position", "absolute")
             .css("cursor", "pointer")
             .css("right", "20pt");
      img.click(function() {
-        list = $(selector).find("li");
-        index = list.index($(this).parents("li"));
+        var list = $(selector).find("li");
+        var index = list.index($(this).parents("li"));
         deleteActionFromRuleDialog(selector, index);
      });
 
-    newElement = $("<li></li>").text(action.type)
-                                .addClass("rule-dialog-dynamic-content")
-                                .append(img);
+    var newElement = $("<li></li>").text(action.type)
+                                   .addClass("rule-dialog-dynamic-content")
+                                   .append(img);
      $(selector).find("#rule_addActionListEntry").before(newElement);
      $(selector).trigger("geoquest.rule_change");
 }

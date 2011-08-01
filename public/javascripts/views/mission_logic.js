@@ -278,13 +278,13 @@ function listRules(element) {
                     "rule_id" : rule_id
                 },
                 success : function(data) {
-                data.type = rule_type;
-                loadRuleDisplay("#listRulesDialog_rule", data);
-            },
-        error : function() {
-            alert("Could not load rule with id " + con.rule.id);
-        }
-    });
+                    data.type = rule_type;
+                    loadRuleDisplay("#listRulesDialog_rule", data);
+                },
+                error : function() {
+                    alert("Could not load rule with id " + con.rule.id);
+                }
+            });
 
     });
 
@@ -303,7 +303,7 @@ function contextMenuCallback(action, element, pos) {
         "addOnTap" : "onTap",
         "addOnLeave" : "onLeave",
         "addOnEnter" : "onEnter"
-    }
+    };
 
     if (action in actionMapping) {
         createNewRule(actionMapping[action], element);
@@ -338,7 +338,7 @@ function addElements(data) {
                         .data("geoquest.name", mission.name)
                         .data("geoquest.object", mission)
                         .data("geoquest.mission", mission);
-       $(".content").append(element)
+       $(".content").append(element);
        jsPlumb.draggable(element);
        element.bind("dragstop", function(rule, ui) {
         cmd = new MoveMissionVisualizationCommand();
@@ -371,12 +371,12 @@ function addElements(data) {
        jsPlumb.draggable(element);
 
        element.bind("drag", function(rule, ui) {
-        cmd = new MoveHotspotVisualizationCommand();
-        cmd.setParameter("project_id", project_id);
-        cmd.setParameter("hotspot_id", hotspot.id);
-        cmd.setParameter("x", ui.position.left);
-        cmd.setParameter("y", ui.position.top);
-        cmd.execute();
+          cmd = new MoveHotspotVisualizationCommand();
+          cmd.setParameter("project_id", project_id);
+          cmd.setParameter("hotspot_id", hotspot.id);
+          cmd.setParameter("x", ui.position.left);
+          cmd.setParameter("y", ui.position.top);
+          cmd.execute();
        });
 
        element.contextMenu(
