@@ -55,7 +55,7 @@ $(document).ready(function() {
            },
            success : function(data) {
                rule.id = data.next_rule_id;
-               cmd = new CreateNewRuleCommand();
+               var cmd = new CreateNewRuleCommand();
                cmd.setParameter("project_id", project_id);
                cmd.setParameter("rule", rule);
                cmd.setParameter("holder", holder);
@@ -90,7 +90,7 @@ $(document).ready(function() {
         try {
             var rule = getRule("#listRulesDialog_rule");
             rule.id = $("#listRulesDialog_rule").data("geoquest.rule_id");
-            cmd = new UpdateRuleCommand();
+            var cmd = new UpdateRuleCommand();
             cmd.setParameter("project_id", project_id);
             cmd.setParameter("rule", rule);
             cmd.execute();
@@ -101,8 +101,8 @@ $(document).ready(function() {
     });
 
     $("#listRulesDialog_deleteButton").click(function() {
-       rule_id = $("#listRulesDialog_rule").data("geoquest.rule_id");
-       cmd = new DeleteRuleCommand();
+       var rule_id = $("#listRulesDialog_rule").data("geoquest.rule_id");
+       var cmd = new DeleteRuleCommand();
        cmd.setParameter("project_id", project_id);
        cmd.setParameter("rule_id", rule_id);
        cmd.execute();
@@ -128,7 +128,7 @@ $(document).ready(function() {
             var connection = $("#editRuleDialog_dialog").data("geoquest.connection");
             rule.id = connection.rule.id;
             $("#editRuleDialog_dialog").dialog("close");
-            cmd = new UpdateRuleCommand();
+            var cmd = new UpdateRuleCommand();
             cmd.setParameter("project_id", project_id);
             cmd.setParameter("rule", rule);
             cmd.setParameter("connection", connection);
@@ -139,9 +139,9 @@ $(document).ready(function() {
     });
 
     $("#editRuleDialog_deleteButton").click(function() {
-       connection = $("#editRuleDialog_dialog").data("geoquest.connection");
+       var connection = $("#editRuleDialog_dialog").data("geoquest.connection");
        $("#editRuleDialog_dialog").dialog("close");
-       cmd = new DeleteRuleCommand();
+       var cmd = new DeleteRuleCommand();
        cmd.setParameter("project_id", project_id);
        cmd.setParameter("rule_id", connection.rule.id);
        cmd.setParameter("connection", connection);
@@ -173,22 +173,22 @@ function addJsplumbConnection( from, rule) {
   // Not all rules are a Mission call:
   if(rule.next_mission == null) return;
 
-  style = {
+  var style = {
     lineWidth: 3,
     strokeStyle: "black"
   };
 
-  hoverStyle = {
+  var hoverStyle = {
     lineWidth: 6,
     strokeStyle: "blue"
   };
 
-  my_overlays = [[ "Arrow", {location:0.9} ]];
+  var my_overlays = [[ "Arrow", {location:0.9} ]];
 
-  anchors = ["TopLeft", "TopCenter", "TopRight", "LeftMiddle", "RightMiddle",
+  var anchors = ["TopLeft", "TopCenter", "TopRight", "LeftMiddle", "RightMiddle",
              "BottomLeft", "BottomCenter", "BottomRight"];
 
-  connection = jsPlumb.connect({
+  var connection = jsPlumb.connect({
       source: (from.id + "-box"),
       target: (rule.next_mission + "-box"),
       paintStyle: style,
@@ -204,6 +204,7 @@ function addJsplumbConnection( from, rule) {
     connection.rule = rule;
     connection.gq_from = from;
     connection.bind('click', openEditRuleDialog);
+
     // connection.bind('mouseenter', function() { console.log("IN"); });
     // connection.bind('mouseexit', function() { console.log("OUT"); });
 }
@@ -211,6 +212,7 @@ function addJsplumbConnection( from, rule) {
 
 
 function openEditRuleDialog(con) {
+    console.info("openEditRuleDialog");
     $.ajax({
         url : '/ajax/show_rule',
         data : {
@@ -244,7 +246,7 @@ function listRules(element) {
 
     initRuleDisplay("#listRulesDialog_rule", null);
 
-    title = "Edit rules of " + element.data("geoquest.object").name;
+    var title = "Edit rules of " + element.data("geoquest.object").name;
     if($("#listRulesDialog_rulesTree").jstree != null) {
         $("#listRulesDialog_rulesTree").jstree('destroy');
     }
@@ -266,8 +268,8 @@ function listRules(element) {
     });
 
     $("#listRulesDialog_rulesTree").bind("select_node.jstree", function (e, data) {
-          rule_id = data.rslt.obj.data("jstree").rule_id;
-          rule_type = data.rslt.obj.data("jstree").rule_type;
+          var rule_id = data.rslt.obj.data("jstree").rule_id;
+          var rule_type = data.rslt.obj.data("jstree").rule_type;
           
           $("#listRulesDialog_rule").data("geoquest.rule_id", rule_id);
 
@@ -297,7 +299,7 @@ function listRules(element) {
 }
 
 function contextMenuCallback(action, element, pos) {
-    actionMapping = {
+    var actionMapping = {
         "addOnEnd" : "onEnd",
         "addOnStart" : "onStart",
         "addOnTap" : "onTap",
@@ -321,8 +323,8 @@ function contextMenuCallback(action, element, pos) {
 
 function addElements(data) {
 
-    missions = data.missions;
-    hotspots = data.hotspots;
+    var missions = data.missions;
+    var hotspots = data.hotspots;
 
     // Add Mission elements:
     $.each(missions, function(mission_index, mission) {
@@ -341,7 +343,7 @@ function addElements(data) {
        $(".content").append(element);
        jsPlumb.draggable(element);
        element.bind("dragstop", function(rule, ui) {
-        cmd = new MoveMissionVisualizationCommand();
+        var cmd = new MoveMissionVisualizationCommand();
         cmd.setParameter("project_id", project_id);
         cmd.setParameter("mission_id", mission.id);
         cmd.setParameter("x", ui.position.left);
@@ -371,7 +373,7 @@ function addElements(data) {
        jsPlumb.draggable(element);
 
        element.bind("drag", function(rule, ui) {
-          cmd = new MoveHotspotVisualizationCommand();
+          var cmd = new MoveHotspotVisualizationCommand();
           cmd.setParameter("project_id", project_id);
           cmd.setParameter("hotspot_id", hotspot.id);
           cmd.setParameter("x", ui.position.left);

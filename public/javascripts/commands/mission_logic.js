@@ -21,26 +21,6 @@ function MoveHotspotVisualizationCommand() {
 
 MoveHotspotVisualizationCommand.prototype = new Command();
 
-
-function CreateNewEventCommand() {
-    this.setParameter("command", "CreateNewEventCommand");
-
-    this.updateGui = function() {
-    }
-
-
-    _this = this; // Save object, because onSuccess is not called on the object
-
-    this.onSuccess = function() {
-        from = _this.getParameter("event_holder");
-        event = _this.getParameter("event");
-        addJsplumbConnection(from, event);
-    }
-}
-
-CreateNewEventCommand.prototype = new Command();
-
-
 function CreateNewRuleCommand() {
     this.setParameter("command", "CreateNewRuleCommand");
 
@@ -48,11 +28,11 @@ function CreateNewRuleCommand() {
     }
 
 
-    _this = this; // Save object, because onSuccess is not called on the object
+    var _this = this; // Save object, because onSuccess is not called on the object
 
     this.onSuccess = function() {
-        rule = _this.getParameter("rule");
-        from = _this.getParameter("holder");
+        var rule = _this.getParameter("rule");
+        var from = _this.getParameter("holder");
         addJsplumbConnection(from, rule);
     }
 }
@@ -69,7 +49,7 @@ function UpdateRuleCommand() {
     }
 
 
-    _this = this; // Save object, because onSuccess is not called on the object
+    var _this = this; // Save object, because onSuccess is not called on the object
 
     this.preExecute = function() {
         _this.connection = _this.getParameter("connection");
@@ -77,10 +57,10 @@ function UpdateRuleCommand() {
     }
 
     this.onSuccess = function() {
-        rule = _this.getParameter("rule");
-        connection = _this.connection;
+        var rule = _this.getParameter("rule");
+        var connection = _this.connection;
         if(connection != null) {
-            from = connection.gq_from;
+            var from = connection.gq_from;
             jsPlumb.detach(connection.sourceId, connection.targetId);
             addJsplumbConnection(from, rule);
         }
@@ -101,7 +81,7 @@ function DeleteRuleCommand() {
     }
 
 
-    _this = this; // Save object, because onSuccess is not called on the object
+    var _this = this; // Save object, because onSuccess is not called on the object
 
     this.preExecute = function() {
         _this.connection = _this.getParameter("connection");
@@ -109,8 +89,9 @@ function DeleteRuleCommand() {
     }
 
     this.onSuccess = function() {
-        connection = _this.connection;
+        var connection = _this.connection;
         if(connection != null) {
+            console.info("Detach: " + connection.sourceId + " to " + connection.targetId);
             jsPlumb.detach(connection.sourceId, connection.targetId);
         }
         if($("#listRulesDialog_rulesTree").jstree) {

@@ -5,8 +5,8 @@ function Lexer() {
     this.getToken = function(string) {
         this.string = string;
         this.position = 0;
-        token = [];
-        next = this.getNextToken()
+        var token = [];
+        var next = this.getNextToken()
         while(next != null) {
             token.push(next);
             next = this.getNextToken();
@@ -18,7 +18,7 @@ function Lexer() {
 
         while(this.peekChar() == ' ') this.readChar(); // Skip whitespaces
 
-        currentChar = this.readChar();
+        var currentChar = this.readChar();
         switch(currentChar) {
             case null: 
                 return null
@@ -66,7 +66,7 @@ function Lexer() {
         if(this.position >= this.string.length) 
             return null;
         else
-            myChar = this.string[this.position];
+            var myChar = this.string[this.position];
             this.position++;
             return myChar; 
     }
@@ -79,7 +79,7 @@ function Lexer() {
     }
 
     this.readNumber = function(currentString) {
-        numeric = [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ];
+        var numeric = [ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' ];
         while (numeric.indexOf( this.peekChar() ) != -1) {
             currentString += this.readChar();
         }
@@ -95,8 +95,8 @@ function Lexer() {
 
 
     this.readString = function(currentString) {
-        validStartChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_";
-        validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789";
+        var validStartChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_";
+        var validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789";
         if(validStartChars.indexOf(currentString[0]) == -1) {
             alert("String may not start with '" + currentString[0] + "'");
         }        
@@ -105,7 +105,7 @@ function Lexer() {
             currentString += this.readChar();
         }
 
-        lowerCaseString = currentString.toLowerCase();
+        var lowerCaseString = currentString.toLowerCase();
 
         if(lowerCaseString == "and") return this.createToken(TokenType.And, currentString);
         if(lowerCaseString == "or") return this.createToken(TokenType.Or, currentString);

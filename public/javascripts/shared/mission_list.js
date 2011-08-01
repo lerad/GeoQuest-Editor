@@ -18,7 +18,7 @@ function addMission(parentId, type) {
         }
         // New Mission on the root layer:
         if(parentId == -1 || parentId == "-1") {
-            cmd = new AddMissionCommand();
+            var cmd = new AddMissionCommand();
             cmd.setParameter("project_id", project_id);
             cmd.setParameter("new_mission_id", data.next_mission_id);
             cmd.setParameter("new_mission_type", type);
@@ -54,17 +54,17 @@ function getNodeDataAsObject(node) {
 
 $(document).ready(function() {
 
-result = $.ajax({
+var result = $.ajax({
     url : "/ajax/show_mission_types",
     dataType : 'json',
     async : false
 });
 
-data = $.parseJSON(result.responseText);
+var data = $.parseJSON(result.responseText);
 
 $.jstree._themes = "/images/jstree/themes/";
 
-  mission_tree = $("#missionTree").jstree({
+  var mission_tree = $("#missionTree").jstree({
     "plugins" : ["themes", "json_data","contextmenu","crrm"],
     "core"  : {
       "animation" : 100
@@ -103,8 +103,8 @@ $.jstree._themes = "/images/jstree/themes/";
       }
     }
 
-    for (missionName in data) {
-        mission = data[missionName];
+    for (var missionName in data) {
+        var mission = data[missionName];
         var type = mission.name;
         items.add_mission.submenu[mission.name] = {
             "label" : mission.name,

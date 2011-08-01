@@ -7,17 +7,17 @@ function Parser() {
         
         parserArray = this.parseStatus(parserArray);
         
-        condition  = this.parseCondition(parserArray);
+        var condition  = this.parseCondition(parserArray);
          
         return this.toAjaxTree(condition);
     }
 
     this.parseStatus = function(parserArray) {
-        position = 0;
+        var position = 0;
         while(position < parserArray.length) {
-            states = [TokenType.IsFailed, TokenType.IsSuccess, TokenType.IsRunning, TokenType.IsNew ];
+            var states = [TokenType.IsFailed, TokenType.IsSuccess, TokenType.IsRunning, TokenType.IsNew ];
             if( states.indexOf( parserArray[position].token.type ) != -1) {
-                hasStatusPosition = position;
+                var hasStatusPosition = position;
                 parserArray[hasStatusPosition].data = {
                     "mission" : null
                 };
@@ -99,7 +99,7 @@ function Parser() {
                     i++;
                     continue;
                 }
-                next = i+1;
+                var next = i+1;
                 if(next >= parserArray.length) throw "Not shall not be the last element";
                 parserArray[i].children = [ parserArray[next] ];
                 parserArray.splice(next, 1);
@@ -145,9 +145,9 @@ function Parser() {
         i = 0;
         while (i < parserArray.length ) {
             if(parserArray[i].token.type == TokenType.Or) { 
-                var conditions = []
+                conditions = []
                 if (i == 0) throw "OR should not be the first entry";
-                var start = i-1;
+                start = i-1;
                 conditions.push(parserArray[start]);
                 while( true ) {
                     i++;
@@ -157,7 +157,7 @@ function Parser() {
                     if (i >= parserArray.length) break;
                     if (parserArray[i].token.type != TokenType.Or) break;
                 }
-                var end = i;
+                end = i;
                 parserArray[start] = {
                     token : parserArray[start + 1].token,
                     children : conditions
@@ -172,13 +172,13 @@ function Parser() {
         if (parserArray.length == 1) return parserArray[0];
 
         // Check for number comparisions:
-        numberComparisions = [TokenType.Lesser, TokenType.Greater, TokenType.Equal, TokenType.LesserEqual, TokenType.GreaterEqual];
+        var numberComparisions = [TokenType.Lesser, TokenType.Greater, TokenType.Equal, TokenType.LesserEqual, TokenType.GreaterEqual];
         i=0;
         while( i < parserArray.length) {
             if( numberComparisions.indexOf( parserArray[i].token.type ) != -1) {
-                comparisionType = parserArray[i].token.type;
+                var comparisionType = parserArray[i].token.type;
                 if ( i == 0) throw "Comparisionelement should not be the first entry";
-                var start = i -1;
+                start = i -1;
                 var elements = [];
                 elements.push(parserArray[ start ]);
                 while(true) {
@@ -192,7 +192,7 @@ function Parser() {
                     if (parserArray[i].token.type != comparisionType) break;
                 }
 
-                var end = i;
+                end = i;
                 parserArray[start] = {
                     token : parserArray[start + 1].token,
                     children : elements
@@ -212,12 +212,12 @@ function Parser() {
 
     this.toParserArray = function(tokenArray) {
         var parserArray = [];
-        for ( token in tokenArray) {
-            parserObject = {
+        for ( var token in tokenArray) {
+            var parserObject = {
                 "token" : tokenArray[token],
                 "children" : [],
                 "data" : {}
-            }
+            };
             parserArray.push(parserObject);
         
         }
