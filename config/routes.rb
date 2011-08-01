@@ -40,7 +40,7 @@ GeoquestEditor::Application.routes.draw do
   match '/ajax/is_image_used' => "query#is_image_used", :as => "ajax/is_image_used"
   match '/ajax/is_audio_used' => "query#is_audio_used", :as => "ajax/is_audio_used"
   match '/ajax/show_mission_rules_as_tree' => "query#show_mission_rules_as_tree", :as => "ajax/show_mission_rules_as_tree"
-
+  match '/ajax/updateUserProperties' => "profile#update_user_properties", :as => "ajax/updateUserProperties"
 
   match '/login' => "sessions#new", :as => "login"
   match '/logout' => "sessions#destroy", :as => "logout"

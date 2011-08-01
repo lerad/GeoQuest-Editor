@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   attr_accessor :password
 
   validates   :email, :uniqueness => true,
-              :format => {:with => /^[^@][\w.-]+@[\w.-]+[.][a-z]{2,4}$/i } # Todo: Is this ok?
+              :format => {:with => /^[^@][\w.-]+@[\w.-]+[.][a-z]{2,4}$/i } 
 
   validates :password, :confirmation => true,
     :length => { :within => 4..20 },
