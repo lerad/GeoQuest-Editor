@@ -7,9 +7,7 @@ function AddSubmissionCommand() {
     }
 
     this.onSuccess = function() {
-      if (mission_tree != null) {
-               mission_tree.jstree("refresh");
-      }
+         $("#missionTree").jstree("refresh");
     }
 
 }
@@ -24,9 +22,7 @@ function AddMissionCommand() {
     }
 
     this.onSuccess = function() {
-      if (mission_tree != null) {
-               mission_tree.jstree("refresh");
-      }
+        $("#missionTree").jstree("refresh");
     }
 
 }
@@ -43,9 +39,7 @@ function DeleteMissionCommand() {
     }
 
     this.onSuccess = function() {
-      if (mission_tree != null) {
-               mission_tree.jstree("refresh");
-      }
+        $("#missionTree").jstree("refresh");
     }
 
 }
