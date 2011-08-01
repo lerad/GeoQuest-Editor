@@ -91,7 +91,6 @@ function DeleteRuleCommand() {
     this.onSuccess = function() {
         var connection = _this.connection;
         if(connection != null) {
-            console.info("Detach: " + connection.sourceId + " to " + connection.targetId);
             jsPlumb.detach(connection.sourceId, connection.targetId);
         }
         if($("#listRulesDialog_rulesTree").jstree) {
