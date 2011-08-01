@@ -340,7 +340,7 @@ function addElements(data) {
                         .data("geoquest.mission", mission);
        $(".content").append(element)
        jsPlumb.draggable(element);
-       element.bind("drag", function(rule, ui) {
+       element.bind("dragstop", function(rule, ui) {
         cmd = new MoveMissionVisualizationCommand();
         cmd.setParameter("project_id", project_id);
         cmd.setParameter("mission_id", mission.id);
