@@ -6,8 +6,8 @@ class ProjectsController < ApplicationController
   before_filter :authenticate
   def index
     @projects = Project.find_all_by_user_id(@current_user.id)
-    max_last_modified = Project.maximum(:last_modified)
-    @last_modified = Project.find_by_last_modified (max_last_modified)
+    max_last_modified = Project.maximum(:last_modified, :conditions => {:user_id => @current_user.id})
+    @last_modified = Project.find(:first, :conditions => {:user_id => @current_user.id, :last_modified => max_last_modified})
 
   end
 
