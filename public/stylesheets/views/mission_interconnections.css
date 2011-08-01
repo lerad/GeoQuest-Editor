@@ -6,6 +6,11 @@
     width: 150pt;
 }
 
+.graph-label {
+    background-color: white;
+    border: black solid 2pt;
+}
+
 #listRulesDialog_rulesContainer {
     position: absolute;
     left: 150pt;

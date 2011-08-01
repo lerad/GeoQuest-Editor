@@ -10,12 +10,12 @@ $(document).ready(function() {
     });
 
     $("#startMissionDialog_createButton").click(function() {
-        id = $("#startMissionDialog_mission").val();
-        action = {
+        var id = $("#startMissionDialog_mission").val();
+        var action = {
             "type" : "StartMission",
             "id" : id
         };
-        selector = $("#startMissionDialog_dialog").data("geoquest.selector");
+        var selector = $("#startMissionDialog_dialog").data("geoquest.selector");
         addActionToRuleDialog(selector, action);
         $(selector).data("geoquest.next_mission", id);
 
@@ -35,7 +35,7 @@ function createRuleDisplay(selector) {
     $(selector).find("#rule_addAction").click(function() {
         var type = $(selector).find("#rule_addActionType").val();
 
-        actions = {
+        var actions = {
             "StartMission" : createStartMissionAction,
             "Vibrate" : createVibrateAction,
             "PlayAudio" : createPlayAudioAction,
@@ -63,7 +63,7 @@ function createRuleDisplay(selector) {
  */
 
 function createEndGameAction(selector) {
-    action = {
+    var action = {
         "type" : "EndGame"
     };
     addActionToRuleDialog(selector, action);
@@ -75,7 +75,7 @@ function createStartMissionAction(selector) {
 }
 
 function createVibrateAction(selector) {
-    action = {
+    var action = {
         "type" : "Vibrate"
     };
     addActionToRuleDialog(selector, action);
@@ -121,7 +121,7 @@ function getRule(selector) {
             "onTap" : "on_tap"
         };
 
-        prop_name = type2property[type];
+        var prop_name = type2property[type];
 
         var condition = {};
         if(conditionText != "") {

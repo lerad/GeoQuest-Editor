@@ -183,7 +183,8 @@ function addJsplumbConnection( from, rule) {
     strokeStyle: "blue"
   };
 
-  var my_overlays = [[ "Arrow", {location:0.9} ]];
+  var my_overlays = [[ "Arrow", {location:0.9} ], [ "Label", { label: rule.type, cssClass: "graph-label", location:0.5 } ]
+];
 
   var anchors = ["TopLeft", "TopCenter", "TopRight", "LeftMiddle", "RightMiddle",
              "BottomLeft", "BottomCenter", "BottomRight"];
@@ -195,7 +196,7 @@ function addJsplumbConnection( from, rule) {
       hoverPaintStyle: hoverStyle,
       overlays: my_overlays,
       endpoint: ["Dot", {radius: 1}],
-      label: rule.type,
+//      label: rule.type,
       connector: ["Bezier", {curviness: 30}],
       dynamicAnchors: anchors,
       labelStyle : {fillStyle:"rgba(255,255,255, 0.8)", color:"black",borderWidth:10}
@@ -205,14 +206,12 @@ function addJsplumbConnection( from, rule) {
     connection.gq_from = from;
     connection.bind('click', openEditRuleDialog);
 
-    // connection.bind('mouseenter', function() { console.log("IN"); });
-    // connection.bind('mouseexit', function() { console.log("OUT"); });
 }
 
 
 
 function openEditRuleDialog(con) {
-    console.info("openEditRuleDialog");
+
     $.ajax({
         url : '/ajax/show_rule',
         data : {
