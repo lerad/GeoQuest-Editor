@@ -16,9 +16,9 @@ var imageSelector = new ImageSelector(null);
 
 function initializeMap() {
     // Address of the university building at the "Römerstraße" in Bonn
-    var latlng = new google.maps.LatLng(50.718437, 7.118864);
+    var latlng = new google.maps.LatLng(startLat, startLong);
     var myOptions = {
-        zoom: 15,
+        zoom: 17,
         center: latlng,
         mapTypeId: google.maps.MapTypeId.SATELLITE
      

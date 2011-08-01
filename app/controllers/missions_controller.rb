@@ -26,6 +26,21 @@ class MissionsController < ApplicationController
     if(mission_type == 'MapOverview')
         hotspots_query = 'doc("game.xml")//mission[@id = "' + params[:id] +  '"]/hotspots/hotspot'
         @hotspots = adapter.do_request(hotspots_query)
+        if @hotspots.size == 0
+          @position = {
+            :lat => 50.751663,
+            :long => 7.096512
+          }
+        else
+          @position = {:lat => 0.0, :long => 0.0}
+          @hotspots.each do |hotspot|
+            @position[:lat] += hotspot.attributes['latitude'].to_f
+            @position[:long] += hotspot.attributes['longitude'].to_f
+          end
+          @position[:lat] /= @hotspots.size
+          @position[:long] /= @hotspots.size
+        end
+
     end
 
     if(mission_type == 'NPCTalk')

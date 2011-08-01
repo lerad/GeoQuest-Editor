@@ -2,6 +2,8 @@
 <script language="javascript">
   var project_id = "<%= params[:project_id] %>";
   var mission_id = "<%= @mission.attributes['id'] %>";
+  var startLat = <%=  @position[:lat] %>;
+  var startLong = <%= @position[:long] %>;
 </script>
 
 <%= render 'shared/header' %>
@@ -49,7 +51,7 @@
 
 <div class="content">
   <h3><%= @mission.attributes["name"] %></h3>
-  <div id="map_canvas" style="width: 100%; height: 400pt"></div>
+  <div id="map_canvas" class="title-as-tooltip" title="Use the contextmenu to add hotspots or to edit them" style="width: 100%; height: 400pt"></div>
 
 </div>
 
