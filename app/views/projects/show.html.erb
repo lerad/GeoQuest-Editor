@@ -18,10 +18,10 @@
 <div class="content">
 
   <div class="label">Name: </div>
-  <div id="editName"><%= @project.name %></div> <br />
+  <div id="editName" class="edit title-as-tooltip" title="Name of the project.\nClick to edit."><%= @project.name %></div> <br />
 
 <p id="messageField"></p>
 
-<input type="button" value="Deploy into repository" onclick="deployGame()" />
+<input type="button" class="title-as-tooltip" title="Deploys the game into the repository." value="Deploy into repository" onclick="deployGame()" />
 
 </div>

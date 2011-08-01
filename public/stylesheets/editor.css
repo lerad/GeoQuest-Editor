@@ -1,4 +1,10 @@
+.title-as-tooltip {
+    
+}
 
+.edit {
+    display: inline-block;
+}
 
 .failure {
     color : red;

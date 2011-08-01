@@ -29,6 +29,7 @@ function createRuleDisplay(selector) {
     // Copy rule form into container
     $(selector).append($("#rule_description").contents().clone(true));
 
+    initQTip( $(selector).find("#rule_condition") );
    
 
     $(selector).find("#rule_addAction").click(function() {

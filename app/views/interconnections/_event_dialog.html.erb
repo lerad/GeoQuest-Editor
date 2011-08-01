@@ -5,7 +5,16 @@
 
 <div id="rule_description" class="initially-hidden">
   <b>Condition:</b><br />
-  <input type="text" size="40" id="rule_condition" />
+  <input title="Conditions are written as logical expressions.<br/> 
+                Examples:<br />
+                <ul>
+                <li>'X=4' => The variable X should have the value 4.</li>
+                <li>'(X = 4) AND (Y < 4)' => The variable X should be 4 and Y should be lesser than 4.</li>
+                <li>'IsFailed(m5)' => The mission with ID m5 has to be failed.
+                (Also: IsSuccess, IsNew and IsRuning).</li>
+                <li>'Not(x = 4)' => The variable x should not be 4</li>
+                </ul>"
+         type="text" size="40" id="rule_condition" />
   <br />
   <br />
   <b>Actions:</b>
