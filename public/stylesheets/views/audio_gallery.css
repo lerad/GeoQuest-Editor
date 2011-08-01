@@ -4,6 +4,11 @@
     max-width: 200pt;
     height: 200pt;
     overflow: auto;
+    display: inline-block;
+}
+
+#allProjectsAudioFileTree {
+    display: inline-block;
 }
 
 #audioPreviewContainer {

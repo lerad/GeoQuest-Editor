@@ -15,10 +15,10 @@
 <% unless @project.nil? or @project.new_record? %>
 
 <%= link_to "Project home", project_path(@project.id), :class => 'editor_link' %> <br />
-<%= link_to "Mission interconnection", project_interconnections_path(@project.id), :class => 'editor_link' %> <br />
-<%= link_to "Image Gallery", project_image_gallery_path(@project.id), :class => 'editor_link' %> <br />
-<%= link_to "Audio Gallery", project_audio_gallery_path(@project.id), :class => 'editor_link' %> <br />
-<%= link_to "Edit game.xml", project_xmleditor_path(@project.id), :class => 'editor_link' %> <br />
+<%= link_to "Mission interconnection", project_interconnections_path(@project.id), :class => 'editor_link title-as-tooltip', :title => 'Here you can edit the rules which connect the different missions and hotspots.' %> <br />
+<%= link_to "Image Gallery", project_image_gallery_path(@project.id), :class => 'editor_link title-as-tooltip', :title => "Here you can upload new images or remove, rename or delete the existing ones." %> <br />
+<%= link_to "Audio Gallery", project_audio_gallery_path(@project.id), :class => 'editor_link title-as-tooltip', :title => "Here you can upload new audio files or remove, rename or delete the existing ones." %> <br />
+<%= link_to "Edit game.xml", project_xmleditor_path(@project.id), :class => 'editor_link title-as-tooltip', :title => "Here you can edit directly the game.xml. Only for advanced users." %> <br />
 
 <% end %>
 
