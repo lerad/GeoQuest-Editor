@@ -39,7 +39,10 @@ Initial image: <br />
 <div id="labelTaskDescription">Description of the task:</div>
 <div id="editTaskDescription"><%= @mission.attributes['taskdescription'] %></div>
 
-<div id="labelButtonText">Text of the button:</div>
+<div id="labelButtonText" class="title-as-tooltip" title="Text which is on the buton which starts the recording">Text of the button:</div>
 <div id="editButtonText"><%= @mission.attributes['buttontext'] %></div>
+
+<div id="labelUploadUrl" class="title-as-tooltip" title="Url to which the recording is uploaded. If the field is empty, it will be uploaded to the GeoQuest default uploading site.">Upload Url:</div>
+<div id="editUploadUrl"><%= @mission.attributes['uploadUrl'] %></div>
 
 </div>

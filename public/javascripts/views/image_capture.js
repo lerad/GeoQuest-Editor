@@ -6,6 +6,7 @@
 $(document).ready(function() {
    $("#editTaskDescription").editable(onTaskDescriptionChange, { placeholder: "Click to add a text (optional)" });
    $("#editButtonText").editable(onButtonTextChange, { placeholder: "Click to add a text (optional)" });
+   $("#editUploadUrl").editable(onUploadUrlChange, { placeholder: "Click to add a url (optional)" });
 
 });
 
@@ -27,6 +28,16 @@ $(document).ready(function() {
        imageSelector.show();
     });
 });
+
+function onUploadUrlChange(value, settings) {
+    cmd = new UpdateAttributeInMissionCommand();
+    cmd.setParameter("project_id", project_id);
+    cmd.setParameter("mission_id", mission_id);
+    cmd.setParameter("attribute", "uploadUrl");
+    cmd.setParameter("value", value);
+    cmd.execute();
+    return value;
+}
 
 function onTaskDescriptionChange(value, settings) {
     cmd = new UpdateAttributeInMissionCommand();
