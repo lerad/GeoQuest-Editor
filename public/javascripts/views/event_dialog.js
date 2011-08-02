@@ -132,6 +132,7 @@ function getRule(selector) {
         }
 
         var rule = {
+            "condition_text" : conditionText,
             "condition" : condition,
             "next_mission" : nextMission,
             "actions" : actions,

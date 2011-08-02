@@ -173,6 +173,11 @@ function addJsplumbConnection( from, rule) {
   // Not all rules are a Mission call:
   if(rule.next_mission == null) return;
 
+  var edgeLabel = rule.type;
+  if($.trim(rule.condition_text) != "") {
+      edgeLabel = rule.condition_text;
+  }
+
   var style = {
     lineWidth: 3,
     strokeStyle: "black"
@@ -183,7 +188,7 @@ function addJsplumbConnection( from, rule) {
     strokeStyle: "blue"
   };
 
-  var my_overlays = [[ "Arrow", {location:0.9} ], [ "Label", { label: rule.type, cssClass: "graph-label", location:0.5 } ]
+  var my_overlays = [[ "Arrow", {location:0.9} ], [ "Label", { label: edgeLabel, cssClass: "graph-label", location:0.5 } ]
 ];
 
   var anchors = ["TopLeft", "TopCenter", "TopRight", "LeftMiddle", "RightMiddle",
