@@ -1,3 +1,7 @@
+# Copyright 2011, Folker Hoffmann
+# Licensed under the MIT license
+# See http://www.opensource.org/licenses/mit-license.php
+
 require 'commands/command'
 require 'commands/common_commands'
 require 'commands/hotspot_commands'

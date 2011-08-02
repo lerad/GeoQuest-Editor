@@ -1,3 +1,9 @@
+/**
+ * Copyright 2011, Folker Hoffmann
+ * Licensed under the MIT license
+ * See http://www.opensource.org/licenses/mit-license.php
+ */
+
 ImageSelector = function(callback) {
 
     var dialogHtml  = '<div class="file-tree" id="fileTree"></div> \

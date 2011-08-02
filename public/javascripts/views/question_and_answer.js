@@ -1,3 +1,8 @@
+/**
+ * Copyright 2011, Folker Hoffmann
+ * Licensed under the MIT license
+ * See http://www.opensource.org/licenses/mit-license.php
+ */
 $(document).ready(function() {
     $( "#accordion" ).accordion({collapsible: true, animated: false, active: false});
 });

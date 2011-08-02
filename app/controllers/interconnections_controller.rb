@@ -1,3 +1,7 @@
+# Copyright 2011, Folker Hoffmann
+# Licensed under the MIT license
+# See http://www.opensource.org/licenses/mit-license.php
+
 class InterconnectionsController < ApplicationController
 
   before_filter :authenticate

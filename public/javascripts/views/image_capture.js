@@ -1,3 +1,8 @@
+/**
+ * Copyright 2011, Folker Hoffmann
+ * Licensed under the MIT license
+ * See http://www.opensource.org/licenses/mit-license.php
+ */
 $(document).ready(function() {
    $("#editTaskDescription").editable(onTaskDescriptionChange, { placeholder: "Click to add a text (optional)" });
    $("#editButtonText").editable(onButtonTextChange, { placeholder: "Click to add a text (optional)" });

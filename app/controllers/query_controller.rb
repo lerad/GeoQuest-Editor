@@ -1,8 +1,11 @@
+# Copyright 2011, Folker Hoffmann
+# Licensed under the MIT license
+# See http://www.opensource.org/licenses/mit-license.php
+#
+# Contains the jQuery File Tree Ruby Connector by Erik Lax
 require 'exist_adapter'
 require 'missions/all_mission_operations'
 
-
-#require 'cgi'
 
 class QueryController < ApplicationController
 before_filter :authenticate
@@ -36,6 +39,8 @@ before_filter :authenticate
   #
   # Erik Lax
   # http://datahack.se
+  #
+  # http://code.google.com/p/kancms/source/browse/trunk/cms/scripts/jqueryFileTree/connectors/jqueryFileTree.rb?r=128
   # 13 July 2008
   def show_dir
     #TODO: 37 => :project_id
@@ -82,6 +87,8 @@ before_filter :authenticate
     text += "</ul>"
     render :content_type => "text/html", :text => text
   end
+
+  # end based of
 
 def get_folder_as_hash(current_path, project_id)
 

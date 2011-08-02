@@ -1,3 +1,8 @@
+/**
+ * Copyright 2011, Folker Hoffmann
+ * Licensed under the MIT license
+ * See http://www.opensource.org/licenses/mit-license.php
+ */
 $(document).ready(function() {
    $("#urlEdit").editable(onUrlChange, { placeholder: "Click to add an URL" });
    $("#buttonEdit").editable(onButtonChange, { placeholder: "Click to add a text (optional)" });
