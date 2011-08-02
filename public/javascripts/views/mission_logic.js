@@ -180,7 +180,8 @@ function addJsplumbConnection( from, rule) {
 
   var edgeLabel = rule.type;
   if($.trim(rule.condition_text) != "") {
-      edgeLabel = rule.condition_text;
+      edgeLabel += "<br />";
+      edgeLabel += rule.condition_text;
   }
 
   var style = {
