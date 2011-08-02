@@ -248,6 +248,7 @@ def show_audio
         "title" => name,
         "icon" => image,
         "attr" => {
+          "id" => (mission.attributes['id'] + "_missiontree"),
           "href" => project_mission_path(params[:project_id], mission.attributes['id'])
         }
       },

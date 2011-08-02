@@ -124,6 +124,9 @@ $.jstree._themes = "/images/jstree/themes/";
 
   });
 
+  mission_tree.bind("loaded.jstree", mark_current_mission);
+  mission_tree.bind("refresh.jstree", mark_current_mission);
+
   mission_tree.bind("rename_node.jstree", function (e, data) {
     var name = data.rslt.name;
 
@@ -139,6 +142,13 @@ $.jstree._themes = "/images/jstree/themes/";
 
 
 });
+
+function mark_current_mission() {
+  if (mission_id) {
+      var current_node = "#" + mission_id + "_missiontree";
+      $(current_node).css("font-weight", "bold");
+}
+}
 
 function getAddMissionCallback(type) {
   return function(n) { addMission(getNodeDataAsObject(n).mission_id, type); }
