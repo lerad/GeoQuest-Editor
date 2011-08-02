@@ -267,9 +267,10 @@ function listRules(element) {
         },
       "json_data" : {
         "ajax" : {
-        "url" : "/ajax/show_mission_rules_as_tree",
+        "url" : "/ajax/show_rules_as_tree",
         "data" : {
-          "mission_id" : element.data("geoquest.object").id,
+          "holder_id" : element.data("geoquest.object").id,
+          "holder_type" : element.data("geoquest.type"),
           "project_id" : project_id
           }
         }
@@ -422,8 +423,7 @@ function initDialogLists(data) {
    });
 
    $.each(data.hotspots, function(hotspot_index, hotspot) {
-       $("#inHotspotRangeRequirementDialog_hotspot").addOption(hotspot.id, hotspot.name);
-       $("#outHotspotRangeRequirementDialog_hotspot").addOption(hotspot.id, hotspot.name);
+       $("#setHotspotVisibilityDialog_hotspot").addOption(hotspot.id, hotspot.name);
    });
 
 }
@@ -431,6 +431,8 @@ function initDialogLists(data) {
 function onMissionDataReceived(data) {
    addElements(data);
    initDialogLists(data);
+   missionsData = data.missions; // global
+   hotspotsData = data.hotspots; // global
 }
 
 $(document).ready(function() {

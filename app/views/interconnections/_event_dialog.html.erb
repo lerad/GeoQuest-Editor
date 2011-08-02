@@ -3,6 +3,45 @@
   <input type="button" value="Create action" id="startMissionDialog_createButton"/>
 </div>
 
+<div id="playAudioDialog_dialog" class="initially-hidden">
+  <div id="playAudioDialog_fileTree" ></div> <br /> <br />
+  <input type="button" value="Create action" id="playAudioDialog_createButton"/>
+</div>
+
+<div id="setVariableDialog_dialog" class="initially-hidden">
+  Variable: <input type="text" id="setVariableDialog_variable" /> <br />
+  New value: <input type="text" id="setVariableDialog_value" /> <br />
+  <input type="button" value="Create action" id="setVariableDialog_createButton"/>
+</div>
+
+<div id="incrementVariableDialog_dialog" class="initially-hidden">
+  Variable: <input type="text" id="incrementVariableDialog_variable" /> <br />
+  <input type="button" value="Create action" id="incrementVariableDialog_createButton"/>
+</div>
+
+<div id="decrementVariableDialog_dialog" class="initially-hidden">
+  Variable: <input type="text" id="decrementVariableDialog_variable" /> <br />
+  <input type="button" value="Create action" id="decrementVariableDialog_createButton"/>
+</div>
+
+<div id="showMessageDialog_dialog" class="initially-hidden">
+  Message: <input type="text" id="showMessageDialog_message" /> <br />
+  <input type="button" value="Create action" id="showMessageDialog_createButton"/>
+</div>
+
+<div id="setHotspotVisibilityDialog_dialog" class="initially-hidden">
+  Set the hotspot
+  <select id="setHotspotVisibilityDialog_hotspot"></select>
+  <select id="setHotspotVisibilityDialog_visible">
+    <option value="true">visible</option>
+    <option value="false">invisible</option>
+  </select>
+
+  <br /> <br />
+  <input type="button" value="Create action" id="setHotspotVisibilityDialog_createButton"/>
+</div>
+
+
 <div id="rule_description" class="initially-hidden">
   <b>Condition:</b><br />
   <input title="Conditions are written as logical expressions.<br/> 

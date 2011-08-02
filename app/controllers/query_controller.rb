@@ -600,8 +600,8 @@ EOF
 
   end
 
-  def get_rules_as_hash(adapter, mission_id, type)
-    request = 'doc("game.xml")//mission[@id="' + mission_id.to_s + '"]/' + type + '/rule'
+  def get_rules_as_hash(adapter, holder_id, type, holder_type)
+    request = 'doc("game.xml")//' + holder_type + '[@id="' + holder_id.to_s + '"]/' + type + '/rule'
 
     result = adapter.do_request(request)
     if result.size == 0
@@ -640,12 +640,12 @@ EOF
     end
   end
 
-  def show_mission_rules_as_tree
+  def show_rules_as_tree
     adapter = ExistAdapter.new(params[:project_id])
     events = ["onStart", "onEnd", "onLeave", "onTap", "onEnter"]
     all_rules = []
     events.each do |event|
-      rules = get_rules_as_hash(adapter, params[:mission_id], event)
+      rules = get_rules_as_hash(adapter, params[:holder_id], event, params[:holder_type])
       if rules != nil
         result_event = {
         "data" => {
