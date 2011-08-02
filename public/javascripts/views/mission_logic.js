@@ -335,7 +335,7 @@ function addElements(data) {
         if(mission.name == "")
             mission.name = mission.id;
        var element = $('<div></div>')
-                        .html("<p>" + mission.name + "</p>")
+                        .html(mission.name + "<br />(" + mission.id + ")" )
                         .addClass("mission-box")
                         .attr("id", mission.id + "-box")
                         .css("left", mission.visualization.x)
