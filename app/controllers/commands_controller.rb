@@ -52,7 +52,8 @@ class CommandsController < ApplicationController
         "ChangeProjectNameCommand" => ChangeProjectNameCommand,
         "CreateNewRuleCommand" => CreateNewRuleCommand,
         "UpdateRuleCommand" => UpdateRuleCommand,
-        "DeleteRuleCommand" => DeleteRuleCommand
+        "DeleteRuleCommand" => DeleteRuleCommand,
+        "UpdateAnswerCorrectCommand" => UpdateAnswerCorrectCommand
     }
   end
 

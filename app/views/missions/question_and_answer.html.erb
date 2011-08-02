@@ -14,23 +14,19 @@ var project_id = "<%= @project.id %>";
 <%= javascript_include_tag "jquery/jquery.ui" %>
 <%= javascript_include_tag "jquery/jquery.jeditable" %>
 <%= javascript_include_tag "commands/command" %>
+<%= javascript_include_tag "commands/common" %>
 <%= javascript_include_tag "commands/question_and_answer" %>
 <%= javascript_include_tag "views/question_and_answer" %>
-
-
-
-
-<!-- TODO:
-questions="3"
-correctAnswersNeeded="0"
--->
-
 
 
 <div class="content">
 
 <h3><%= @mission.attributes["name"] %></h3>
 
+<div class="label title-as-tooltip" title="The number of questions the player has to answer correctly to pass this quiz.">Needed answers</div>
+<div class="edit title-as-tooltip" title="The number of questions the player has to answer correctly to pass this quiz. Click to edit." id="editNeededAnswers"><%= @mission.attributes["correctAnswersNeeded"] %></div>
+<br />
+<br />
 
 Shuffle Questions:
 <input type="checkbox" <%=
@@ -118,7 +114,7 @@ Shuffle Questions:
   <br />
 
   <table class="answerTable">
-  <tr><td>Answer</td><td>Reaktion</td></tr>
+  <tr><td>Answer</td><td>Text if choosen</td><td>Correct</td></tr>
 <% XPath.each(question, "./answer") do |answer| %>
   <tr>
     <td class="answerCell">
@@ -126,6 +122,9 @@ Shuffle Questions:
     </td>
     <td class="answerCell">
       <div class="editable-onchoose"> <%= answer.attributes['onChoose'] %></div>
+    </td>
+    <td class="answerCell">
+      <input type="checkbox" class="checkbox-correct" <%= "checked" if answer.attributes['correct'] == "1" %>  />
     </td>
     <td>
       <input type="image" src="/images/delete.png" value="Delete" onclick="deleteAnswer(this)" />
@@ -137,7 +136,7 @@ Shuffle Questions:
 <input class="newAnswerTextfield"></input>
 <p>Text, if this answer is choosen</p>
 <input type="text" class="newOnChooseTextfield"></input>
-
+<p>Is the answer correct? <input type="checkbox" id="newCorrectCheckbox" /></p>
 <br />
 
 <input type="button" value="Add answer" onclick="addAnswer()" />

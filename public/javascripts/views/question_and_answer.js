@@ -9,10 +9,21 @@ $(document).ready(function() {
 
 $(document).ready(function() {
   $('.editable-question').editable(editQuestionText, {type: 'text'} );
-  $('.editable-answer').editable(editAnswerText, { type: 'text'});
+  $('.editable-answer').editable(editAnswerText, {type: 'text'});
   $('.editable-onchoose').editable(editOnChooseText, {type : 'text'});
+  $('.checkbox-correct').change(onCorrectnessChange);
+  $("#editNeededAnswers").editable(editOnNeededAnswerChange);
 });
 
+function editOnNeededAnswerChange(value, settings) {
+    cmd = new UpdateAttributeInMissionCommand();
+    cmd.setParameter("project_id", project_id);
+    cmd.setParameter("mission_id", mission_id);
+    cmd.setParameter("attribute", "correctAnswersNeeded");
+    cmd.setParameter("value", value);
+    cmd.execute();
+    return value;
+}
 
 
 function addIntro() {
@@ -129,10 +140,14 @@ function addAnswer() {
  var question_index = $('#accordion').accordion('option', 'active');
  var answer =  $("div.ui-accordion-content-active > input.newAnswerTextfield").val();
  var onChoose = $("div.ui-accordion-content-active > input.newOnChooseTextfield").val();
+ var correctCheckbox = $("div.ui-accordion-content-active").find("#newCorrectCheckbox").attr("checked");
+ var correct = "0";
+ if(correctCheckbox) correct = "1";
 
  var cmd = new AddAnswerCommand();
  cmd.setParameter("mission_id", mission_id);
  cmd.setParameter("project_id", project_id);
+ cmd.setParameter("correct", correct);
  cmd.setParameter("question_index", question_index);
  cmd.setParameter("answer", answer);
  cmd.setParameter("on_choose", onChoose);
@@ -179,6 +194,36 @@ function editAnswerText(value, settings) {
 
     return value ;
 }
+
+function onCorrectnessChange() {
+    // Current open question:
+    var question_index = $('#accordion').accordion('option', 'active');
+
+
+
+    // Determine index of the modified answer:
+    var active = $('#accordion').accordion('option', 'active');
+    var row = $(this).parents("tr").eq(0);
+    var tbody = row.parent("tbody");
+    var answer = tbody.children().index(row);
+    answer -= 1; // Header row
+
+    var value = "0";
+    if ($(this).attr("checked")) {
+        value = "1";
+    }
+
+    var cmd = new UpdateAnswerCorrectCommand();
+    cmd.setParameter("mission_id", mission_id);
+    cmd.setParameter("project_id", project_id);
+    cmd.setParameter("value", value);
+    cmd.setParameter("answer_index", answer);
+    cmd.setParameter("question_index", question_index);
+    cmd.execute();
+
+    return value ;
+}
+
 
 
 function editOnChooseText(value, settings) {

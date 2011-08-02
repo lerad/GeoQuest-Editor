@@ -248,6 +248,21 @@ function UpdateAnswerTextCommand() {
 
 UpdateAnswerTextCommand.prototype = new Command();
 
+function UpdateAnswerCorrectCommand() {
+    this.setParameter("command", "UpdateAnswerCorrectCommand");
+
+    this.updateGui = function()  { }
+    this.preExecute = function() {
+        var answer_index = this.getParameter("answer_index");
+        this.setParameter("xquery_answer_index", answer_index + 1);
+        var question_index = this.getParameter("question_index");
+        this.setParameter("xquery_question_index", question_index + 1);
+    }
+}
+
+UpdateAnswerCorrectCommand.prototype = new Command();
+
+
 
 function UpdateAnswerOnChooseTextCommand() {
     this.setParameter("command", "UpdateAnswerOnChooseTextCommand");
@@ -279,12 +294,13 @@ function AddQuestionCommand() {
                 <input type="button" onclick="deleteQuestion()" value="Frage löschen" /> \
                 <br /> \
                 <table class="answerTable"> \
-                    <tr><td>Answer</td><td>Reaction</td></tr> \
+                    <tr><td>Answer</td><td>Text if choosen</td><td>correct</td></tr> \
                 </table> \
                 <p>New Answer</p> \
                 <input type="text" class="newAnswerTextfield"></input> \
                 <p>Text, if this answer is chosen</p> \
-                <input class="newOnChooseTextfield"></input> \
+                <input class="newOnChooseTextfield"></input> \\n\
+                <p>Is the answer correct? <input type="checkbox" id="newCorrectCheckbox" /></p> \
                 <br /> \
                 <input type="button" value="Add answer" onclick="addAnswer()" /> \
             </div>';
@@ -307,6 +323,10 @@ function AddAnswerCommand() {
     this.updateGui = function() {
         var answerTable = $("div.ui-accordion-content-active > table.answerTable");
 
+        var checked = "";
+        if (this.getParameter("correct") == "1")
+            checked = "checked";
+
         var newRowHtml = '<tr>  \
                             <td class="answerCell"> \
                                <div class="editable-answer">' + this.getParameter("answer") + '</div> \
@@ -314,7 +334,9 @@ function AddAnswerCommand() {
                             <td class="answerCell"> \
                                <div class="editable-onchoose">' + this.getParameter("on_choose") + '</div> \
                             </td> \
-                            <td> \
+                            <td class="answerCell"> \
+                               <input type="checkbox" class="checkbox-correct" ' + checked + ' /> \
+                            </td> \                            <td> \
                                <input type="image" src="/images/delete.png" value="Delete" onclick="deleteAnswer(this)" /> \
                             </td> \
                           </tr>';
@@ -328,7 +350,8 @@ function AddAnswerCommand() {
         $('.editable-answer').editable("destroy")
         $('.editable-answer').editable(editAnswerText, { type: 'text'});
         $('.editable-onchoose').editable(editOnChooseText, {type : 'text'});
-
+        $('checkbox-correct').unbind();
+        $('.checkbox-correct').change(onCorrectnessChange);
     }
 }
 

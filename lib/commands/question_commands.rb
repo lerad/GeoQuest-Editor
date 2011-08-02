@@ -35,7 +35,7 @@ class AddAnswerCommand < Command
     template = ERB.new <<-EOF
 let $mission := doc("game.xml")//mission[@id="<%= params["mission_id"] %>"]
 let $question := $mission/question[<%= index %>]
-let $answer := <answer onChoose="<%= params["on_choose"] %>"><%= params["answer"] %></answer>
+let $answer := <answer correct="<%= params["correct"] %>" onChoose="<%= params["on_choose"] %>"><%= params["answer"] %></answer>
 return update insert $answer into $question
 EOF
     @command = template.result(binding);
@@ -93,6 +93,20 @@ EOF
   end
 end
 
+class UpdateAnswerCorrectCommand < Command
+  def initialize(params)
+    super(params)
+    @type = "UpdateAnswerCorrectCommand"
+
+    template = ERB.new <<-EOF
+let $node := doc("game.xml")//mission[@id="<%= params["mission_id"] %>"]/question[<%= params[:xquery_question_index] %>]/answer[<%= params[:xquery_answer_index] %>]
+return  update value $node/@correct with "<%= params["value"] %>"
+EOF
+
+    @command = template.result(binding)
+
+  end
+end
 
 
 class DeleteQuestionCommand < Command
