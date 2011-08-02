@@ -154,61 +154,12 @@ function loadRuleDisplay(selector, rule) {
         addActionToRuleDialog(selector, value);
     });
 
-    var conditionText = getRuleConditionText(rule.condition);
+    var conditionText = "";
+    if (rule.condition_text != null) conditionText = rule.condition_text;
 
     $(selector).find("#rule_condition").val(conditionText);
 }
 
-function getRuleConditionText(condition) {
-    if(condition == null) return "";
-
-    var token2symbol = [];
-    token2symbol[ "and" ] = "and";
-    token2symbol[ "or" ] = "or";
-    token2symbol[ "lt" ] = "<";
-    token2symbol[ "gt" ] = ">";
-    token2symbol[ "eq" ] = "=";
-    token2symbol[ "leq" ] = "<=";
-    token2symbol[ "geq" ] = ">=";
-
-    var text = "";
-    if(condition.token == "and" ||
-       condition.token == "or" ||
-       condition.token == "lt" ||
-       condition.token == "gt" ||
-       condition.token == "eq" ||
-       condition.token == "leq" ||
-       condition.token == "geq") {
-            $.each(condition.children, function(index, child) {
-                if(condition.token == "and" || condition.token == "or") {
-                    text += ( "(" + getRuleConditionText(child) + ")" );
-                } else {
-                    text += getRuleConditionText(child);
-                }
-                if(index != condition.children.length -1) {
-                    text += (" " + token2symbol[ condition.token ] + " ");
-                }
-            });
-        return text;
-       }
-   if (condition.token == "var")
-       return condition.data.name;
-   if (condition.token == "num")
-       return condition.data.value;
-   if (condition.token == "missionState") {
-       var mission = condition.data.id;
-       var state = condition.data.state;
-       if (state == "fail") return "IsFailed(" + mission + ")";
-       if (state == "new") return "IsNew(" + mission + ")";
-       if (state == "success") return "IsSuccess(" + mission + ")";
-       if (state == "running") return "IsRunning(" + mission + ")";
-
-   }
-   if (condition.token == "not") {
-       return "Not(" + getRuleConditionText(condition.children[0]) + ")";
-   }
-   alert("Unimplemented token: " + condition.token);
-}
 
 
 

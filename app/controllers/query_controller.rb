@@ -266,6 +266,54 @@ def show_audio
     return mission_data
   end
 
+  def get_condition_as_text (condition_hash)
+    return "" if condition_hash.nil?
+
+    token2symbol = {
+    "and" => "and",
+    "or" => "or",
+    "lt" => "<",
+    "gt" => ">",
+    "eq" => "=",
+    "leq" => "<=",
+    "geq" => ">="
+    }
+    text = ""
+    if token2symbol.has_key?(condition_hash[:token])
+        condition_hash[:children].each do |child|
+
+          if ["and", "or"].include?(condition_hash[:token])
+            text += ( "(" + get_condition_as_text(child) + ")" )
+          else
+            text += get_condition_as_text(child)
+          end
+          if child != condition_hash[:children].last
+            text += (" " + token2symbol[ condition_hash[:token ] ] + " ");
+          end
+
+        end
+        return text
+    end
+    
+    if condition_hash[:token] == "var"
+       return condition_hash[:data][:name].to_s
+    elsif condition_hash[:token] == "num"
+       return condition_hash[:data][:value].to_s
+    elsif condition_hash[:token] == "missionState"
+       mission = condition_hash[:data][:id]
+       state = condition_hash[:data][:state]
+       return "IsFailed(" + mission + ")" if (state == "fail")
+       return "IsNew(" + mission + ")"    if (state == "new")
+       return "IsSuccess(" + mission + ")" if (state == "success")
+       return "IsRunning(" + mission + ")" if (state == "running")
+    elsif condition_hash[:token] == "not"
+      return "Not(" + get_condition_as_text(condition_hash[:children][0]) + ")"
+    else
+      Rails.logger.error("Unimplemented token: " + condition_hash[:token])
+      raise "Unimplemented token: " + condition_hash[:token]
+    end
+  end
+
   def show_missions
 
     json_data = ""
@@ -469,8 +517,20 @@ EOF
       next_mission_id = nil
       next_mission_id = startMissionAction.attribute("id").to_s unless startMissionAction.nil?
       rule_id = rule.attribute("id").to_s
+
+      conditionXml = XPath.first(rule, './if')
+      if(conditionXml.nil?)
+        condition = nil
+      elsif (conditionXml.text() == "")
+        condition = nil
+      else
+        condition_hash = getConditionAsHash(conditionXml)
+        condition = get_condition_as_text(condition_hash)
+      end
+
       rule_data = {
         "id" => rule_id,
+        "condition_text" => condition,
         "next_mission" => next_mission_id,
         "type" => event_type
       }
@@ -543,6 +603,14 @@ EOF
       result.each do |rule|
         Rails.logger.info(rule.to_s)
         title = "No ID"
+
+        conditionXml = XPath.first(rule, "./if")
+        condition_text = ""
+        unless conditionXml.nil?
+          condition_hash = getConditionAsHash(conditionXml)
+          condition_text = get_condition_as_text( condition_hash )
+        end
+
         id = nil
         if rule.attributes.has_key?('id')
           id = rule.attributes['id']
@@ -554,6 +622,7 @@ EOF
               "icon" => "/images/file.gif"
             },
             "metadata" => {
+              "condition_text" => condition_text,
               "rule_id" => id,
               "type" => type
             },
@@ -767,9 +836,10 @@ EOF
     conditionXml = XPath.first(result, './if')
     condition = nil
     condition = getConditionAsHash(conditionXml) unless conditionXml.nil?
-
+    condition_text = get_condition_as_text(condition)
 
     rule = {
+      :condition_text => condition_text,
       :condition => condition, 
       :id => result.attributes['id'],
       :next_mission => next_mission_id,
