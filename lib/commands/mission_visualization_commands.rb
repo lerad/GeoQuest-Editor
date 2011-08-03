@@ -92,8 +92,9 @@ EOF
 end
 
   def createConditionXml(condition)
+    
     if (condition[:token] == "var")
-      return "<var>" + condition[:data][:name]["0"] + "</var>\n"
+      return "<var>" + condition[:data][:name] + "</var>\n"
     end
     if (condition[:token] == "num")
       return "<num>" + condition[:data][:value]["0"] + "</num>\n"
@@ -121,7 +122,6 @@ class CreateNewRuleCommand < Command
     rule = @params[:rule]
     rule_holder = @params[:holder]
 
-
     rule_template = ERB.new <<-EOF
     <rule id="<%= rule["id"] %>">
     <% if rule[:condition] %>
@@ -141,6 +141,7 @@ EOF
 
     rule_xml = rule_template.result(binding);
 
+
     template = ERB.new <<-EOF
 let $newRule := <%= rule_xml %>
 <% if rule[:first_one] == "true" %>
@@ -156,6 +157,8 @@ return (# exist:batch-transaction #) {
 EOF
 
     @command = template.result(binding)
+
+
   end
 end
 
