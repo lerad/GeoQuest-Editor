@@ -291,15 +291,15 @@ function AddQuestionCommand() {
             <h3><a href="#">' + this.getParameter("text") +  '</a></h3> \
             <div> \
                 Question: <div class="editable-question">' + this.getParameter("text") + '</div> <br /> \
-                <input type="button" onclick="deleteQuestion()" value="Frage löschen" /> \
+                <input type="button" onclick="deleteQuestion()" value="Delete Question" /> \
                 <br /> \
                 <table class="answerTable"> \
                     <tr><td>Answer</td><td>Text if choosen</td><td>correct</td></tr> \
                 </table> \
-                <p>New Answer</p> \
-                <input type="text" class="newAnswerTextfield"></input> \
-                <p>Text, if this answer is chosen</p> \
-                <input class="newOnChooseTextfield"></input> \\n\
+                <p>New Answer: \
+                <input type="text" class="newAnswerTextfield"></input></p> \
+                <p>Text, if this answer is chosen: \
+                <input class="newOnChooseTextfield"></input></p> \
                 <p>Is the answer correct? <input type="checkbox" id="newCorrectCheckbox" /></p> \
                 <br /> \
                 <input type="button" value="Add answer" onclick="addAnswer()" /> \
