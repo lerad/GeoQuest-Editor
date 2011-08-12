@@ -310,7 +310,7 @@ def show_audio
     elsif condition_hash[:token] == "missionState"
        mission = condition_hash[:data][:id]
        state = condition_hash[:data][:state]
-       return "IsFailed(" + mission + ")" if (state == "fail")
+       return "IsFailed(" + mission + ")" if (state == "failed")
        return "IsNew(" + mission + ")"    if (state == "new")
        return "IsSuccess(" + mission + ")" if (state == "success")
        return "IsRunning(" + mission + ")" if (state == "running")

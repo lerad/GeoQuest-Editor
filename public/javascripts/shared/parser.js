@@ -245,7 +245,7 @@ function Parser() {
 
 
         if (condition.token.type == TokenType.IsFailed) {
-            condition.data.state = "fail";
+            condition.data.state = "failed";
         }
         if (condition.token.type == TokenType.IsSuccess) {
             condition.data.state = "success";
