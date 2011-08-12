@@ -97,7 +97,7 @@ end
       return "<var>" + condition[:data][:name] + "</var>\n"
     end
     if (condition[:token] == "num")
-      return "<num>" + condition[:data][:value]["0"] + "</num>\n"
+      return "<num>" + condition[:data][:value] + "</num>\n"
     end
     if (condition[:token] == "missionState")
       id = condition[:data][:mission]

@@ -52,11 +52,9 @@ function Lexer() {
             case '0': case '1': case '2':
             case '3': case '4': case '5':
             case '6': case '7': case '8': case '9':
-                return this.readNumber( new String(currentChar) );
+                return this.readNumber( "" + currentChar );
             default:
-                return this.readString( new String(currentChar) )
-                
-        
+                return this.readString( "" + currentChar );
         }
     }
     
