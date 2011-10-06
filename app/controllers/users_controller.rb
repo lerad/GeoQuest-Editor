@@ -34,7 +34,7 @@ class UsersController < ApplicationController
 
     # Create repository folder:
     repo_dir = Rails.root.join("data", "repository", @user.id.to_s).to_s
-    FileUtils.mkdir(repo_dir)
+    FileUtils.mkdir_p(repo_dir)
     
   end
 
