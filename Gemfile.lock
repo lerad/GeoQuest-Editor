@@ -45,6 +45,7 @@ GEM
     mongrel (1.2.0.pre2)
       daemons (~> 1.0.10)
       gem_plugin (~> 0.2.3)
+    pg (0.11.0)
     polyglot (0.3.1)
     rack (1.2.1)
     rack-mount (0.6.13)
@@ -77,6 +78,7 @@ PLATFORMS
 
 DEPENDENCIES
   mongrel (>= 1.2.0.pre2)
+  pg
   rails (= 3.0.1)
   rubyzip
   sqlite3-ruby
